@@ -32,6 +32,7 @@ jobs:
 
       - name: Run monitor
         env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
           NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}

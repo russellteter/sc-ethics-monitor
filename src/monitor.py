@@ -22,7 +22,9 @@ STATISTICS_API = "https://ethicsfiling.sc.gov/api/Ethics/Get/Public/General/Stat
 CAMPAIGN_REPORTS_URL = "https://ethicsfiling.sc.gov/public/campaign-reports/reports"
 STATE_FILE = Path(__file__).parent.parent / "state.json"
 
-# SendGrid configuration (from environment variables)
+# Email configuration (from environment variables)
+# Supports both Resend (preferred) and SendGrid
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL")
 FROM_EMAIL = os.getenv("FROM_EMAIL", "sc-ethics-monitor@example.com")
@@ -212,10 +214,13 @@ def find_new_reports(reports: list[dict], state: dict) -> list[dict]:
 
 
 def send_email_notification(new_reports: list[dict]) -> bool:
-    """Send email notification about new reports via SendGrid."""
-    if not SENDGRID_API_KEY or not NOTIFICATION_EMAIL:
-        log("Email not configured - skipping notification")
-        log("Set SENDGRID_API_KEY and NOTIFICATION_EMAIL environment variables")
+    """Send email notification about new reports via Resend or SendGrid."""
+    if not NOTIFICATION_EMAIL:
+        log("Email not configured - NOTIFICATION_EMAIL not set")
+        return False
+
+    if not RESEND_API_KEY and not SENDGRID_API_KEY:
+        log("Email not configured - set RESEND_API_KEY or SENDGRID_API_KEY")
         return False
 
     # Build email content
@@ -263,7 +268,46 @@ def send_email_notification(new_reports: list[dict]) -> bool:
     </html>
     """
 
-    # Send via SendGrid API
+    # Try Resend first (preferred), fall back to SendGrid
+    if RESEND_API_KEY:
+        return _send_via_resend(subject, text_content, html_content)
+    else:
+        return _send_via_sendgrid(subject, text_content, html_content)
+
+
+def _send_via_resend(subject: str, text_content: str, html_content: str) -> bool:
+    """Send email via Resend API."""
+    try:
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "from": FROM_EMAIL,
+                "to": [NOTIFICATION_EMAIL],
+                "subject": subject,
+                "text": text_content,
+                "html": html_content
+            },
+            timeout=30
+        )
+
+        if response.status_code in [200, 201]:
+            log(f"Email sent successfully via Resend to {NOTIFICATION_EMAIL}")
+            return True
+        else:
+            log(f"Resend failed: {response.status_code} - {response.text}")
+            return False
+
+    except Exception as e:
+        log(f"Error sending via Resend: {e}")
+        return False
+
+
+def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bool:
+    """Send email via SendGrid API."""
     try:
         response = requests.post(
             "https://api.sendgrid.com/v3/mail/send",
@@ -284,14 +328,14 @@ def send_email_notification(new_reports: list[dict]) -> bool:
         )
 
         if response.status_code in [200, 202]:
-            log(f"Email notification sent successfully to {NOTIFICATION_EMAIL}")
+            log(f"Email sent successfully via SendGrid to {NOTIFICATION_EMAIL}")
             return True
         else:
-            log(f"Email send failed: {response.status_code} - {response.text}")
+            log(f"SendGrid failed: {response.status_code} - {response.text}")
             return False
 
     except Exception as e:
-        log(f"Error sending email: {e}")
+        log(f"Error sending via SendGrid: {e}")
         return False
 
 
