@@ -661,6 +661,13 @@ def send_daily_digest(
 
 def _send_via_resend(subject: str, text_content: str, html_content: str) -> bool:
     """Send email via Resend API."""
+    # Support comma-separated emails in NOTIFICATION_EMAIL
+    recipients = [email.strip() for email in NOTIFICATION_EMAIL.split(",") if email.strip()]
+
+    if not recipients:
+        log("No valid recipient emails found")
+        return False
+
     try:
         response = requests.post(
             "https://api.resend.com/emails",
@@ -670,7 +677,7 @@ def _send_via_resend(subject: str, text_content: str, html_content: str) -> bool
             },
             json={
                 "from": FROM_EMAIL,
-                "to": [NOTIFICATION_EMAIL],
+                "to": recipients,
                 "subject": subject,
                 "text": text_content,
                 "html": html_content
@@ -679,7 +686,7 @@ def _send_via_resend(subject: str, text_content: str, html_content: str) -> bool
         )
 
         if response.status_code in [200, 201]:
-            log(f"Email sent successfully via Resend to {NOTIFICATION_EMAIL}")
+            log(f"Email sent successfully via Resend to {', '.join(recipients)}")
             return True
         else:
             log(f"Resend failed: {response.status_code} - {response.text}")
@@ -692,6 +699,13 @@ def _send_via_resend(subject: str, text_content: str, html_content: str) -> bool
 
 def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bool:
     """Send email via SendGrid API."""
+    # Support comma-separated emails in NOTIFICATION_EMAIL
+    recipients = [{"email": email.strip()} for email in NOTIFICATION_EMAIL.split(",") if email.strip()]
+
+    if not recipients:
+        log("No valid recipient emails found")
+        return False
+
     try:
         response = requests.post(
             "https://api.sendgrid.com/v3/mail/send",
@@ -700,7 +714,7 @@ def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bo
                 "Content-Type": "application/json"
             },
             json={
-                "personalizations": [{"to": [{"email": NOTIFICATION_EMAIL}]}],
+                "personalizations": [{"to": recipients}],
                 "from": {"email": FROM_EMAIL},
                 "subject": subject,
                 "content": [
@@ -712,7 +726,8 @@ def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bo
         )
 
         if response.status_code in [200, 202]:
-            log(f"Email sent successfully via SendGrid to {NOTIFICATION_EMAIL}")
+            recipient_list = ", ".join([r["email"] for r in recipients])
+            log(f"Email sent successfully via SendGrid to {recipient_list}")
             return True
         else:
             log(f"SendGrid failed: {response.status_code} - {response.text}")
