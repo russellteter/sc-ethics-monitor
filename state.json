@@ -1,50 +1,315 @@
 {
   "seen_report_ids": [
-    "414859",
+    "407885",
+    "414371",
+    "408378",
+    "409200",
+    "416079",
+    "412019",
+    "402516",
+    "415448",
+    "410471",
+    "416341",
+    "411813",
+    "415477",
+    "404510",
+    "403581",
+    "414229",
     "415277",
+    "417305",
+    "409203",
+    "409129",
+    "405717",
+    "370788",
+    "415472",
     "413707",
+    "415389",
+    "408578",
+    "412258",
+    "408017",
+    "402648",
+    "409765",
+    "415979",
+    "414873",
+    "406784",
+    "414859",
+    "406392",
+    "409443",
+    "403328",
+    "409670",
+    "395940",
+    "414617",
+    "416039",
+    "409879",
+    "415386",
+    "414638",
+    "408253",
+    "407426",
+    "407072",
+    "407113",
     "416493",
     "410045",
-    "414733",
-    "414371",
-    "415864",
-    "414404",
-    "415957",
-    "414617",
-    "410914",
-    "410471",
-    "414638",
-    "410659",
-    "409984",
-    "414873",
-    "415386",
-    "414229",
-    "409765",
-    "415389",
-    "413501",
-    "409532",
-    "411604",
-    "416039",
     "417147",
+    "410659",
+    "415864",
     "415134",
-    "416079",
-    "409670",
-    "415472",
-    "412258",
-    "406037",
-    "416341",
-    "415477",
-    "409879",
-    "415961",
-    "415979",
-    "415448",
     "414175",
-    "411813",
-    "417305",
-    "412019",
-    "417093",
     "416460",
-    "409200"
+    "410914",
+    "392099",
+    "415957",
+    "411604",
+    "414404",
+    "406037",
+    "409984",
+    "413501",
+    "408061",
+    "405852",
+    "407063",
+    "415961",
+    "396731",
+    "414733",
+    "417093",
+    "405685",
+    "409532"
   ],
-  "last_checked": "2026-01-09T03:41:40.927200Z"
+  "last_checked": "2026-01-09T13:28:15.291591Z",
+  "reports_with_metadata": {
+    "417093": {
+      "candidate_name": "Morgan, Tyler A",
+      "office": "SC House of Representatives District 91",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2026-01-06",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55826&seiId=57496&officeId=78561&reportId=417093"
+    },
+    "416493": {
+      "candidate_name": "Linvill, Claiborne",
+      "office": "SC House of Representatives District 3",
+      "report_name": "Initial Report 2026",
+      "filed_date": "2026-01-02",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56074&seiId=53477&officeId=78727&reportId=416493"
+    },
+    "416460": {
+      "candidate_name": "Burgett, Joseph M",
+      "office": "SC House of Representatives District 3",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2026-01-02",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55051&seiId=57653&officeId=77981&reportId=416460"
+    },
+    "416341": {
+      "candidate_name": "Lastinger, John",
+      "office": "SC House of Representatives District 88",
+      "report_name": "Initial Report 2026",
+      "filed_date": "2026-01-02",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56072&seiId=51266&officeId=78726&reportId=416341"
+    },
+    "415979": {
+      "candidate_name": "Orr, Patrick S",
+      "office": "SC House of Representatives District 8",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-12-22",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56047&seiId=57893&officeId=78711&reportId=415979"
+    },
+    "415389": {
+      "candidate_name": "Carlin, Evelyn A",
+      "office": "SC House of Representatives District 70",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-12-15",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55865&seiId=51696&officeId=78592&reportId=415389"
+    },
+    "414873": {
+      "candidate_name": "Ford, Gregory S",
+      "office": "SC House of Representatives District 98",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-11-26",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55901&seiId=53356&officeId=78618&reportId=414873"
+    },
+    "414733": {
+      "candidate_name": "Ogletree Satani, Sonja R",
+      "office": "SC House of Representatives District 98",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-11-18",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55881&seiId=55858&officeId=78603&reportId=414733"
+    },
+    "414638": {
+      "candidate_name": "Asbill, Steven",
+      "office": "SC House of Representatives District 85",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-11-16",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55871&seiId=57842&officeId=78595&reportId=414638"
+    },
+    "414617": {
+      "candidate_name": "Crosby, Katie W",
+      "office": "SC House of Representatives District 44",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-11-13",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55867&seiId=53465&officeId=78594&reportId=414617"
+    },
+    "412258": {
+      "candidate_name": "Scott, Keishan M",
+      "office": "SC House of Representatives District 50",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-15",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55572&seiId=54847&officeId=78351&reportId=412258"
+    },
+    "412019": {
+      "candidate_name": "McCravy, Katie L",
+      "office": "SC House of Representatives District 102",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-14",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54840&seiId=57570&officeId=77862&reportId=412019"
+    },
+    "411813": {
+      "candidate_name": "Walker, Carlton",
+      "office": "SC House of Representatives District 115",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-10",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54516&seiId=55477&officeId=77682&reportId=411813"
+    },
+    "411604": {
+      "candidate_name": "Davey, Lisa",
+      "office": "SC House of Representatives District 67",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-10",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55344&seiId=52337&officeId=78163&reportId=411604"
+    },
+    "406037": {
+      "candidate_name": "garmon, johnnie b",
+      "office": "SC House of Representatives District 115",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-03",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54256&seiId=57306&officeId=77515&reportId=406037"
+    },
+    "410471": {
+      "candidate_name": "Ammons, Johnathan P Jr.",
+      "office": "SC House of Representatives District 40",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-10-01",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55093&seiId=53114&officeId=78005&reportId=410471"
+    },
+    "409765": {
+      "candidate_name": "Burns, James R",
+      "office": "SC Senate District 15",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-09-16",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55246&seiId=52012&officeId=78100&reportId=409765"
+    },
+    "409532": {
+      "candidate_name": "Redwine, Kathy",
+      "office": "SC House of Representatives District 108",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-09-11",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55187&seiId=57695&officeId=78066&reportId=409532"
+    },
+    "409443": {
+      "candidate_name": "Arsenault, Jenna P",
+      "office": "SC House of Representatives District 112",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-09-09",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55159&seiId=57627&officeId=78044&reportId=409443"
+    },
+    "409203": {
+      "candidate_name": "Zimmerman, Amanda",
+      "office": "SC House of Representatives District 71",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-09-04",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54424&seiId=57389&officeId=77626&reportId=409203"
+    },
+    "408253": {
+      "candidate_name": "Blumenthal, George M",
+      "office": "SC House of Representatives District 104",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-08-14",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54722&seiId=57523&officeId=77795&reportId=408253"
+    },
+    "407426": {
+      "candidate_name": "Gore, Kristy",
+      "office": "SC House of Representatives District 99",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-07-29",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54475&seiId=57422&officeId=77657&reportId=407426"
+    },
+    "405717": {
+      "candidate_name": "Barker, Noah L",
+      "office": "SC House of Representatives District 70",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-07-02",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54338&seiId=57320&officeId=77571&reportId=405717"
+    },
+    "405685": {
+      "candidate_name": "Alexander, Daniel R",
+      "office": "SC House of Representatives District 91",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-07-02",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=53922&seiId=38403&officeId=77281&reportId=405685"
+    },
+    "403328": {
+      "candidate_name": "Waters, Courtney S",
+      "office": "SC House of Representatives District 113",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-05-09",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54003&seiId=51685&officeId=77345&reportId=403328"
+    },
+    "402516": {
+      "candidate_name": "Beaman, Carlton R III",
+      "office": "SC House of Representatives District 87",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-04-14",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=53976&seiId=57016&officeId=77313&reportId=402516"
+    },
+    "402648": {
+      "candidate_name": "Johnson, Jermaine L",
+      "office": "SC House of Representatives District 52",
+      "report_name": "Initial Report 2025",
+      "filed_date": "2025-04-10",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54015&seiId=39097&officeId=77359&reportId=402648"
+    },
+    "392099": {
+      "candidate_name": "Counts, Clay",
+      "office": "SC House of Representatives District 4",
+      "report_name": "Initial Report 2024",
+      "filed_date": "2024-11-14",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=53135&seiId=56769&officeId=76714&reportId=392099"
+    }
+  },
+  "historical_2025": {
+    "cached_date": "2026-01-09T13:28:14.980626Z",
+    "reports": {
+      "417230": {
+        "candidate_name": "Hill, Brian",
+        "office": "SC House of Representatives District 98",
+        "report_name": "Initial Report 2025",
+        "filed_date": "2026-01-07",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54959&seiId=11886&officeId=77933&reportId=417230"
+      },
+      "414869": {
+        "candidate_name": "Mitchell, Dianne K",
+        "office": "SC House of Representatives District 21",
+        "report_name": "Initial Report 2025",
+        "filed_date": "2025-12-05",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55899&seiId=57596&officeId=78616&reportId=414869"
+      },
+      "414884": {
+        "candidate_name": "Lastinger, John",
+        "office": "SC House of Representatives District 88",
+        "report_name": "Initial Report 2025",
+        "filed_date": "2025-12-01",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55872&seiId=51266&officeId=78596&reportId=414884"
+      },
+      "412240": {
+        "candidate_name": "Hightower, Joseph C",
+        "office": "SC House of Representatives District 88",
+        "report_name": "Initial Report 2025",
+        "filed_date": "2025-10-15",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55568&seiId=51968&officeId=78347&reportId=412240"
+      },
+      "412224": {
+        "candidate_name": "Cox, Bobby J",
+        "office": "SC Senate District 12",
+        "report_name": "Initial Report 2025",
+        "filed_date": "2025-10-15",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54880&seiId=38023&officeId=77881&reportId=412224"
+      }
+    }
+  }
 }
