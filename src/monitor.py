@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-SC Ethics Filing Monitor
+SC Ethics Initial Report Monitor
 
-Monitors the SC Ethics Commission website for new campaign disclosure reports
-and sends email notifications when new filings are detected.
+Monitors the SC Ethics Commission website for new Initial Reports filed by
+SC House and Senate candidates. Initial Reports are the first campaign finance
+disclosure required when a candidate raises or spends $500, indicating serious
+intent to run for office.
+
+This tool helps party recruiters identify where candidates are emerging and
+where recruitment gaps remain for state legislative seats.
 """
 
 import json
@@ -28,6 +33,24 @@ RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 NOTIFICATION_EMAIL = os.getenv("NOTIFICATION_EMAIL")
 FROM_EMAIL = os.getenv("FROM_EMAIL", "sc-ethics-monitor@example.com")
+
+# Office type patterns for filtering to SC House and Senate only
+HOUSE_SENATE_PATTERNS = [
+    "house of representatives",
+    "sc house",
+    "state house",
+    "senate",
+    "sc senate",
+    "state senate",
+]
+
+
+def is_house_or_senate(office_text: str) -> bool:
+    """Check if the office is SC House or Senate (not County, Municipal, etc.)."""
+    if not office_text:
+        return False
+    office_lower = office_text.lower()
+    return any(pattern in office_lower for pattern in HOUSE_SENATE_PATTERNS)
 
 
 def log(message: str) -> None:
@@ -85,6 +108,17 @@ def scrape_recent_reports(page: Page, max_pages: int = 3) -> list[dict]:
         page.wait_for_timeout(500)
     except Exception as e:
         log(f"Warning: Could not set year filter: {e}")
+
+    # Select "Initial" report type to find new candidates
+    log("Setting report type filter to 'Initial'")
+    try:
+        report_type_dropdown = page.get_by_title("Report Name dropdown").get_by_role("listbox")
+        report_type_dropdown.click()
+        page.wait_for_timeout(500)
+        page.get_by_role("option", name="Initial").click()
+        page.wait_for_timeout(500)
+    except Exception as e:
+        log(f"Warning: Could not set report type filter: {e}")
 
     # Click search
     log("Executing search...")
@@ -207,14 +241,31 @@ def save_state(state: dict) -> None:
 
 
 def find_new_reports(reports: list[dict], state: dict) -> list[dict]:
-    """Find reports that haven't been seen before."""
+    """Find Initial Reports for House/Senate that haven't been seen before."""
     seen_ids = set(state.get("seen_report_ids", []))
-    new_reports = [r for r in reports if r["report_id"] not in seen_ids]
+
+    new_reports = []
+    filtered_out = 0
+
+    for r in reports:
+        if r["report_id"] in seen_ids:
+            continue
+
+        # Filter to only SC House and Senate candidates
+        if not is_house_or_senate(r.get("office", "")):
+            filtered_out += 1
+            continue
+
+        new_reports.append(r)
+
+    if filtered_out > 0:
+        log(f"Filtered out {filtered_out} non-House/Senate reports")
+
     return new_reports
 
 
 def send_email_notification(new_reports: list[dict]) -> bool:
-    """Send email notification about new reports via Resend or SendGrid."""
+    """Send email notification about new Initial Reports via Resend or SendGrid."""
     if not NOTIFICATION_EMAIL:
         log("Email not configured - NOTIFICATION_EMAIL not set")
         return False
@@ -223,47 +274,73 @@ def send_email_notification(new_reports: list[dict]) -> bool:
         log("Email not configured - set RESEND_API_KEY or SENDGRID_API_KEY")
         return False
 
-    # Build email content
-    subject = f"SC Ethics Monitor: {len(new_reports)} New Filing(s) Detected"
+    # Build email content - focused on Initial Reports for candidate tracking
+    count = len(new_reports)
+    subject = f"NEW CANDIDATE ALERT: {count} Initial Report{'s' if count > 1 else ''} Filed"
 
-    # Plain text version
-    text_content = f"SC Ethics Filing Monitor has detected {len(new_reports)} new campaign disclosure report(s).\n\n"
+    # Plain text version - clear format for quick scanning
+    text_content = "=" * 50 + "\n"
+    text_content += "NEW CANDIDATE INITIAL REPORT DETECTED\n"
+    text_content += "=" * 50 + "\n\n"
+
     for report in new_reports:
-        text_content += f"- {report['candidate_name']} ({report['office']})\n"
-        text_content += f"  Report: {report['report_name']}\n"
-        text_content += f"  Updated: {report['last_updated']}\n"
-        text_content += f"  Link: {report['url']}\n\n"
+        text_content += f"Candidate:  {report['candidate_name']}\n"
+        text_content += f"Office:     {report['office']}\n"
+        text_content += f"Report:     {report['report_name']}\n"
+        text_content += f"Filed:      {report['last_updated']}\n"
+        text_content += f"\nView Report:\n{report['url']}\n"
+        text_content += "\n" + "-" * 50 + "\n\n"
 
-    # HTML version
-    html_content = f"""
+    text_content += "This indicates the candidate has raised or spent\n"
+    text_content += "at least $500 and filed their first required\n"
+    text_content += "campaign disclosure.\n"
+
+    # HTML version - clean table format
+    html_content = """
     <html>
-    <body>
-    <h2>SC Ethics Filing Monitor Alert</h2>
-    <p>Detected <strong>{len(new_reports)}</strong> new campaign disclosure report(s):</p>
-    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
-        <tr style="background-color: #f0f0f0;">
-            <th>Candidate</th>
-            <th>Office</th>
-            <th>Report</th>
-            <th>Updated</th>
-            <th>Link</th>
-        </tr>
+    <body style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto;">
+    <div style="background-color: #1a365d; color: white; padding: 20px; text-align: center;">
+        <h1 style="margin: 0;">NEW CANDIDATE INITIAL REPORT</h1>
+    </div>
     """
 
     for report in new_reports:
         html_content += f"""
-        <tr>
-            <td>{report['candidate_name']}</td>
-            <td>{report['office']}</td>
-            <td>{report['report_name']}</td>
-            <td>{report['last_updated']}</td>
-            <td><a href="{report['url']}">View</a></td>
-        </tr>
+        <div style="border: 1px solid #ddd; margin: 20px 0; padding: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 8px 0; width: 120px; font-weight: bold; color: #555;">Candidate:</td>
+                    <td style="padding: 8px 0; font-size: 18px;">{report['candidate_name']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Office:</td>
+                    <td style="padding: 8px 0;">{report['office']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Report:</td>
+                    <td style="padding: 8px 0;">{report['report_name']}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Filed:</td>
+                    <td style="padding: 8px 0;">{report['last_updated']}</td>
+                </tr>
+            </table>
+            <div style="margin-top: 15px;">
+                <a href="{report['url']}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Report</a>
+            </div>
+        </div>
         """
 
     html_content += """
-    </table>
-    <p><small>This is an automated notification from SC Ethics Filing Monitor.</small></p>
+    <div style="background-color: #f0f4f8; padding: 15px; margin-top: 20px; border-left: 4px solid #2563eb;">
+        <p style="margin: 0; color: #555;">
+            <strong>What this means:</strong> This candidate has raised or spent at least $500
+            and filed their first required campaign disclosure - indicating serious intent to run.
+        </p>
+    </div>
+    <p style="color: #888; font-size: 12px; margin-top: 20px;">
+        SC Ethics Initial Report Monitor - Tracking new candidate filings for SC House & Senate
+    </p>
     </body>
     </html>
     """
@@ -340,9 +417,15 @@ def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bo
 
 
 def main():
-    """Main monitoring function."""
+    """
+    Main monitoring function.
+
+    Detects new Initial Reports filed by SC House and Senate candidates.
+    Initial Reports indicate serious candidates who have raised/spent $500+.
+    """
     log("=" * 60)
-    log("SC Ethics Filing Monitor - Starting")
+    log("SC Ethics Initial Report Monitor - Starting")
+    log("Tracking: SC House & Senate candidates filing Initial Reports")
     log("=" * 60)
 
     # Get current statistics
@@ -358,7 +441,7 @@ def main():
     else:
         log("First run - will establish baseline")
 
-    # Scrape recent reports
+    # Scrape Initial Reports
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
@@ -372,16 +455,20 @@ def main():
         sys.exit(1)
 
     if not reports:
-        log("No reports found - check if website structure has changed")
-        sys.exit(1)
+        log("No Initial Reports found for current year")
+        # Not an error - there may simply be no Initial Reports yet
+        save_state(state)
+        return 0
 
-    # Find new reports
+    log(f"Found {len(reports)} Initial Report(s) total")
+
+    # Find new House/Senate Initial Reports
     new_reports = find_new_reports(reports, state)
 
     if new_reports:
-        log(f"Found {len(new_reports)} NEW report(s)!")
+        log(f"NEW: {len(new_reports)} House/Senate Initial Report(s)!")
         for report in new_reports:
-            log(f"  - {report['candidate_name']} ({report['office']}): {report['report_name']}")
+            log(f"  - {report['candidate_name']} ({report['office']})")
 
         # Send notification
         send_email_notification(new_reports)
@@ -397,7 +484,7 @@ def main():
     save_state(state)
 
     log("=" * 60)
-    log("SC Ethics Filing Monitor - Complete")
+    log("SC Ethics Initial Report Monitor - Complete")
     log("=" * 60)
 
     return len(new_reports)

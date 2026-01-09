@@ -1,9 +1,11 @@
-# SC Ethics Filing Monitor - Project Context
+# SC Ethics Initial Report Monitor - Project Context
 
 ## Quick Start for New Sessions
 
 ```bash
-# This project monitors SC Ethics Commission filings and sends email alerts
+# This project monitors SC Ethics Commission for NEW CANDIDATE Initial Reports
+# Target: SC House and Senate candidates only
+# Purpose: Help party recruiters identify serious candidates early
 # Repository: https://github.com/russellteter/sc-ethics-monitor
 # Status: OPERATIONAL - Email notifications working via Resend
 ```
@@ -14,8 +16,11 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Purpose** | Automated monitoring of SC Ethics Commission campaign disclosure filings |
-| **Primary Output** | Email notifications when new filings are detected |
+| **Purpose** | Detect new SC House & Senate candidates via Initial Report filings |
+| **What's an Initial Report?** | First required filing when candidate raises/spends $500 |
+| **Why it matters** | Earliest signal of serious candidate intent |
+| **Primary Output** | Email alerts when new candidates file Initial Reports |
+| **Scope** | SC House (124 districts) + SC Senate (46 districts) only |
 | **Schedule** | Daily at 9:00 AM EST via GitHub Actions |
 | **Cost** | $0/month (free tier services) |
 | **Status** | Production-ready, operational |
@@ -35,12 +40,18 @@
 │         │                                                   │
 │         ▼                                                   │
 │  Playwright Browser → SC Ethics Website                     │
-│         │              (ethicsfiling.sc.gov)                │
+│         │              (Filter: Report Type = "Initial")    │
 │         ▼                                                   │
-│  Extract Reports → Compare to state.json                    │
+│  Extract Initial Reports                                    │
 │         │                                                   │
 │         ▼                                                   │
-│  New Filings? ──Yes──► Send Email (Resend API)              │
+│  Filter to House/Senate only (post-scrape)                  │
+│         │                                                   │
+│         ▼                                                   │
+│  Compare to state.json (seen report IDs)                    │
+│         │                                                   │
+│         ▼                                                   │
+│  New candidates? ──Yes──► Send Email Alert (Resend API)     │
 │         │                                                   │
 │         ▼                                                   │
 │  Update state.json → Commit to repo                         │
@@ -76,16 +87,23 @@ sc-ethics-report-monitor/
 **Core Functions:**
 | Function | Purpose |
 |----------|---------|
-| `scrape_recent_reports()` | Navigate website, extract filing data |
-| `find_new_reports()` | Compare scraped IDs against state.json |
-| `send_email_notification()` | Send alert via Resend (or SendGrid fallback) |
+| `scrape_recent_reports()` | Navigate website with "Initial" report filter, extract filing data |
+| `is_house_or_senate()` | Filter results to SC House and Senate only |
+| `find_new_reports()` | Compare scraped IDs against state.json, apply House/Senate filter |
+| `send_email_notification()` | Send formatted alert via Resend (or SendGrid fallback) |
 | `load_state()` / `save_state()` | Persist seen report IDs |
 
 **Key Configuration:**
 ```python
 CAMPAIGN_REPORTS_URL = "https://ethicsfiling.sc.gov/public/campaign-reports/reports"
 STATE_FILE = Path(__file__).parent.parent / "state.json"
-max_pages = 3  # Scrapes ~45 most recent reports
+max_pages = 3  # Scrapes recent Initial Reports
+
+# House/Senate filtering patterns
+HOUSE_SENATE_PATTERNS = [
+    "house of representatives", "sc house", "state house",
+    "senate", "sc senate", "state senate"
+]
 ```
 
 ### 2. GitHub Actions: `.github/workflows/monitor.yml`
@@ -173,12 +191,19 @@ gh secret set SECRET_NAME --repo russellteter/sc-ethics-monitor --body "value"
 **Website:** https://ethicsfiling.sc.gov/public/campaign-reports/reports
 
 **What's Monitored:**
-- Campaign Disclosure Reports (Quarterly, Initial, Pre-Election, Final)
-- All candidate types (House, Senate, County, Municipal, Statewide)
-- Current election year only
+- **Initial Reports only** - the first campaign disclosure when $500 is raised/spent
+- **SC House and SC Senate candidates only** - County, Municipal, School Board excluded
+- Current election year
+
+**Why Initial Reports Matter:**
+Initial Reports are the earliest official indicator that someone is serious about running. Before the $500 threshold, anyone can say they're "thinking about" running. The Initial Report proves they've started fundraising or spending.
 
 **How Reports Are Identified:**
 Each report has a unique `reportId` in the URL (e.g., `reportId=414669`). These IDs are stable and never reused.
+
+**Filtering Logic:**
+1. Website filter: Report Type = "Initial"
+2. Post-scrape filter: Office must contain "house", "senate" (case-insensitive)
 
 ---
 
@@ -228,6 +253,13 @@ This is normal if no new filings since last check. To force an email:
 - Migrated to Resend (free tier, 100/day)
 - Using `onboarding@resend.dev` as sender
 - Successfully tested with 45 filings
+
+**Initial Report Focus:** January 8, 2026
+- Refocused from all reports to **Initial Reports only**
+- Added "Initial" report type filter to scraper
+- Added House/Senate post-scrape filtering
+- Updated email template for candidate tracking use case
+- Verified spec against live website (all URL patterns work)
 
 ---
 
