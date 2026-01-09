@@ -15,7 +15,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -53,6 +53,47 @@ def is_house_or_senate(office_text: str) -> bool:
     return any(pattern in office_lower for pattern in HOUSE_SENATE_PATTERNS)
 
 
+def parse_date(date_str: str) -> str:
+    """Convert 'Jan 8, 2026' to '2026-01-08' for consistent sorting."""
+    if not date_str:
+        return ""
+    try:
+        dt = datetime.strptime(date_str.strip(), "%b %d, %Y")
+        return dt.strftime("%Y-%m-%d")
+    except ValueError:
+        return date_str
+
+
+def format_date_display(iso_date: str) -> str:
+    """Convert '2026-01-08' to 'Jan 8, 2026' for display."""
+    if not iso_date:
+        return ""
+    try:
+        dt = datetime.strptime(iso_date, "%Y-%m-%d")
+        return dt.strftime("%b %d, %Y")
+    except ValueError:
+        return iso_date
+
+
+def get_last_30_days(reports_metadata: dict) -> list[dict]:
+    """Get reports from last 30 days, sorted by date descending."""
+    cutoff = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    results = [
+        {"report_id": rid, **meta}
+        for rid, meta in reports_metadata.items()
+        if meta.get("filed_date", "") >= cutoff
+    ]
+    return sorted(results, key=lambda r: r.get("filed_date", ""), reverse=True)
+
+
+def get_subject_line(new_count: int) -> str:
+    """Generate context-specific email subject line."""
+    if new_count > 0:
+        s = "s" if new_count > 1 else ""
+        return f"South Carolina Ethics Monitor: {new_count} New Statehouse Candidate{s} Today"
+    return "South Carolina Ethics Monitor: Daily Statehouse Candidate Digest"
+
+
 def log(message: str) -> None:
     """Print timestamped log message."""
     timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -76,13 +117,14 @@ def extract_report_id(url: str) -> Optional[str]:
     return match.group(1) if match else None
 
 
-def scrape_recent_reports(page: Page, max_pages: int = 3) -> list[dict]:
+def scrape_recent_reports(page: Page, max_pages: int = 3, election_year: Optional[str] = None) -> list[dict]:
     """
     Scrape recent campaign reports from the website.
 
     Args:
         page: Playwright page object
         max_pages: Maximum number of pages to scrape (default 3, ~45 reports)
+        election_year: Specific year to filter (default: current year)
 
     Returns:
         List of report dictionaries with filing details
@@ -93,9 +135,9 @@ def scrape_recent_reports(page: Page, max_pages: int = 3) -> list[dict]:
     page.goto(CAMPAIGN_REPORTS_URL)
     page.wait_for_load_state("networkidle")
 
-    # Select current year for election year filter
-    current_year = str(datetime.now().year)
-    log(f"Setting election year filter to {current_year}")
+    # Select election year filter
+    target_year = election_year or str(datetime.now().year)
+    log(f"Setting election year filter to {target_year}")
 
     try:
         # Click the election year dropdown
@@ -103,8 +145,8 @@ def scrape_recent_reports(page: Page, max_pages: int = 3) -> list[dict]:
         year_dropdown.click()
         page.wait_for_timeout(500)
 
-        # Select current year
-        page.get_by_role("option", name=current_year).click()
+        # Select target year
+        page.get_by_role("option", name=target_year).click()
         page.wait_for_timeout(500)
     except Exception as e:
         log(f"Warning: Could not set year filter: {e}")
@@ -215,17 +257,74 @@ def scrape_recent_reports(page: Page, max_pages: int = 3) -> list[dict]:
     return reports
 
 
+def scrape_2025_historical(page: Page, state: dict) -> dict:
+    """
+    Scrape all 2025 Initial Reports for House/Senate candidates.
+    Uses caching - only refreshes if cache is older than 7 days.
+
+    Returns dict of report metadata keyed by report_id.
+    """
+    cached = state.get("historical_2025", {})
+    cached_date = cached.get("cached_date")
+
+    # Check if cache is still valid (within 7 days)
+    if cached_date:
+        try:
+            cache_dt = datetime.fromisoformat(cached_date.replace("Z", "+00:00"))
+            age_days = (datetime.now(cache_dt.tzinfo) - cache_dt).days
+            if age_days < 7 and cached.get("reports"):
+                log(f"Using cached 2025 data ({age_days} days old, {len(cached['reports'])} reports)")
+                return cached["reports"]
+        except Exception:
+            pass
+
+    log("Refreshing 2025 historical data...")
+
+    # Scrape all 2025 Initial Reports (up to 10 pages to get all)
+    reports = scrape_recent_reports(page, max_pages=10, election_year="2025")
+
+    # Filter to House/Senate only and convert to metadata dict
+    historical = {}
+    for r in reports:
+        if is_house_or_senate(r.get("office", "")):
+            historical[r["report_id"]] = {
+                "candidate_name": r["candidate_name"],
+                "office": r["office"],
+                "report_name": r["report_name"],
+                "filed_date": parse_date(r["last_updated"]),
+                "url": r["url"]
+            }
+
+    log(f"Cached {len(historical)} House/Senate Initial Reports from 2025")
+    return historical
+
+
 def load_state() -> dict:
-    """Load previous state from JSON file."""
+    """Load previous state from JSON file with backward compatibility."""
+    default_state = {
+        "seen_report_ids": [],
+        "last_checked": None,
+        "reports_with_metadata": {},
+        "historical_2025": {"cached_date": None, "reports": {}}
+    }
+
     if not STATE_FILE.exists():
-        return {"seen_report_ids": [], "last_checked": None}
+        return default_state
 
     try:
         with open(STATE_FILE, "r") as f:
-            return json.load(f)
+            state = json.load(f)
+
+        # Ensure new fields exist (backward compatibility)
+        if "reports_with_metadata" not in state:
+            state["reports_with_metadata"] = {}
+        if "historical_2025" not in state:
+            state["historical_2025"] = {"cached_date": None, "reports": {}}
+
+        return state
     except Exception as e:
         log(f"Warning: Could not load state file: {e}")
-        return {"seen_report_ids": [], "last_checked": None}
+        return default_state
 
 
 def save_state(state: dict) -> None:
@@ -264,8 +363,16 @@ def find_new_reports(reports: list[dict], state: dict) -> list[dict]:
     return new_reports
 
 
-def send_email_notification(new_reports: list[dict]) -> bool:
-    """Send email notification about new Initial Reports via Resend or SendGrid."""
+def send_daily_digest(
+    new_reports: list[dict],
+    last_30_days: list[dict],
+    historical_2025: dict,
+    total_tracked: int
+) -> bool:
+    """
+    Send daily digest email with new candidates, 30-day history, and 2025 data.
+    Always sends, even if no new candidates detected.
+    """
     if not NOTIFICATION_EMAIL:
         log("Email not configured - NOTIFICATION_EMAIL not set")
         return False
@@ -274,76 +381,187 @@ def send_email_notification(new_reports: list[dict]) -> bool:
         log("Email not configured - set RESEND_API_KEY or SENDGRID_API_KEY")
         return False
 
-    # Build email content - focused on Initial Reports for candidate tracking
-    count = len(new_reports)
-    subject = f"NEW CANDIDATE ALERT: {count} Initial Report{'s' if count > 1 else ''} Filed"
+    # Generate subject line based on new candidates
+    subject = get_subject_line(len(new_reports))
+    today_str = datetime.now().strftime("%B %d, %Y")
 
-    # Plain text version - clear format for quick scanning
-    text_content = "=" * 50 + "\n"
-    text_content += "NEW CANDIDATE INITIAL REPORT DETECTED\n"
-    text_content += "=" * 50 + "\n\n"
+    # === PLAIN TEXT VERSION ===
+    text_content = "=" * 60 + "\n"
+    text_content += "SOUTH CAROLINA STATEHOUSE CANDIDATE MONITOR\n"
+    text_content += f"Daily Digest - {today_str}\n"
+    text_content += "=" * 60 + "\n\n"
 
-    for report in new_reports:
-        text_content += f"Candidate:  {report['candidate_name']}\n"
-        text_content += f"Office:     {report['office']}\n"
-        text_content += f"Report:     {report['report_name']}\n"
-        text_content += f"Filed:      {report['last_updated']}\n"
-        text_content += f"\nView Report:\n{report['url']}\n"
-        text_content += "\n" + "-" * 50 + "\n\n"
+    # Section 1: New Candidates Today
+    text_content += "NEW CANDIDATES TODAY\n"
+    text_content += "-" * 40 + "\n"
+    if new_reports:
+        for r in new_reports:
+            text_content += f"\n  {r['candidate_name']}\n"
+            text_content += f"  Office: {r['office']}\n"
+            text_content += f"  Filed: {r.get('last_updated', 'N/A')}\n"
+            text_content += f"  {r['url']}\n"
+    else:
+        text_content += "\nNo new candidates in the last 24 hours.\n"
+    text_content += "\n"
 
-    text_content += "This indicates the candidate has raised or spent\n"
-    text_content += "at least $500 and filed their first required\n"
-    text_content += "campaign disclosure.\n"
+    # Section 2: Last 30 Days
+    text_content += "LAST 30 DAYS\n"
+    text_content += "-" * 40 + "\n"
+    if last_30_days:
+        for r in last_30_days[:15]:  # Limit to 15 for readability
+            date_display = format_date_display(r.get("filed_date", ""))
+            text_content += f"  {date_display}: {r['candidate_name']} - {r['office']}\n"
+        if len(last_30_days) > 15:
+            text_content += f"  ... and {len(last_30_days) - 15} more\n"
+    else:
+        text_content += "  No filings in the last 30 days.\n"
+    text_content += "\n"
 
-    # HTML version - clean table format
-    html_content = """
+    # Section 3: 2025 Historical
+    text_content += "2025 STATEHOUSE CANDIDATES\n"
+    text_content += "-" * 40 + "\n"
+    text_content += f"  {len(historical_2025)} candidates tracked\n"
+    text_content += "\n"
+
+    text_content += "=" * 60 + "\n"
+    text_content += "SC Ethics Initial Report Monitor\n"
+    text_content += "Tracking candidates who have raised/spent $500+\n"
+
+    # === HTML VERSION ===
+    html_content = f"""
     <html>
-    <body style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto;">
-    <div style="background-color: #1a365d; color: white; padding: 20px; text-align: center;">
-        <h1 style="margin: 0;">NEW CANDIDATE INITIAL REPORT</h1>
-    </div>
+    <head>
+        <style>
+            body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; }}
+            .container {{ max-width: 680px; margin: 0 auto; background: white; }}
+            .header {{ background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 24px 20px; text-align: center; }}
+            .header h1 {{ margin: 0 0 8px 0; font-size: 22px; font-weight: 600; }}
+            .header p {{ margin: 0; opacity: 0.9; font-size: 14px; }}
+            .section {{ padding: 20px; border-bottom: 1px solid #e2e8f0; }}
+            .section-header {{ font-size: 16px; font-weight: 600; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }}
+            .section-header .badge {{ background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }}
+            .no-new {{ color: #64748b; font-style: italic; padding: 12px 0; }}
+            .candidate-card {{ background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 12px; }}
+            .candidate-card.new {{ border-left: 4px solid #10b981; }}
+            .candidate-name {{ font-size: 17px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }}
+            .candidate-office {{ color: #64748b; font-size: 14px; margin-bottom: 8px; }}
+            .candidate-date {{ color: #94a3b8; font-size: 13px; }}
+            .view-link {{ display: inline-block; margin-top: 10px; background: #2563eb; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 500; }}
+            .view-link:hover {{ background: #1d4ed8; }}
+            table {{ width: 100%; border-collapse: collapse; font-size: 14px; }}
+            th {{ text-align: left; padding: 10px 8px; background: #f1f5f9; color: #475569; font-weight: 600; border-bottom: 2px solid #e2e8f0; }}
+            td {{ padding: 10px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
+            td a {{ color: #2563eb; text-decoration: none; }}
+            td a:hover {{ text-decoration: underline; }}
+            .stats-box {{ background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; text-align: center; }}
+            .stats-number {{ font-size: 32px; font-weight: 700; color: #1e40af; }}
+            .stats-label {{ color: #64748b; font-size: 14px; margin-top: 4px; }}
+            .footer {{ padding: 20px; text-align: center; color: #94a3b8; font-size: 12px; background: #f8fafc; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>South Carolina Statehouse Candidate Monitor</h1>
+                <p>Daily Digest &mdash; {today_str}</p>
+            </div>
     """
 
-    for report in new_reports:
-        html_content += f"""
-        <div style="border: 1px solid #ddd; margin: 20px 0; padding: 20px;">
-            <table style="width: 100%; border-collapse: collapse;">
+    # Section 1: New Candidates Today
+    html_content += '<div class="section">'
+    if new_reports:
+        html_content += f'<div class="section-header">New Candidates Today <span class="badge">{len(new_reports)}</span></div>'
+        for r in new_reports:
+            filed = r.get('last_updated', 'N/A')
+            html_content += f'''
+            <div class="candidate-card new">
+                <div class="candidate-name">{r['candidate_name']}</div>
+                <div class="candidate-office">{r['office']}</div>
+                <div class="candidate-date">Filed: {filed}</div>
+                <a href="{r['url']}" class="view-link">View Report</a>
+            </div>
+            '''
+    else:
+        html_content += '<div class="section-header">New Candidates Today</div>'
+        html_content += '<p class="no-new">No new candidates in the last 24 hours.</p>'
+    html_content += '</div>'
+
+    # Section 2: Last 30 Days
+    html_content += '<div class="section">'
+    html_content += f'<div class="section-header">Last 30 Days</div>'
+    if last_30_days:
+        html_content += '''
+        <table>
+            <thead>
+                <tr><th>Date</th><th>Candidate</th><th>Office</th></tr>
+            </thead>
+            <tbody>
+        '''
+        for r in last_30_days[:20]:  # Limit to 20 rows
+            date_display = format_date_display(r.get("filed_date", ""))
+            html_content += f'''
                 <tr>
-                    <td style="padding: 8px 0; width: 120px; font-weight: bold; color: #555;">Candidate:</td>
-                    <td style="padding: 8px 0; font-size: 18px;">{report['candidate_name']}</td>
+                    <td>{date_display}</td>
+                    <td><a href="{r.get('url', '#')}">{r['candidate_name']}</a></td>
+                    <td>{r['office']}</td>
                 </tr>
+            '''
+        html_content += '</tbody></table>'
+        if len(last_30_days) > 20:
+            html_content += f'<p style="color: #64748b; font-size: 13px; margin-top: 8px;">... and {len(last_30_days) - 20} more</p>'
+    else:
+        html_content += '<p class="no-new">No filings in the last 30 days.</p>'
+    html_content += '</div>'
+
+    # Section 3: 2025 Historical Summary
+    html_content += '<div class="section">'
+    html_content += '<div class="section-header">2025 Statehouse Candidates</div>'
+    html_content += f'''
+    <div class="stats-box">
+        <div class="stats-number">{len(historical_2025)}</div>
+        <div class="stats-label">candidates have filed Initial Reports for 2025</div>
+    </div>
+    '''
+
+    # Show a compact table of 2025 candidates
+    if historical_2025:
+        sorted_2025 = sorted(
+            [{"report_id": k, **v} for k, v in historical_2025.items()],
+            key=lambda x: x.get("filed_date", ""),
+            reverse=True
+        )
+        html_content += '''
+        <table style="margin-top: 16px;">
+            <thead>
+                <tr><th>Date</th><th>Candidate</th><th>Office</th></tr>
+            </thead>
+            <tbody>
+        '''
+        for r in sorted_2025[:30]:  # Show up to 30
+            date_display = format_date_display(r.get("filed_date", ""))
+            html_content += f'''
                 <tr>
-                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Office:</td>
-                    <td style="padding: 8px 0;">{report['office']}</td>
+                    <td>{date_display}</td>
+                    <td><a href="{r.get('url', '#')}">{r['candidate_name']}</a></td>
+                    <td>{r['office']}</td>
                 </tr>
-                <tr>
-                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Report:</td>
-                    <td style="padding: 8px 0;">{report['report_name']}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 8px 0; font-weight: bold; color: #555;">Filed:</td>
-                    <td style="padding: 8px 0;">{report['last_updated']}</td>
-                </tr>
-            </table>
-            <div style="margin-top: 15px;">
-                <a href="{report['url']}" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">View Report</a>
+            '''
+        html_content += '</tbody></table>'
+        if len(sorted_2025) > 30:
+            html_content += f'<p style="color: #64748b; font-size: 13px; margin-top: 8px;">... and {len(sorted_2025) - 30} more</p>'
+
+    html_content += '</div>'
+
+    # Footer
+    html_content += '''
+            <div class="footer">
+                <p><strong>SC Ethics Initial Report Monitor</strong></p>
+                <p>Tracking SC House &amp; Senate candidates who have raised or spent $500+</p>
             </div>
         </div>
-        """
-
-    html_content += """
-    <div style="background-color: #f0f4f8; padding: 15px; margin-top: 20px; border-left: 4px solid #2563eb;">
-        <p style="margin: 0; color: #555;">
-            <strong>What this means:</strong> This candidate has raised or spent at least $500
-            and filed their first required campaign disclosure - indicating serious intent to run.
-        </p>
-    </div>
-    <p style="color: #888; font-size: 12px; margin-top: 20px;">
-        SC Ethics Initial Report Monitor - Tracking new candidate filings for SC House & Senate
-    </p>
     </body>
     </html>
-    """
+    '''
 
     # Try Resend first (preferred), fall back to SendGrid
     if RESEND_API_KEY:
@@ -418,13 +636,17 @@ def _send_via_sendgrid(subject: str, text_content: str, html_content: str) -> bo
 
 def main():
     """
-    Main monitoring function.
+    Main monitoring function - Daily Digest Mode.
 
-    Detects new Initial Reports filed by SC House and Senate candidates.
-    Initial Reports indicate serious candidates who have raised/spent $500+.
+    Sends a daily digest email with:
+    1. New candidates detected in the last 24 hours
+    2. All candidates from the last 30 days
+    3. All 2025 statehouse candidates (cached)
+
+    Always sends email, even if no new candidates detected.
     """
     log("=" * 60)
-    log("SC Ethics Initial Report Monitor - Starting")
+    log("SC Ethics Initial Report Monitor - Daily Digest")
     log("Tracking: SC House & Senate candidates filing Initial Reports")
     log("=" * 60)
 
@@ -441,26 +663,25 @@ def main():
     else:
         log("First run - will establish baseline")
 
-    # Scrape Initial Reports
+    # Scrape Initial Reports for current year
+    historical_2025 = {}
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
 
-            reports = scrape_recent_reports(page, max_pages=3)
+            # Scrape current year Initial Reports
+            reports = scrape_recent_reports(page, max_pages=5)
+
+            # Scrape/refresh 2025 historical data (cached)
+            historical_2025 = scrape_2025_historical(page, state)
 
             browser.close()
     except Exception as e:
         log(f"Error during scraping: {e}")
         sys.exit(1)
 
-    if not reports:
-        log("No Initial Reports found for current year")
-        # Not an error - there may simply be no Initial Reports yet
-        save_state(state)
-        return 0
-
-    log(f"Found {len(reports)} Initial Report(s) total")
+    log(f"Found {len(reports)} Initial Report(s) for current year")
 
     # Find new House/Senate Initial Reports
     new_reports = find_new_reports(reports, state)
@@ -469,18 +690,50 @@ def main():
         log(f"NEW: {len(new_reports)} House/Senate Initial Report(s)!")
         for report in new_reports:
             log(f"  - {report['candidate_name']} ({report['office']})")
-
-        # Send notification
-        send_email_notification(new_reports)
     else:
         log("No new reports detected")
 
-    # Update state with all seen report IDs
+    # Update state with report IDs and metadata
     all_report_ids = list(set(
         state.get("seen_report_ids", []) +
         [r["report_id"] for r in reports]
     ))
     state["seen_report_ids"] = all_report_ids
+
+    # Store metadata for House/Senate reports (for 30-day history)
+    reports_metadata = state.get("reports_with_metadata", {})
+    for r in reports:
+        if is_house_or_senate(r.get("office", "")):
+            reports_metadata[r["report_id"]] = {
+                "candidate_name": r["candidate_name"],
+                "office": r["office"],
+                "report_name": r["report_name"],
+                "filed_date": parse_date(r["last_updated"]),
+                "url": r["url"]
+            }
+    state["reports_with_metadata"] = reports_metadata
+
+    # Update 2025 cache
+    state["historical_2025"] = {
+        "cached_date": datetime.utcnow().isoformat() + "Z",
+        "reports": historical_2025
+    }
+
+    # Calculate last 30 days from metadata
+    last_30_days = get_last_30_days(reports_metadata)
+    log(f"Last 30 days: {len(last_30_days)} House/Senate filings")
+    log(f"2025 historical: {len(historical_2025)} House/Senate filings")
+
+    # ALWAYS send daily digest (not conditional)
+    log("Sending daily digest email...")
+    send_daily_digest(
+        new_reports=new_reports,
+        last_30_days=last_30_days,
+        historical_2025=historical_2025,
+        total_tracked=len(reports_metadata)
+    )
+
+    # Save state
     save_state(state)
 
     log("=" * 60)
