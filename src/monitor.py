@@ -257,45 +257,77 @@ def scrape_recent_reports(page: Page, max_pages: int = 3, election_year: Optiona
     return reports
 
 
-def scrape_2025_historical(page: Page, state: dict) -> dict:
+def scrape_2025_calendar_year(page: Page, state: dict) -> dict:
     """
-    Scrape all 2025 Initial Reports for House/Senate candidates.
-    Uses caching - only refreshes if cache is older than 7 days.
+    Scrape ALL Initial Reports FILED in calendar year 2025 (Jan 1 - Dec 31).
+
+    IMPORTANT: This filters by FILING DATE (when the report was submitted),
+    NOT by election year (which election cycle the report is for).
+
+    Strategy:
+    - Scrape multiple election years (2024, 2025, 2026) to capture all filings
+    - Filter client-side by filed_date to keep only 2025 calendar year filings
+    - This ensures we get Dec 2025 filings for 2024 cycle AND exclude Jan 2026 filings
 
     Returns dict of report metadata keyed by report_id.
     """
-    cached = state.get("historical_2025", {})
-    cached_date = cached.get("cached_date")
+    log("Scraping Initial Reports filed in calendar year 2025...")
 
-    # Check if cache is still valid (within 7 days)
-    if cached_date:
+    # Scrape multiple election years to catch all possible 2025 filings
+    # - 2024 cycle: May have late filings in early 2025
+    # - 2025 cycle: Main target, but election_year filter != filing date
+    # - 2026 cycle: May have early filings in late 2025
+    all_reports = []
+    for election_year in ["2024", "2025", "2026"]:
+        log(f"  Scraping election year {election_year}...")
         try:
-            cache_dt = datetime.fromisoformat(cached_date.replace("Z", "+00:00"))
-            age_days = (datetime.now(cache_dt.tzinfo) - cache_dt).days
-            if age_days < 7 and cached.get("reports"):
-                log(f"Using cached 2025 data ({age_days} days old, {len(cached['reports'])} reports)")
-                return cached["reports"]
-        except Exception:
-            pass
+            reports = scrape_recent_reports(page, max_pages=15, election_year=election_year)
+            all_reports.extend(reports)
+            log(f"    Found {len(reports)} reports for {election_year} cycle")
+        except Exception as e:
+            log(f"    Warning: Could not scrape {election_year}: {e}")
 
-    log("Refreshing 2025 historical data...")
+    # Deduplicate by report_id (same report might appear in multiple years)
+    seen_ids = set()
+    unique_reports = []
+    for r in all_reports:
+        if r["report_id"] not in seen_ids:
+            seen_ids.add(r["report_id"])
+            unique_reports.append(r)
 
-    # Scrape all 2025 Initial Reports (up to 10 pages to get all)
-    reports = scrape_recent_reports(page, max_pages=10, election_year="2025")
+    log(f"  Total unique reports across all years: {len(unique_reports)}")
 
-    # Filter to House/Senate only and convert to metadata dict
+    # Filter to: House/Senate AND filed in calendar year 2025
     historical = {}
-    for r in reports:
-        if is_house_or_senate(r.get("office", "")):
-            historical[r["report_id"]] = {
-                "candidate_name": r["candidate_name"],
-                "office": r["office"],
-                "report_name": r["report_name"],
-                "filed_date": parse_date(r["last_updated"]),
-                "url": r["url"]
-            }
+    excluded_wrong_date = 0
+    excluded_wrong_office = 0
 
-    log(f"Cached {len(historical)} House/Senate Initial Reports from 2025")
+    for r in unique_reports:
+        # Must be House/Senate
+        if not is_house_or_senate(r.get("office", "")):
+            excluded_wrong_office += 1
+            continue
+
+        # Parse the filing date
+        filed_date = parse_date(r["last_updated"])
+
+        # CRITICAL: Filter by FILING DATE, not election year
+        # Only keep reports filed in 2025 (YYYY-MM-DD format starts with "2025-")
+        if not filed_date.startswith("2025-"):
+            excluded_wrong_date += 1
+            continue
+
+        historical[r["report_id"]] = {
+            "candidate_name": r["candidate_name"],
+            "office": r["office"],
+            "election_year": r["election_year"],  # Keep for context
+            "report_name": r["report_name"],
+            "filed_date": filed_date,
+            "url": r["url"]
+        }
+
+    log(f"  Filtered: {excluded_wrong_office} non-House/Senate, {excluded_wrong_date} not filed in 2025")
+    log(f"  Result: {len(historical)} House/Senate Initial Reports filed in 2025")
     return historical
 
 
@@ -418,7 +450,7 @@ def send_daily_digest(
     text_content += "\n"
 
     # Section 3: 2025 Historical
-    text_content += "2025 STATEHOUSE CANDIDATES\n"
+    text_content += "INITIAL REPORTS FILED IN 2025\n"
     text_content += "-" * 40 + "\n"
     text_content += f"  {len(historical_2025)} candidates tracked\n"
     text_content += "\n"
@@ -515,11 +547,11 @@ def send_daily_digest(
 
     # Section 3: 2025 Historical Summary
     html_content += '<div class="section">'
-    html_content += '<div class="section-header">2025 Statehouse Candidates</div>'
+    html_content += '<div class="section-header">Initial Reports Filed in 2025</div>'
     html_content += f'''
     <div class="stats-box">
         <div class="stats-number">{len(historical_2025)}</div>
-        <div class="stats-label">candidates have filed Initial Reports for 2025</div>
+        <div class="stats-label">House/Senate candidates filed Initial Reports during 2025</div>
     </div>
     '''
 
@@ -674,7 +706,7 @@ def main():
             reports = scrape_recent_reports(page, max_pages=5)
 
             # Scrape/refresh 2025 historical data (cached)
-            historical_2025 = scrape_2025_historical(page, state)
+            historical_2025 = scrape_2025_calendar_year(page, state)
 
             browser.close()
     except Exception as e:
