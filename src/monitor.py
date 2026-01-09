@@ -75,6 +75,26 @@ def format_date_display(iso_date: str) -> str:
         return iso_date
 
 
+def format_date_compact(iso_date: str) -> str:
+    """Convert '2026-01-08' to 'Jan 08' for compact table display."""
+    if not iso_date:
+        return ""
+    try:
+        dt = datetime.strptime(iso_date, "%Y-%m-%d")
+        return dt.strftime("%b %d")
+    except ValueError:
+        return iso_date
+
+
+def abbreviate_office(office: str) -> str:
+    """Shorten office names for compact table display."""
+    if not office:
+        return ""
+    return (office
+        .replace("SC House of Representatives District ", "House ")
+        .replace("SC Senate District ", "Senate "))
+
+
 def get_last_30_days(reports_metadata: dict) -> list[dict]:
     """Get reports from last 30 days, sorted by date descending."""
     cutoff = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
@@ -465,11 +485,11 @@ def send_daily_digest(
     <head>
         <style>
             body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; }}
-            .container {{ max-width: 680px; margin: 0 auto; background: white; }}
-            .header {{ background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 24px 20px; text-align: center; }}
-            .header h1 {{ margin: 0 0 8px 0; font-size: 22px; font-weight: 600; }}
-            .header p {{ margin: 0; opacity: 0.9; font-size: 14px; }}
-            .section {{ padding: 20px; border-bottom: 1px solid #e2e8f0; }}
+            .container {{ max-width: 900px; margin: 0 auto; background: white; }}
+            .header {{ background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 20px 16px; text-align: center; }}
+            .header h1 {{ margin: 0 0 6px 0; font-size: 20px; font-weight: 600; }}
+            .header p {{ margin: 0; opacity: 0.9; font-size: 13px; }}
+            .section {{ padding: 12px 16px; border-bottom: 1px solid #e2e8f0; }}
             .section-header {{ font-size: 16px; font-weight: 600; color: #1e293b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }}
             .section-header .badge {{ background: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }}
             .no-new {{ color: #64748b; font-style: italic; padding: 12px 0; }}
@@ -480,9 +500,9 @@ def send_daily_digest(
             .candidate-date {{ color: #94a3b8; font-size: 13px; }}
             .view-link {{ display: inline-block; margin-top: 10px; background: #2563eb; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 13px; font-weight: 500; }}
             .view-link:hover {{ background: #1d4ed8; }}
-            table {{ width: 100%; border-collapse: collapse; font-size: 14px; }}
-            th {{ text-align: left; padding: 10px 8px; background: #f1f5f9; color: #475569; font-weight: 600; border-bottom: 2px solid #e2e8f0; }}
-            td {{ padding: 10px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }}
+            table {{ width: 100%; border-collapse: collapse; font-size: 13px; }}
+            th {{ text-align: left; padding: 6px 8px; background: #f1f5f9; color: #475569; font-weight: 600; font-size: 12px; border-bottom: 2px solid #e2e8f0; }}
+            td {{ padding: 5px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; line-height: 1.3; }}
             td a {{ color: #2563eb; text-decoration: none; }}
             td a:hover {{ text-decoration: underline; }}
             .stats-box {{ background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; text-align: center; }}
@@ -530,12 +550,13 @@ def send_daily_digest(
             <tbody>
         '''
         for r in last_30_days[:20]:  # Limit to 20 rows
-            date_display = format_date_display(r.get("filed_date", ""))
+            date_display = format_date_compact(r.get("filed_date", ""))
+            office_short = abbreviate_office(r['office'])
             html_content += f'''
                 <tr>
                     <td>{date_display}</td>
                     <td><a href="{r.get('url', '#')}">{r['candidate_name']}</a></td>
-                    <td>{r['office']}</td>
+                    <td>{office_short}</td>
                 </tr>
             '''
         html_content += '</tbody></table>'
@@ -555,32 +576,68 @@ def send_daily_digest(
     </div>
     '''
 
-    # Show a compact table of 2025 candidates
+    # Show ALL 2025 candidates in a two-column layout
     if historical_2025:
         sorted_2025 = sorted(
             [{"report_id": k, **v} for k, v in historical_2025.items()],
             key=lambda x: x.get("filed_date", ""),
             reverse=True
         )
+
+        # Split into two columns (first half gets extra if odd number)
+        mid = len(sorted_2025) // 2 + len(sorted_2025) % 2
+        left_col = sorted_2025[:mid]
+        right_col = sorted_2025[mid:]
+
+        # Two-column container using table layout (email-safe)
         html_content += '''
-        <table style="margin-top: 16px;">
-            <thead>
-                <tr><th>Date</th><th>Candidate</th><th>Office</th></tr>
-            </thead>
-            <tbody>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 12px;">
+            <tr>
+                <td width="49%" valign="top" style="padding-right: 8px;">
+                    <table width="100%" style="font-size: 12px;">
+                        <thead>
+                            <tr><th style="padding: 4px 6px; font-size: 11px;">Date</th><th style="padding: 4px 6px; font-size: 11px;">Candidate</th><th style="padding: 4px 6px; font-size: 11px;">Office</th></tr>
+                        </thead>
+                        <tbody>
         '''
-        for r in sorted_2025[:30]:  # Show up to 30
-            date_display = format_date_display(r.get("filed_date", ""))
+        for r in left_col:
+            date_display = format_date_compact(r.get("filed_date", ""))
+            office_short = abbreviate_office(r['office'])
             html_content += f'''
-                <tr>
-                    <td>{date_display}</td>
-                    <td><a href="{r.get('url', '#')}">{r['candidate_name']}</a></td>
-                    <td>{r['office']}</td>
-                </tr>
+                            <tr>
+                                <td style="padding: 3px 6px; font-size: 12px;">{date_display}</td>
+                                <td style="padding: 3px 6px; font-size: 12px;"><a href="{r.get('url', '#')}" style="color: #2563eb; text-decoration: none;">{r['candidate_name']}</a></td>
+                                <td style="padding: 3px 6px; font-size: 12px;">{office_short}</td>
+                            </tr>
             '''
-        html_content += '</tbody></table>'
-        if len(sorted_2025) > 30:
-            html_content += f'<p style="color: #64748b; font-size: 13px; margin-top: 8px;">... and {len(sorted_2025) - 30} more</p>'
+        html_content += '''
+                        </tbody>
+                    </table>
+                </td>
+                <td width="49%" valign="top" style="padding-left: 8px;">
+                    <table width="100%" style="font-size: 12px;">
+                        <thead>
+                            <tr><th style="padding: 4px 6px; font-size: 11px;">Date</th><th style="padding: 4px 6px; font-size: 11px;">Candidate</th><th style="padding: 4px 6px; font-size: 11px;">Office</th></tr>
+                        </thead>
+                        <tbody>
+        '''
+        for r in right_col:
+            date_display = format_date_compact(r.get("filed_date", ""))
+            office_short = abbreviate_office(r['office'])
+            html_content += f'''
+                            <tr>
+                                <td style="padding: 3px 6px; font-size: 12px;">{date_display}</td>
+                                <td style="padding: 3px 6px; font-size: 12px;"><a href="{r.get('url', '#')}" style="color: #2563eb; text-decoration: none;">{r['candidate_name']}</a></td>
+                                <td style="padding: 3px 6px; font-size: 12px;">{office_short}</td>
+                            </tr>
+            '''
+        html_content += '''
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        '''
 
     html_content += '</div>'
 
