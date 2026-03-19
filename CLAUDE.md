@@ -4,7 +4,7 @@
 
 ```bash
 # This project monitors SC Ethics Commission for NEW CANDIDATE Initial Reports
-# Target: SC House and Senate candidates only
+# Target: SC House of Representatives only (124 districts)
 # Purpose: Help party recruiters identify serious candidates early
 # Repository: https://github.com/russellteter/sc-ethics-monitor
 # Status: OPERATIONAL - Email notifications working via Resend
@@ -16,12 +16,12 @@
 
 | Attribute | Value |
 |-----------|-------|
-| **Purpose** | Detect new SC House & Senate candidates via Initial Report filings |
+| **Purpose** | Detect new SC House candidates via Initial Report filings |
 | **What's an Initial Report?** | First required filing when candidate raises/spends $500 |
 | **Why it matters** | Earliest signal of serious candidate intent |
 | **Primary Output** | Email alerts when new candidates file Initial Reports |
-| **Scope** | SC House (124 districts) + SC Senate (46 districts) only |
-| **Schedule** | Daily at 9:00 AM EST via GitHub Actions |
+| **Scope** | SC House of Representatives only (124 districts) |
+| **Schedule** | Daily at 7:00 PM EST (this repo) / 6:30 PM EDT (VREMS primary) |
 | **Cost** | $0/month (free tier services) |
 | **Status** | Production-ready, operational |
 
@@ -33,7 +33,7 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                    DAILY WORKFLOW                           │
 ├─────────────────────────────────────────────────────────────┤
-│  GitHub Actions (9 AM EST)                                  │
+│  GitHub Actions (7 PM EST)                                  │
 │         │                                                   │
 │         ▼                                                   │
 │  Python Script (src/monitor.py)                             │
@@ -45,7 +45,7 @@
 │  Extract Initial Reports                                    │
 │         │                                                   │
 │         ▼                                                   │
-│  Filter to House/Senate only (post-scrape)                  │
+│  Filter to House only (post-scrape)                         │
 │         │                                                   │
 │         ▼                                                   │
 │  Compare to state.json (seen report IDs)                    │
@@ -57,6 +57,24 @@
 │  Update state.json → Commit to repo                         │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## Related Repos & Daily Pipeline
+
+This repo is ONE part of a 3-repo system. Most work spans all three.
+
+| Repo | Path | Purpose | Schedule (EDT) |
+|------|------|---------|----------------|
+| **sc-vrems-filing-monitor** | `~/Desktop/sc-vrems-filing-monitor` | Primary scraper + email (VREMS CSV data) | 6:30 PM |
+| **sc-filing-coverage-map** | `~/Desktop/sc-filing-coverage-map` | Interactive district map (Next.js, GitHub Pages) | 6:10 PM |
+| **sc-ethics-report-monitor** | `~/Desktop/sc-ethics-report-monitor` | This repo — Ethics Commission scraper (secondary) | 7:00 PM |
+
+**Pipeline order:** Map refresh (6:10 PM) → VREMS scrape + email (6:30 PM)
+Map must be fresh before email sends because recipients click the map link.
+
+**Data flow:** VREMS CSV → state.json → generate-from-vrems.py → candidates.json → map
+**Key distinction:** `candidates.json` = actual filings. `party-data.json` = static incumbent reference. Never mix them for status/coloring.
 
 ---
 
@@ -88,10 +106,16 @@ sc-ethics-report-monitor/
 | Function | Purpose |
 |----------|---------|
 | `scrape_recent_reports()` | Navigate website with "Initial" report filter, extract filing data |
-| `is_house_or_senate()` | Filter results to SC House and Senate only |
-| `find_new_reports()` | Compare scraped IDs against state.json, apply House/Senate filter |
-| `send_email_notification()` | Send formatted alert via Resend (or SendGrid fallback) |
-| `load_state()` / `save_state()` | Persist seen report IDs |
+| `is_state_house()` | Filter results to SC House only (124 districts) |
+| `find_new_reports()` | Compare scraped IDs against state.json, apply House filter |
+| `build_email_template_a()` | Generate Locality AI branded HTML email (720px, teal palette) |
+| `send_daily_digest()` | Merge data sources, select template, send via Resend |
+| `send_test_emails()` | Send test email with mock data (--test-email CLI) |
+| `format_candidate_name()` | Convert "Last, First M" → "First M Last" |
+| `format_district()` | Extract "District 91" from full office string |
+| `_district_competitor_count()` | Count other candidates in same district |
+| `_days_since_filing()` | Human-readable age: "3d", "2w", "8mo" |
+| `load_state()` / `save_state()` | Persist seen report IDs with validation |
 
 **Key Configuration:**
 ```python
@@ -99,26 +123,30 @@ CAMPAIGN_REPORTS_URL = "https://ethicsfiling.sc.gov/public/campaign-reports/repo
 STATE_FILE = Path(__file__).parent.parent / "state.json"
 max_pages = 3  # Scrapes recent Initial Reports
 
-# House/Senate filtering patterns
-HOUSE_SENATE_PATTERNS = [
-    "house of representatives", "sc house", "state house",
-    "senate", "sc senate", "state senate"
+# House-only filtering patterns (scope narrowed March 2026)
+STATE_HOUSE_PATTERNS = [
+    "sc house of representatives",
+    "house of representatives district",
 ]
 ```
 
 ### 2. GitHub Actions: `.github/workflows/monitor.yml`
 
 **Triggers:**
-- Scheduled: `cron: '0 14 * * *'` (9 AM EST / 2 PM UTC)
+- Scheduled: `cron: '0 0 * * *'` (7 PM EST / midnight UTC)
 - Manual: `workflow_dispatch` (can trigger from Actions tab)
 
 **Required Secrets:**
 | Secret | Description | Current Value |
 |--------|-------------|---------------|
-| `RESEND_API_KEY` | Resend API key for email | `re_YvUK2c6w_...` (set) |
+| `RESEND_API_KEY` | Resend API key for email | `re_E9v9kKYM_...` (production, for `alerts@info.locality-ai.com`) |
 | `NOTIFICATION_EMAIL` | Recipient email | `russell.teter@gmail.com` |
-| `FROM_EMAIL` | Sender email | `onboarding@resend.dev` |
+| `FROM_EMAIL` | Sender email | `alerts@info.locality-ai.com` |
 | `SENDGRID_API_KEY` | (Fallback) SendGrid key | Set but expired trial |
+
+**API Key Notes:**
+- Production key `re_E9v9kKYM_9cm1pNZVf2cK5jg5NB2Y8x1H` works with verified domain `alerts@info.locality-ai.com`
+- Test key `re_YvUK2c6w_...` only works with `onboarding@resend.dev` test sender
 
 ### 3. State File: `state.json`
 
@@ -143,9 +171,9 @@ HOUSE_SENATE_PATTERNS = [
 - Resend free tier: 100 emails/day, 3,000/month
 - Simple REST API, minimal code changes
 
-**Current Sender:** `onboarding@resend.dev` (Resend test domain)
+**Current Sender:** `alerts@info.locality-ai.com` (verified custom domain)
 
-**To use custom domain:** Verify domain at https://resend.com/domains
+**Test Sender:** `onboarding@resend.dev` (Resend test domain, use with test key only)
 
 ---
 
@@ -192,7 +220,7 @@ gh secret set SECRET_NAME --repo russellteter/sc-ethics-monitor --body "value"
 
 **What's Monitored:**
 - **Initial Reports only** - the first campaign disclosure when $500 is raised/spent
-- **SC House and SC Senate candidates only** - County, Municipal, School Board excluded
+- **SC House of Representatives candidates only** - Senate, County, Municipal, School Board excluded
 - Current election year
 
 **Why Initial Reports Matter:**
@@ -203,7 +231,7 @@ Each report has a unique `reportId` in the URL (e.g., `reportId=414669`). These 
 
 **Filtering Logic:**
 1. Website filter: Report Type = "Initial"
-2. Post-scrape filter: Office must contain "house", "senate" (case-insensitive)
+2. Post-scrape filter: Office must match SC House of Representatives patterns
 
 ---
 
@@ -212,7 +240,7 @@ Each report has a unique `reportId` in the URL (e.g., `reportId=414669`). These 
 ### Email Not Sending
 
 1. **Check Resend API key:** Verify `RESEND_API_KEY` secret is set
-2. **Check FROM_EMAIL:** Must be `onboarding@resend.dev` or a verified domain
+2. **Check FROM_EMAIL:** Must be `alerts@info.locality-ai.com` or `onboarding@resend.dev` (with matching API key)
 3. **Check logs:** `gh run view <id> --log | grep -i "email\|resend"`
 
 ### Scraper Failing
@@ -231,12 +259,12 @@ This is normal if no new filings since last check. To force an email:
 
 ## Future Enhancement Ideas
 
-- [ ] Filter for specific candidates or offices only
+- [x] Custom email domain (`alerts@info.locality-ai.com` — verified)
 - [ ] Add SMS notifications (Twilio)
 - [ ] Multiple check times per day
-- [ ] Custom email templates with better formatting
 - [ ] Dashboard showing historical filing data
 - [ ] AI-powered analysis of filing contents
+- [ ] Incumbent matching data integration
 
 ---
 
@@ -261,6 +289,32 @@ This is normal if no new filings since last check. To force an email:
 - Updated email template for candidate tracking use case
 - Verified spec against live website (all URL patterns work)
 
+**House-Only Scope + Branded Templates:** March 8, 2026
+- Narrowed scope from House & Senate to **SC House only** (124 districts)
+- Renamed `is_house_or_senate()` → `is_state_house()`, updated patterns
+- Removed Senate entries from state.json
+- Built two email templates with **Locality AI branding** (teal palette, Syne font)
+- **Template A selected** for production ("Daily Brief" layout)
+- Template width: 720px for better table readability
+- New data columns: Cycle (election year), In Dist (competitor count, red when >1), Age (time since filing)
+- Header stats integrated: Tracked / Districts Active / Contested
+- Subject line: `SC House Candidate Filings Report - N New Candidates Today - M/D`
+- Schedule changed to **7 PM EST** (cron: 0 0 * * *)
+- Added `--test-email` CLI mode with mock data
+- Added retry logic, structured logging, state validation, party detection try/except
+- Resend API requires `User-Agent` header to avoid Cloudflare 1010 blocks
+- **Next**: 3/16 morning testing, then rewire NOTIFICATION_EMAIL to Brady for 7 PM launch
+
+---
+
+## Gotchas
+
+- `sheets_sync.py` hangs on import when Google credentials aren't available — don't import it locally
+- Resend API requires `User-Agent` header or Cloudflare blocks with error 1010
+- `party-data.json` incumbents are reference context ONLY — never use them to determine filing status or coverage stats
+- Coverage stats (Dem Filed, Coverage %, Gaps) are computed in 3 places in the map repo: `districtColors.ts`, `lensKpis.ts`, `PartyFilingSummary.tsx` — fix all or none
+- Google Sheet ID: `1_SztBdJyl4FoPrtPiduKvrrnttisZDAJRLiHeoyFxLY`
+
 ---
 
 ## Repository
@@ -273,5 +327,7 @@ This is normal if no new filings since last check. To force an email:
 
 ## Contact
 
-- **Notification Recipient:** russell.teter@gmail.com
+- **Production Recipients:** bradyqg@gmail.com, russell@locality-ai.com, taylor@taylorculliver.com
 - **Resend Account:** (linked via GitHub OAuth)
+- **Production API Key:** `re_E9v9kKYM_9cm1pNZVf2cK5jg5NB2Y8x1H` (for `alerts@info.locality-ai.com`)
+- **Test API Key:** `re_YvUK2c6w_NP2geC7xwz9XKxK4nxiABadv` (for `onboarding@resend.dev` only)
