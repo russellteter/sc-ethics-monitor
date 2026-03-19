@@ -5,9 +5,9 @@
 
 ### What Is This?
 
-The SC Ethics Filing Monitor is an automated system that watches the South Carolina Ethics Commission website for new campaign disclosure filings and sends email alerts when new reports are submitted.
+The SC Ethics Initial Report Monitor is an automated system that watches the South Carolina Ethics Commission website for new **Initial Report** filings — the first campaign disclosure required when a candidate raises or spends $500. It sends branded email alerts when new SC House of Representatives candidates file.
 
-**In simple terms:** Instead of manually checking the state website every day to see if politicians have filed new financial disclosures, this system checks automatically and emails you when something new appears.
+**In simple terms:** This system automatically detects when someone becomes a serious candidate for the SC House by filing their first financial disclosure, and immediately notifies you via email.
 
 ---
 
@@ -23,19 +23,9 @@ The SC Ethics Commission does not offer any notification service. If you want to
 
 ### What Does It Monitor?
 
-The system monitors **campaign disclosure reports** filed with the SC Ethics Commission, including:
+The system monitors **Initial Reports** filed with the SC Ethics Commission — the first required campaign disclosure when a candidate raises or spends $500. This is the earliest official signal that someone is serious about running.
 
-- Quarterly Reports (Q1, Q2, Q3, Q4)
-- Initial Campaign Reports
-- Pre-Election Reports
-- Supplemental Reports
-
-These reports are filed by candidates for:
-- SC House of Representatives
-- SC Senate
-- County offices (Treasurer, Sheriff, Council, etc.)
-- Municipal offices
-- Statewide offices
+**Scope:** SC House of Representatives only (124 districts). Senate, County, Municipal, and Statewide candidates are filtered out.
 
 ---
 
@@ -46,7 +36,7 @@ These reports are filed by candidates for:
 │                         DAILY PROCESS                           │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│   9:00 AM EST                                                   │
+│   7:00 PM EST                                                   │
 │      │                                                          │
 │      ▼                                                          │
 │   ┌─────────────────────┐                                       │
@@ -195,21 +185,16 @@ The system runs entirely on free tiers and requires no ongoing maintenance costs
 
 ---
 
-### Sample Email Notification
+### Email Notifications
 
-When new filings are detected, you receive an email like this:
+When new candidates file, you receive a branded Locality AI email with:
 
-**Subject:** SC Ethics Monitor: 3 New Filing(s) Detected
+- **Header stats:** Dem Filed, Coverage %, Gaps, New Today
+- **Filed Today table:** New candidates with district, party, filed date
+- **All Tracked table:** Complete candidate list with filing age and competitor count
+- **Quick links:** Interactive Coverage Map + Google Sheet tracker
 
-**Body:**
-
-| Candidate | Office | Report | Updated | Link |
-|-----------|--------|--------|---------|------|
-| Smith, John | SC House District 45 | Quarter 4, 2025 Report | 01/08/2025 | [View] |
-| Johnson, Mary | SC Senate District 12 | Pre-Election Report | 01/08/2025 | [View] |
-| Williams, Robert | Richland County Sheriff | Initial Report 2025 | 01/08/2025 | [View] |
-
-Each "View" link goes directly to that report on the official Ethics Commission website.
+The email uses a teal/dark palette (Syne font) and is designed for 720px readability.
 
 ---
 
@@ -238,17 +223,18 @@ Each "View" link goes directly to that report on the official Ethics Commission 
 
 | Setting | Value |
 |---------|-------|
-| Check Frequency | Once daily at 9:00 AM EST |
+| Check Frequency | Once daily at 7:00 PM EST |
+| Report Type | Initial Reports only (first $500 disclosure) |
+| Scope | SC House of Representatives (124 districts) |
 | Reports Checked | ~45 most recent (3 pages) |
-| Filter | Current year filings only |
-| Notification Method | Email |
+| Notification Method | Email via Resend (`alerts@info.locality-ai.com`) |
 
 ---
 
 ### Questions?
 
 **Q: How quickly will I know about a new filing?**
-A: Within 24 hours. The system runs once daily. If a report is filed at 10 AM, you'll know by 9 AM the next day.
+A: Within 24 hours. The system runs once daily at 7 PM EST. If a report is filed during the day, you'll know by that evening.
 
 **Q: Can we check more frequently?**
 A: Yes. The schedule can be changed to run multiple times per day (e.g., every 6 hours) with a simple configuration change.
@@ -276,5 +262,5 @@ It replaces the tedious manual process of checking the website and ensures you n
 
 ---
 
-*Document prepared: January 2026*
-*System Status: Operational*
+*Document prepared: January 2026, updated March 2026*
+*System Status: Operational — sending daily to production recipients*
