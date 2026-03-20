@@ -66,12 +66,12 @@ This repo is ONE part of a 3-repo system. Most work spans all three.
 
 | Repo | Path | Purpose | Schedule (EDT) |
 |------|------|---------|----------------|
-| **sc-vrems-filing-monitor** | `~/Desktop/sc-vrems-filing-monitor` | Primary scraper + email (VREMS CSV data) | 6:30 PM |
-| **sc-filing-coverage-map** | `~/Desktop/sc-filing-coverage-map` | Interactive district map (Next.js, GitHub Pages) | 6:10 PM |
-| **sc-ethics-report-monitor** | `~/Desktop/sc-ethics-report-monitor` | This repo — Ethics Commission scraper (secondary) | 7:00 PM |
+| **sc-vrems-filing-monitor** | `~/Desktop/sc-vrems-filing-monitor` | Primary scraper + email (VREMS CSV data) | 6:10 PM |
+| **sc-filing-coverage-map** | `~/Desktop/sc-filing-coverage-map` | Interactive district map (Next.js, GitHub Pages) | 6:30 PM |
+| **sc-ethics-report-monitor** | `~/Desktop/sc-ethics-report-monitor` | This repo — Ethics Commission scraper (secondary) | 8:00 PM |
 
-**Pipeline order:** Map refresh (6:10 PM) → VREMS scrape + email (6:30 PM)
-Map must be fresh before email sends because recipients click the map link.
+**Pipeline order:** VREMS scrape (6:10 PM) → Map refresh + auto-deploy (6:30 PM) → Email sends link to fresh map
+VREMS must commit state.json before the map fetches it. Map uses PAT checkout so its push auto-triggers deploy.
 
 **Data flow:** VREMS CSV → state.json → generate-from-vrems.py → candidates.json → map
 **Key distinction:** `candidates.json` = actual filings. `party-data.json` = static incumbent reference. Never mix them for status/coloring.
