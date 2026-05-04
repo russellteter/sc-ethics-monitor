@@ -143,16 +143,35 @@ test.describe("Dashboard", () => {
 
 test.describe("Dashboard - visual", () => {
   // One baseline only. Mobile reflows are covered by interaction tests above.
-  test.skip(
-    ({ browserName }, testInfo) => testInfo.project.name !== "chromium",
-    "visual baseline pinned to chromium",
-  );
+  test.beforeEach(({}, testInfo) => {
+    test.skip(
+      testInfo.project.name !== "chromium",
+      "visual baseline pinned to chromium",
+    );
+  });
 
   test("visual snapshot — main dashboard view", async ({ page }) => {
     await page.goto("/");
+    // Make sure the table has rendered all rows before screenshotting,
+    // otherwise the page height shifts as data hydrates.
+    await expect(page.locator("tbody tr")).toHaveCount(6);
+    await expect(page.getByText("Marvin Pendarvis").first()).toBeVisible();
     await page.waitForLoadState("networkidle");
-    // Wait for webfont (Syne) so the first run's pixels match subsequent runs.
-    await page.evaluate(() => document.fonts.ready);
+    // Wait for webfonts (Syne) AND tailwind CSS to apply before screenshot.
+    // Without this, a parallel cold load can capture an unstyled DOM.
+    await page.evaluate(async () => {
+      await document.fonts.ready;
+      // Confirm tailwind utility class actually applied — sticky header has
+      // background color from CSS. If the rule didn't load, getComputedStyle
+      // returns rgba(0,0,0,0) and we wait briefly.
+      const header = document.querySelector("header");
+      if (!header) return;
+      for (let i = 0; i < 20; i++) {
+        const bg = getComputedStyle(header).backgroundColor;
+        if (bg && bg !== "rgba(0, 0, 0, 0)") return;
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    });
     await expect(page).toHaveScreenshot("dashboard-main.png", {
       fullPage: true,
       maxDiffPixelRatio: 0.02,
