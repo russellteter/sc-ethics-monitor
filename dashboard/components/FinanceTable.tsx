@@ -137,7 +137,7 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") onSelect(c);
                   }}
-                  className="border-b border-line last:border-0 hover:bg-[#FAFCFC] cursor-pointer focus:outline-none focus:bg-teal-primary/10"
+                  className="border-b border-line last:border-0 hover:bg-teal-primary/[0.04] cursor-pointer focus:outline-none focus:bg-teal-primary/10 transition-colors"
                 >
                   <td className="px-4 py-3">
                     <strong>{c.name}</strong>
@@ -164,7 +164,11 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
                   >
                     {formatCurrency(r?.cash_on_hand ?? null)}
                   </td>
-                  <td className={`px-4 py-3 ${isMissing ? "text-muted" : ""}`}>
+                  <td
+                    className={`px-4 py-3 text-[12px] tabular ${
+                      isMissing ? "text-muted" : "text-muted"
+                    }`}
+                  >
                     {formatDate(r?.filed_date ?? null)}
                   </td>
                   <td className="px-4 py-3">
