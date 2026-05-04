@@ -4,6 +4,7 @@ import pytest
 
 from src.finance.resolver import (
     UrlParams,
+    find_latest_quarterly_from_rows,
     resolve_from_cache,
     resolve_from_ethics_state,
     resolve_with_fallback,
@@ -132,3 +133,41 @@ def test_update_cache_creates_new_file(tmp_path):
     assert cache_file.exists()
     data = json.loads(cache_file.read_text())
     assert "x" in data
+
+
+# ----- find_latest_quarterly_from_rows -----
+
+
+def test_picks_newest_quarterly():
+    rows = [
+        {"report_type": "Initial", "filed_date": "2026-01-15", "reportId": "1", "url": "u1"},
+        {"report_type": "Quarterly", "filed_date": "2026-01-15", "reportId": "2", "url": "u2",
+         "period_label": "Q4 2025", "is_amended": False},
+        {"report_type": "Quarterly", "filed_date": "2026-04-10", "reportId": "3", "url": "u3",
+         "period_label": "Q1 2026", "is_amended": False},
+    ]
+    result = find_latest_quarterly_from_rows(rows)
+    assert result["reportId"] == "3"
+
+
+def test_returns_none_when_no_quarterly():
+    rows = [
+        {"report_type": "Initial", "filed_date": "2026-01-15", "reportId": "1", "url": "u1"}
+    ]
+    assert find_latest_quarterly_from_rows(rows) is None
+
+
+def test_returns_none_when_rows_empty():
+    assert find_latest_quarterly_from_rows([]) is None
+
+
+def test_amendment_supersedes_when_newer():
+    rows = [
+        {"report_type": "Quarterly", "filed_date": "2026-04-10", "reportId": "3", "url": "u3",
+         "period_label": "Q1 2026", "is_amended": False},
+        {"report_type": "Quarterly", "filed_date": "2026-04-15", "reportId": "4", "url": "u4",
+         "period_label": "Q1 2026", "is_amended": True},
+    ]
+    result = find_latest_quarterly_from_rows(rows)
+    assert result["reportId"] == "4"
+    assert result["is_amended"] is True
