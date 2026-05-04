@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-04T13:55:00-04:00",
+  "cycle": "2026",
+  "candidates": [
+    {
+      "id": "bauer-heather-75",
+      "name": "Heather Bauer",
+      "district": 75,
+      "party": "D",
+      "personId": "45921",
+      "seiId": "51547",
+      "officeId": "71866",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418208",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-10",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=45921&seiId=51547&officeId=71866&reportId=418208",
+        "is_amended": false,
+        "period_raised": 32806.9,
+        "total_raised": 89372.11,
+        "cash_on_hand": 68448.57
+      },
+      "history": [],
+      "last_error": null
+    }
+  ],
+  "stats": {
+    "total_dem_house": 1,
+    "filed": 1,
+    "not_filed": 0,
+    "scrape_failed": 0,
+    "median_coh": 68448.57,
+    "top_coh": 68448.57,
+    "top_coh_candidate": "Heather Bauer",
+    "top_coh_district": 75,
+    "total_q_raised": 32806.9,
+    "total_coh_all": 68448.57
+  }
+}

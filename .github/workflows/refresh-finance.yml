@@ -1,0 +1,99 @@
+name: Refresh house finance data
+
+on:
+  schedule:
+    # Sun 23:00 EST (UTC-5) = Mon 04:00 UTC
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'What triggered this run'
+        required: false
+        default: 'manual'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-finance
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout (this repo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout VREMS sibling repo (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: russellteter/sc-vrems-filing-monitor
+          path: ../sc-vrems-filing-monitor
+          ref: main
+          token: ${{ secrets.VREMS_READ_PAT }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install Python deps
+        run: pip install -r requirements-dev.txt
+      - name: Install Playwright browsers
+        run: python -m playwright install --with-deps chromium
+      - name: Run scraper
+        env:
+          PYTHONUNBUFFERED: '1'
+          REFRESH_REASON: ${{ inputs.reason || 'cron' }}
+        run: python -m src.finance
+      - name: Show stats
+        run: |
+          python -c "
+          import json
+          d = json.load(open('data/house_finance.json'))
+          print(f\"  generated_at: {d['generated_at']}\")
+          print(f\"  candidates: {len(d['candidates'])}\")
+          print(f\"  filed: {d['stats']['filed']}\")
+          print(f\"  not_filed: {d['stats']['not_filed']}\")
+          print(f\"  scrape_failed: {d['stats']['scrape_failed']}\")
+          "
+      - name: Commit artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/house_finance.json data/personId_cache.json
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "chore(data): refresh house_finance.json [skip ci]"
+            git push
+          fi
+      - name: Notify on failure
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFICATION_EMAIL: ${{ secrets.NOTIFICATION_EMAIL }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+        run: |
+          python - <<'PY'
+          import os, json, urllib.request
+          api = os.environ.get("RESEND_API_KEY")
+          if not api: raise SystemExit(0)
+          run_url = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY')}/actions/runs/{os.environ.get('GITHUB_RUN_ID')}"
+          body = {
+              "from": os.environ.get("FROM_EMAIL", "alerts@info.locality-ai.com"),
+              "to": [os.environ.get("NOTIFICATION_EMAIL", "russell@locality-ai.com")],
+              "subject": "[FAIL] SC House finance refresh",
+              "text": f"Scraper failed. Run: {run_url}"
+          }
+          req = urllib.request.Request(
+              "https://api.resend.com/emails",
+              data=json.dumps(body).encode(),
+              headers={"Authorization": f"Bearer {api}", "Content-Type": "application/json", "User-Agent": "sc-house-finance-monitor/1.0"},
+              method="POST",
+          )
+          urllib.request.urlopen(req, timeout=20)
+          PY

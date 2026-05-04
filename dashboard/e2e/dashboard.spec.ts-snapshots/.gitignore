@@ -1,0 +1,2 @@
+# Override the root .gitignore *.png rule so visual baselines are tracked.
+!*.png
