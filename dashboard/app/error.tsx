@@ -16,7 +16,7 @@ export default function Error({ error, reset }: Props) {
     <div className="min-h-[60vh] flex items-center justify-center p-8">
       <div className="max-w-md w-full text-center bg-card border border-line rounded-lg shadow-card p-6">
         <h2 className="font-display text-xl font-bold mb-2 text-ink">
-          Couldn't load data
+          Couldn&apos;t load data
         </h2>
         <p className="text-sm text-muted mb-4">
           {error?.message || "An unexpected error occurred."}
