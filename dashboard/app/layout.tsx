@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "SC House Dem Finance — Locality AI",
-  description: "Q1 quarterly campaign-finance disclosures for Democrat SC State House candidates.",
+  description:
+    "Q1 quarterly campaign-finance disclosures for Democrat SC State House candidates.",
+  icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
   openGraph: { images: ["/og.png"] },
 };
 
