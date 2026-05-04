@@ -23,14 +23,13 @@ from src.finance import config
 from src.finance.builder import ScrapeFailureRateExceeded, build_artifact
 from src.finance.fetcher import fetch_html, make_playwright_fetcher
 from src.finance.parser import parse_report_detail
-from src.finance.party_loader import load_party_overrides
 from src.finance.playwright_ops import fetch_reports_list, search_personId
 from src.finance.resolver import (
     UrlParams,
     find_latest_quarterly_from_rows,
     resolve_with_fallback,
 )
-from src.finance.roster import load_dem_house_roster
+from src.finance.roster import load_dem_house_roster_with_detection
 
 
 def _now_iso() -> str:
@@ -71,7 +70,6 @@ def main(argv: list[str] | None = None) -> int:
     log = logging.getLogger("finance.main")
 
     log.info("loading roster …")
-    party_overrides = load_party_overrides()
     if not config.VREMS_STATE_PATH.exists():
         log.warning(
             "VREMS state file not found at %s — cannot build roster",
@@ -79,7 +77,10 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(f"roster size: 0 Dem House candidates (VREMS state missing at {config.VREMS_STATE_PATH})")
         return 0 if args.dry_run else 2
-    candidates = load_dem_house_roster(config.VREMS_STATE_PATH, party_overrides)
+    candidates = load_dem_house_roster_with_detection(
+        vrems_state_path=config.VREMS_STATE_PATH,
+        party_cache_path=config.PARTY_CACHE_PATH,
+    )
     log.info("roster size: %d Dem House candidates", len(candidates))
     print(f"roster size: {len(candidates)} Dem House candidates")
 

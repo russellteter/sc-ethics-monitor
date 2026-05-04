@@ -45,6 +45,7 @@ def test_dry_run_loads_roster_and_returns_zero(monkeypatch, tmp_path, capsys):
     """When VREMS state exists, --dry-run loads the roster and exits 0."""
     from src.finance import config
     from src.finance.__main__ import main
+    from src.finance.roster import Candidate
 
     vrems = tmp_path / "vrems.json"
     vrems.write_text(
@@ -52,10 +53,21 @@ def test_dry_run_loads_roster_and_returns_zero(monkeypatch, tmp_path, capsys):
             {"seen_candidate_keys": ["bauer|heather|SC House of Representatives|75"]}
         )
     )
+    cache = tmp_path / "party_cache.json"
+    cache.write_text("{}")
     monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
+    monkeypatch.setattr(config, "PARTY_CACHE_PATH", cache)
     monkeypatch.setattr(
-        "src.finance.__main__.load_party_overrides",
-        lambda: {"bauer|heather": "D"},
+        "src.finance.__main__.load_dem_house_roster_with_detection",
+        lambda **kw: [
+            Candidate(
+                id="bauer-heather-75",
+                name="Heather Bauer",
+                district=75,
+                party="D",
+                office="SC House of Representatives",
+            )
+        ],
     )
     rc = main(["--dry-run"])
     assert rc == 0
@@ -69,6 +81,7 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path, capsys):
     from src.finance.__main__ import main
     from src.finance.parser import ReportNumbers
     from src.finance.resolver import UrlParams
+    from src.finance.roster import Candidate
 
     vrems = tmp_path / "vrems.json"
     vrems.write_text(
@@ -81,14 +94,25 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path, capsys):
     cache_path.write_text("{}")
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
+    party_cache = tmp_path / "party_cache.json"
+    party_cache.write_text("{}")
 
     monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
     monkeypatch.setattr(config, "HOUSE_FINANCE_PATH", out_path)
     monkeypatch.setattr(config, "PERSONID_CACHE_PATH", cache_path)
     monkeypatch.setattr(config, "ETHICS_STATE_PATH", ethics)
+    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
     monkeypatch.setattr(
-        "src.finance.__main__.load_party_overrides",
-        lambda: {"bauer|heather": "D"},
+        "src.finance.__main__.load_dem_house_roster_with_detection",
+        lambda **kw: [
+            Candidate(
+                id="bauer-heather-75",
+                name="Heather Bauer",
+                district=75,
+                party="D",
+                office="SC House of Representatives",
+            )
+        ],
     )
 
     # Stub out the network/browser layer.
@@ -135,6 +159,7 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
     from src.finance import config
     from src.finance.__main__ import main
     from src.finance.resolver import UrlParams
+    from src.finance.roster import Candidate
 
     vrems = tmp_path / "vrems.json"
     vrems.write_text(
@@ -152,14 +177,26 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
     cache_path.write_text("{}")
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
+    party_cache = tmp_path / "party_cache.json"
+    party_cache.write_text("{}")
 
     monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
     monkeypatch.setattr(config, "HOUSE_FINANCE_PATH", out_path)
     monkeypatch.setattr(config, "PERSONID_CACHE_PATH", cache_path)
     monkeypatch.setattr(config, "ETHICS_STATE_PATH", ethics)
+    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
     monkeypatch.setattr(
-        "src.finance.__main__.load_party_overrides",
-        lambda: {f"x{i}|cand": "D" for i in range(5)},
+        "src.finance.__main__.load_dem_house_roster_with_detection",
+        lambda **kw: [
+            Candidate(
+                id=f"cand-x{i}-{i + 1}",
+                name=f"X{i} Cand",
+                district=i + 1,
+                party="D",
+                office="SC House of Representatives",
+            )
+            for i in range(5)
+        ],
     )
 
     def boom(*a, **kw):
@@ -197,8 +234,14 @@ def test_full_run_returns_2_when_roster_empty(monkeypatch, tmp_path):
 
     vrems = tmp_path / "vrems.json"
     vrems.write_text(json.dumps({"seen_candidate_keys": []}))
+    party_cache = tmp_path / "party_cache.json"
+    party_cache.write_text("{}")
     monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
-    monkeypatch.setattr("src.finance.__main__.load_party_overrides", lambda: {})
+    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
+    monkeypatch.setattr(
+        "src.finance.__main__.load_dem_house_roster_with_detection",
+        lambda **kw: [],
+    )
     monkeypatch.setattr(
         "src.finance.__main__.make_playwright_fetcher",
         lambda: (lambda url: ""),
