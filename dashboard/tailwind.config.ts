@@ -11,10 +11,11 @@ const config: Config = {
           deep: "#1A4A45",
           mid: "#1CCAB8",
         },
-        ink: "#1F1F23",
-        muted: "#6B7280",
-        line: "#E5E7EB",
-        bg: "#F8F8F8",
+        // Surface tokens map to a slate-based palette to match coverage-map.
+        ink: "#0F172A", // slate-900
+        muted: "#64748B", // slate-500
+        line: "#E2E8F0", // slate-200
+        bg: "#F8FAFC", // slate-50
         card: "#FFFFFF",
         coh: {
           0: "#E0F7F4",
