@@ -6,6 +6,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "data"
 HOUSE_FINANCE_PATH = DATA_DIR / "house_finance.json"
 PERSONID_CACHE_PATH = DATA_DIR / "personId_cache.json"
+PARTY_CACHE_PATH = DATA_DIR / "party_cache.json"
 
 VREMS_REPO_PATH = REPO_ROOT.parent / "sc-vrems-filing-monitor"
 # Allow override so CI can point at an in-workspace checkout instead of a sibling.
@@ -19,8 +20,9 @@ ETHICS_REPORT_DETAIL = ETHICS_BASE + "/public/candidates-public-officials/person
 USER_AGENT = "Mozilla/5.0 (compatible; LocalityAI-FinanceMonitor/1.0)"
 
 STATE_HOUSE_PATTERNS = [
-    compile(r"sc house of representatives", IGNORECASE),
-    compile(r"house of representatives district", IGNORECASE),
+    compile(r"sc\s+house\s+of\s+representatives", IGNORECASE),
+    compile(r"state\s+house\s+of\s+representatives", IGNORECASE),
+    compile(r"house\s+of\s+representatives,?\s+district", IGNORECASE),
 ]
 
 REQUEST_TIMEOUT_SEC = 30
