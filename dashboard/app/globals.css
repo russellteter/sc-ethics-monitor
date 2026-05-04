@@ -4,7 +4,9 @@
 
 :root { color-scheme: light; }
 
-html { font-family: 'Inter', system-ui, sans-serif; }
+html {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
 body { @apply bg-bg text-ink; }
-.font-display { font-family: 'Syne', system-ui, sans-serif; }
+.font-display { font-family: var(--font-display), system-ui, sans-serif; }
 .tabular { font-variant-numeric: tabular-nums; }
