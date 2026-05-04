@@ -51,6 +51,17 @@ def test_handles_missing_overrides(vrems_state_path):
     assert roster == []
 
 
+def test_matches_vrems_state_house_format():
+    from src.finance.roster import _is_state_house
+    assert _is_state_house("state house of representatives, district 92")
+    assert _is_state_house("State House of Representatives, District 075")
+
+
+def test_does_not_match_senate():
+    from src.finance.roster import _is_state_house
+    assert not _is_state_house("state senate, district 10")
+
+
 def test_skips_malformed_keys(tmp_path):
     """Keys that don't have 4 pipe-separated parts or non-int districts are skipped."""
     import json

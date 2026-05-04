@@ -19,8 +19,9 @@ ETHICS_REPORT_DETAIL = ETHICS_BASE + "/public/candidates-public-officials/person
 USER_AGENT = "Mozilla/5.0 (compatible; LocalityAI-FinanceMonitor/1.0)"
 
 STATE_HOUSE_PATTERNS = [
-    compile(r"sc house of representatives", IGNORECASE),
-    compile(r"house of representatives district", IGNORECASE),
+    compile(r"sc\s+house\s+of\s+representatives", IGNORECASE),
+    compile(r"state\s+house\s+of\s+representatives", IGNORECASE),
+    compile(r"house\s+of\s+representatives,?\s+district", IGNORECASE),
 ]
 
 REQUEST_TIMEOUT_SEC = 30
