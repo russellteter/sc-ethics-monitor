@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+:root {
+  color-scheme: light;
+  --background: #f8fafc; /* slate-50 */
+  --foreground: #0f172a; /* slate-900 */
+}
 
-html { font-family: 'Inter', system-ui, sans-serif; }
+html {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
 body { @apply bg-bg text-ink; }
-.font-display { font-family: 'Syne', system-ui, sans-serif; }
+.font-display { font-family: var(--font-display), system-ui, sans-serif; }
 .tabular { font-variant-numeric: tabular-nums; }
+
+/* Map container - subtle 3D depth to match coverage-map aesthetic */
+.map-container {
+  filter: drop-shadow(0 4px 12px rgba(15, 23, 42, 0.08));
+  border-radius: 12px;
+  overflow: hidden;
+}

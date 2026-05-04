@@ -61,17 +61,19 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
   }
 
   return (
-    <div className="bg-card border border-line rounded-lg shadow-card overflow-hidden">
-      <div className="px-4 py-3 border-b border-line flex items-center justify-between gap-4 flex-wrap">
-        <h2 className="font-display font-bold text-sm">All Dem House Candidates</h2>
+    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between gap-4 flex-wrap">
+        <h2 className="font-display font-semibold text-sm text-slate-900">
+          All Dem House Candidates
+        </h2>
         <div className="flex items-center gap-3">
-          <div className="text-xs text-muted tabular">
+          <div className="text-xs text-slate-500 tabular">
             {rows.length} of {candidates.length} · Click column header to sort
           </div>
           <ExportButton candidates={rows} />
         </div>
       </div>
-      <div className="px-4 py-3 border-b border-line flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+      <div className="px-4 py-3 border-b border-slate-200 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
         <div className="md:max-w-sm flex-1">
           <SearchInput value={search} onChange={setSearch} />
         </div>
@@ -80,7 +82,7 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
       <div className="overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
-            <tr className="bg-[#FAFAFA] text-[11px] uppercase tracking-wider text-muted">
+            <tr className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
               <Th onClick={() => toggleSort("name")} active={sortKey === "name"} dir={sortDir}>
                 Candidate
               </Th>
@@ -137,7 +139,7 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") onSelect(c);
                   }}
-                  className="border-b border-line last:border-0 hover:bg-teal-primary/[0.04] cursor-pointer focus:outline-none focus:bg-teal-primary/10 transition-colors"
+                  className="border-b border-slate-100 last:border-0 hover:bg-slate-50 cursor-pointer focus:outline-none focus:bg-slate-100 transition-colors"
                 >
                   <td className="px-4 py-3">
                     <strong>{c.name}</strong>
@@ -210,9 +212,9 @@ function Th({
   return (
     <th
       onClick={onClick}
-      className={`px-4 py-2.5 font-semibold cursor-pointer select-none border-b border-line hover:text-teal-deep ${
+      className={`px-4 py-2.5 font-semibold cursor-pointer select-none border-b border-slate-200 hover:text-slate-900 ${
         align === "right" ? "text-right" : "text-left"
-      } ${active ? "text-teal-deep" : ""}`}
+      } ${active ? "text-slate-900" : ""}`}
     >
       {children}
       {active && (dir === "asc" ? " ↑" : " ↓")}
@@ -223,18 +225,18 @@ function Th({
 function StatusBadge({ status }: { status: Candidate["filing_status"] }) {
   if (status === "filed")
     return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-teal-primary/15 text-teal-deep">
+      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
         D
       </span>
     );
   if (status === "not_filed")
     return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700">
+      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 ring-1 ring-red-200">
         Not filed
       </span>
     );
   return (
-    <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700">
+    <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 ring-1 ring-amber-200">
       Scrape failed
     </span>
   );
