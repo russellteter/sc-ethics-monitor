@@ -225,7 +225,7 @@ function StatusBadge({ status }: { status: Candidate["filing_status"] }) {
     );
   if (status === "not_filed")
     return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-600">
+      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700">
         Not filed
       </span>
     );
