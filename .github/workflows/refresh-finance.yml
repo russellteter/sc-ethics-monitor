@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: russellteter/sc-vrems-filing-monitor
-          path: ../sc-vrems-filing-monitor
+          path: vrems-sibling
           ref: main
           token: ${{ secrets.VREMS_READ_PAT }}
       - name: Set up Python
@@ -48,6 +48,7 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
           REFRESH_REASON: ${{ inputs.reason || 'cron' }}
+          VREMS_STATE_PATH: ${{ github.workspace }}/vrems-sibling/state.json
         run: python -m src.finance
       - name: Show stats
         run: |
