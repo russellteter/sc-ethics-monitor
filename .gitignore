@@ -27,3 +27,13 @@ public/qa-screenshots/
 
 # Nested repos
 sc-vrems-filing-monitor/
+
+# Finance dashboard (Next.js)
+dashboard/.next/
+dashboard/node_modules/
+dashboard/.vercel/
+dashboard/coverage/
+dashboard/playwright-report/
+dashboard/test-results/
+*.pyc
+__pycache__/

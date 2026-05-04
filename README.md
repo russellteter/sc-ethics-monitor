@@ -105,3 +105,64 @@ All data from the SC Ethics Commission is public information. The Ethics Commiss
 ## Cost
 
 $0/month — GitHub Actions free tier + Resend free tier (100 emails/day).
+
+---
+
+## Finance Dashboard
+
+A separate Next.js dashboard at `dashboard/` surfaces SC House Democratic candidates' campaign finance numbers (period raised, total raised, cash on hand) sourced from the SC Ethics Commission Quarterly disclosures.
+
+### Live URL
+
+- Production: deployed to Vercel as `sc-house-finance` (URL recorded after Phase 6 deploy)
+
+### Architecture
+
+- **Scraper** — `src/finance/` Python package; runs Playwright against `ethicsfiling.sc.gov`, parses Quarterly report detail pages, writes `data/house_finance.json` and `data/personId_cache.json`
+- **Dashboard** — Next.js 14 app under `dashboard/`; reads `data/house_finance.json` over HTTPS via `HOUSE_FINANCE_DATA_URL`
+- **Refresh schedule** — `.github/workflows/refresh-finance.yml` runs Sunday 23:00 EST (Mon 04:00 UTC). Vercel Cron also pings `/api/refresh` on the same cadence so a manual button click can trigger an off-cycle scrape via `workflow_dispatch`.
+- **CI** — `.github/workflows/test.yml` runs `pytest tests/finance/`, dashboard Vitest, and Playwright e2e on every PR
+
+### Local Development
+
+```bash
+# Backend scraper (requires VREMS sibling repo at ../sc-vrems-filing-monitor)
+pip install -r requirements-dev.txt
+playwright install chromium
+python -m src.finance               # writes data/house_finance.json
+
+# Dashboard
+cd dashboard
+npm install
+HOUSE_FINANCE_DATA_URL=http://localhost:4173/house_finance.json npm run dev
+```
+
+To serve the JSON locally for the dashboard, run a static fixture server pointing at `data/`:
+
+```bash
+npx --yes serve -l 4173 ../data
+```
+
+### Required Secrets / Env Vars
+
+| Name | Where | Purpose |
+|------|-------|---------|
+| `VREMS_READ_PAT` | GitHub repo secret | Fine-grained PAT with read access to `russellteter/sc-vrems-filing-monitor`; used by `refresh-finance.yml` to checkout the sibling repo |
+| `RESEND_API_KEY` | GitHub repo secret | Failure-alert email when scraper crashes (reuses existing secret) |
+| `NOTIFICATION_EMAIL` | GitHub repo secret | Failure-alert recipient |
+| `FROM_EMAIL` | GitHub repo secret | Failure-alert sender |
+| `GH_PAT` | Vercel project env | PAT (workflow scope) so `/api/refresh` can dispatch `refresh-finance.yml` |
+| `HOUSE_FINANCE_DATA_URL` | Vercel project env | Public raw URL of the committed JSON, e.g. `https://raw.githubusercontent.com/russellteter/sc-ethics-monitor/main/data/house_finance.json` |
+
+### Deploy
+
+```bash
+cd dashboard
+vercel link        # project name "sc-house-finance"
+vercel env add GH_PAT production
+vercel env add HOUSE_FINANCE_DATA_URL production
+vercel --prod
+```
+
+The `dashboard/vercel.json` declares the `nextjs` framework, the Sunday `/api/refresh` cron, and security response headers (`X-Content-Type-Options`, `Permissions-Policy`).
+
