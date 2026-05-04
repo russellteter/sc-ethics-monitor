@@ -8,6 +8,7 @@ import {
   districtNumberFromFeature,
   geoFeatureToPath,
 } from "@/lib/districtMap";
+import Legend from "./Legend";
 import MapTooltip from "./MapTooltip";
 
 interface Props {
@@ -179,6 +180,7 @@ export default function DistrictGeoMap({
           />
         )}
       </div>
+      <Legend />
     </div>
   );
 }
