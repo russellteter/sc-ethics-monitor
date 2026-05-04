@@ -7,7 +7,7 @@ interface Props {
 
 export default function StatsStrip({ stats }: Props) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-5">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
       <Card
         label="Tracked"
         value={String(stats.total_dem_house)}
@@ -58,7 +58,9 @@ function Card({
       <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">
         {label}
       </div>
-      <div className={`font-display text-[28px] leading-none font-bold ${valueColor}`}>
+      <div
+        className={`font-display text-[28px] leading-none font-bold tabular ${valueColor}`}
+      >
         {value}
       </div>
       {sub && <div className="text-[11px] text-muted mt-1.5">{sub}</div>}
