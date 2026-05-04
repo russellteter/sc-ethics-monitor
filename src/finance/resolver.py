@@ -116,6 +116,23 @@ def resolve_with_fallback(
     return playwright_search(candidate_name, district)
 
 
+def find_latest_quarterly_from_rows(rows: list[dict]) -> Optional[dict]:
+    """Pick the most recent ``Quarterly`` report row.
+
+    Sort key is ``filed_date`` (lexicographic, since dates arrive as ``MM/DD/YYYY``
+    or ``YYYY-MM-DD`` strings — both orderings agree for our use case). When two
+    quarterlies share a filed_date, the amended one wins.
+    """
+    quarterly = [r for r in rows if r.get("report_type") == "Quarterly"]
+    if not quarterly:
+        return None
+    quarterly.sort(
+        key=lambda r: (r.get("filed_date", ""), bool(r.get("is_amended"))),
+        reverse=True,
+    )
+    return quarterly[0]
+
+
 def update_cache(cache_path: Path, candidate_id: str, params: UrlParams) -> None:
     """Persist ``candidate_id → params`` to disk, merging with any existing entries."""
     data = _read_json(cache_path)
