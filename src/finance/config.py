@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from re import IGNORECASE, compile
 
@@ -7,7 +8,8 @@ HOUSE_FINANCE_PATH = DATA_DIR / "house_finance.json"
 PERSONID_CACHE_PATH = DATA_DIR / "personId_cache.json"
 
 VREMS_REPO_PATH = REPO_ROOT.parent / "sc-vrems-filing-monitor"
-VREMS_STATE_PATH = VREMS_REPO_PATH / "state.json"
+# Allow override so CI can point at an in-workspace checkout instead of a sibling.
+VREMS_STATE_PATH = Path(os.environ.get("VREMS_STATE_PATH") or (VREMS_REPO_PATH / "state.json"))
 ETHICS_STATE_PATH = REPO_ROOT / "state.json"
 
 ETHICS_BASE = "https://ethicsfiling.sc.gov"
