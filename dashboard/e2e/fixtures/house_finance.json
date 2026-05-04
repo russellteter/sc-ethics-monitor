@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-04T23:00:00-04:00",
+  "cycle": "2026",
+  "candidates": [
+    {
+      "id": "pendarvis-marvin-113",
+      "name": "Marvin Pendarvis",
+      "district": 113,
+      "party": "D",
+      "personId": "10001",
+      "seiId": "20001",
+      "officeId": "30001",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418301",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-08",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=10001&seiId=20001&officeId=30001&reportId=418301",
+        "period_raised": 18200,
+        "total_raised": 145000,
+        "cash_on_hand": 112400,
+        "is_amended": false
+      },
+      "history": [],
+      "last_error": null
+    },
+    {
+      "id": "bauer-heather-75",
+      "name": "Heather Bauer",
+      "district": 75,
+      "party": "D",
+      "personId": "45921",
+      "seiId": "51547",
+      "officeId": "71866",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418208",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-10",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=45921&seiId=51547&officeId=71866&reportId=418208",
+        "period_raised": 32806.90,
+        "total_raised": 89371.11,
+        "cash_on_hand": 68448.57,
+        "is_amended": false
+      },
+      "history": [],
+      "last_error": null
+    },
+    {
+      "id": "wetmore-spencer-115",
+      "name": "Spencer Wetmore",
+      "district": 115,
+      "party": "D",
+      "personId": "10002",
+      "seiId": "20002",
+      "officeId": "30002",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418302",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-10",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=10002&seiId=20002&officeId=30002&reportId=418302",
+        "period_raised": 24500,
+        "total_raised": 76200,
+        "cash_on_hand": 54800,
+        "is_amended": false
+      },
+      "history": [],
+      "last_error": null
+    },
+    {
+      "id": "brawley-wendy-70",
+      "name": "Wendy Brawley",
+      "district": 70,
+      "party": "D",
+      "personId": "10003",
+      "seiId": "20003",
+      "officeId": "30003",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418303",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-12",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=10003&seiId=20003&officeId=30003&reportId=418303",
+        "period_raised": 12500,
+        "total_raised": 42000,
+        "cash_on_hand": 31200,
+        "is_amended": false
+      },
+      "history": [],
+      "last_error": null
+    },
+    {
+      "id": "mcdaniel-annie-41",
+      "name": "Annie McDaniel",
+      "district": 41,
+      "party": "D",
+      "personId": "10004",
+      "seiId": "20004",
+      "officeId": "30004",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "418304",
+        "report_type": "Quarterly",
+        "period_label": "Q1 2026",
+        "filed_date": "2026-04-09",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=10004&seiId=20004&officeId=30004&reportId=418304",
+        "period_raised": 8750,
+        "total_raised": 38500,
+        "cash_on_hand": 24100,
+        "is_amended": false
+      },
+      "history": [],
+      "last_error": null
+    },
+    {
+      "id": "kirby-roger-61",
+      "name": "Roger Kirby",
+      "district": 61,
+      "party": "D",
+      "personId": null,
+      "seiId": null,
+      "officeId": null,
+      "filing_status": "not_filed",
+      "latest_report": null,
+      "history": [],
+      "last_error": null
+    }
+  ],
+  "stats": {
+    "total_dem_house": 6,
+    "filed": 5,
+    "not_filed": 1,
+    "scrape_failed": 0,
+    "median_coh": 42500,
+    "top_coh": 112400,
+    "top_coh_candidate": "Marvin Pendarvis",
+    "top_coh_district": 113,
+    "total_q_raised": 96756.90,
+    "total_coh_all": 290948.57
+  }
+}

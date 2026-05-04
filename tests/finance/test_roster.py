@@ -1,0 +1,72 @@
+from src.finance.roster import Candidate, load_dem_house_roster
+
+
+def test_filters_to_dem_house_only(vrems_state_path):
+    roster = load_dem_house_roster(
+        vrems_state_path,
+        party_overrides={
+            "bauer|heather": "D",
+            "pendarvis|marvin": "D",
+            "kirby|roger": "D",
+            "jones|bob": "R",
+        },
+    )
+    names = sorted(c.name for c in roster)
+    assert names == ["Heather Bauer", "Marvin Pendarvis", "Roger Kirby"]
+    assert all(c.party == "D" for c in roster)
+    assert all("House" in c.office for c in roster)
+
+
+def test_returns_candidate_objects_with_district(vrems_state_path):
+    roster = load_dem_house_roster(
+        vrems_state_path,
+        party_overrides={"bauer|heather": "D"},
+    )
+    bauer = next(c for c in roster if c.name == "Heather Bauer")
+    assert isinstance(bauer, Candidate)
+    assert bauer.district == 75
+    assert bauer.id == "bauer-heather-75"
+
+
+def test_excludes_senate(vrems_state_path):
+    roster = load_dem_house_roster(
+        vrems_state_path,
+        party_overrides={"smith|alice": "D"},
+    )
+    assert all("Senate" not in c.office for c in roster)
+    assert all("smith" not in c.name.lower() for c in roster)
+
+
+def test_skips_non_dem_party(vrems_state_path):
+    roster = load_dem_house_roster(
+        vrems_state_path,
+        party_overrides={"jones|bob": "R", "bauer|heather": "I"},
+    )
+    assert roster == []
+
+
+def test_handles_missing_overrides(vrems_state_path):
+    """Candidates without a party override are skipped."""
+    roster = load_dem_house_roster(vrems_state_path, party_overrides=None)
+    assert roster == []
+
+
+def test_skips_malformed_keys(tmp_path):
+    """Keys that don't have 4 pipe-separated parts or non-int districts are skipped."""
+    import json
+
+    bad = tmp_path / "vrems.json"
+    bad.write_text(
+        json.dumps(
+            {
+                "seen_candidate_keys": [
+                    "too|few|parts",
+                    "bauer|heather|SC House of Representatives|notanint",
+                    "bauer|heather|SC House of Representatives|75",
+                ]
+            }
+        )
+    )
+    roster = load_dem_house_roster(bad, party_overrides={"bauer|heather": "D"})
+    assert len(roster) == 1
+    assert roster[0].district == 75
