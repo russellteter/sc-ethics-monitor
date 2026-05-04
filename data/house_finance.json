@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated_at": null,
+  "cycle": "2026",
+  "candidates": [],
+  "stats": {
+    "total_dem_house": 0,
+    "filed": 0,
+    "not_filed": 0,
+    "scrape_failed": 0,
+    "median_coh": 0,
+    "top_coh": 0,
+    "top_coh_candidate": null,
+    "top_coh_district": null,
+    "total_q_raised": 0,
+    "total_coh_all": 0
+  }
+}

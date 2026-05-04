@@ -1,0 +1,15 @@
+{
+  "seen_report_ids": ["418208"],
+  "last_checked": "2026-05-04T22:00:00Z",
+  "reports_with_metadata": [
+    {
+      "reportId": "418208",
+      "candidate": "Bauer, Heather",
+      "office": "SC House of Representatives District 75",
+      "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=45921&seiId=51547&officeId=71866&reportId=418208",
+      "personId": "45921",
+      "seiId": "51547",
+      "officeId": "71866"
+    }
+  ]
+}
