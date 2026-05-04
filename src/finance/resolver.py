@@ -67,10 +67,17 @@ def resolve_from_ethics_state(
     the expected ``district`` integer.
     """
     data = _read_json(ethics_state_path)
-    reports = data.get("reports_with_metadata", [])
+    raw = data.get("reports_with_metadata", [])
+    # Accept both shapes: list-of-dicts (test fixture) and dict-of-dicts (live state).
+    if isinstance(raw, dict):
+        reports = list(raw.values())
+    else:
+        reports = raw
     target = candidate_name.lower().strip()
     for r in reports:
-        ethics_name = r.get("candidate", "")
+        if not isinstance(r, dict):
+            continue
+        ethics_name = r.get("candidate") or r.get("candidate_name") or ""
         normalized = _normalize_lastfirst(ethics_name)
         if normalized != target:
             continue
