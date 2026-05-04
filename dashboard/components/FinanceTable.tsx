@@ -4,6 +4,8 @@ import { Candidate, FilterMode, SortDir, SortKey } from "@/lib/types";
 import { formatCurrency, formatDate, formatDistrict } from "@/lib/format";
 import SearchInput from "./SearchInput";
 import FilterPills from "./FilterPills";
+import ExportButton from "./ExportButton";
+import EmptyState from "./EmptyState";
 
 interface Props {
   candidates: Candidate[];
@@ -60,10 +62,13 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
 
   return (
     <div className="bg-card border border-line rounded-lg shadow-card overflow-hidden">
-      <div className="px-4 py-3 border-b border-line flex items-center justify-between gap-4">
+      <div className="px-4 py-3 border-b border-line flex items-center justify-between gap-4 flex-wrap">
         <h2 className="font-display font-bold text-sm">All Dem House Candidates</h2>
-        <div className="text-xs text-muted">
-          {rows.length} of {candidates.length} · Click column header to sort · Click row for detail
+        <div className="flex items-center gap-3">
+          <div className="text-xs text-muted tabular">
+            {rows.length} of {candidates.length} · Click column header to sort
+          </div>
+          <ExportButton candidates={rows} />
         </div>
       </div>
       <div className="px-4 py-3 border-b border-line flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
@@ -132,7 +137,7 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") onSelect(c);
                   }}
-                  className="border-b border-line last:border-0 hover:bg-[#FAFCFC] cursor-pointer focus:outline-none focus:bg-teal-primary/10"
+                  className="border-b border-line last:border-0 hover:bg-teal-primary/[0.04] cursor-pointer focus:outline-none focus:bg-teal-primary/10 transition-colors"
                 >
                   <td className="px-4 py-3">
                     <strong>{c.name}</strong>
@@ -159,7 +164,11 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
                   >
                     {formatCurrency(r?.cash_on_hand ?? null)}
                   </td>
-                  <td className={`px-4 py-3 ${isMissing ? "text-muted" : ""}`}>
+                  <td
+                    className={`px-4 py-3 text-[12px] tabular ${
+                      isMissing ? "text-muted" : "text-muted"
+                    }`}
+                  >
                     {formatDate(r?.filed_date ?? null)}
                   </td>
                   <td className="px-4 py-3">
@@ -170,8 +179,11 @@ export default function FinanceTable({ candidates, onSelect }: Props) {
             })}
             {rows.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-muted text-sm">
-                  No matches.
+                <td colSpan={7}>
+                  <EmptyState
+                    title="No matches"
+                    sub="Try clearing filters or adjusting the search."
+                  />
                 </td>
               </tr>
             )}
@@ -217,7 +229,7 @@ function StatusBadge({ status }: { status: Candidate["filing_status"] }) {
     );
   if (status === "not_filed")
     return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-600">
+      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700">
         Not filed
       </span>
     );
