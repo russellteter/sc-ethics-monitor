@@ -1,7 +1,7 @@
 "use client";
 import { Candidate } from "@/lib/types";
 import { formatCurrency, formatDate, formatDistrict } from "@/lib/format";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface Props {
   candidate: Candidate | null;
@@ -9,6 +9,9 @@ interface Props {
 }
 
 export default function CandidateDrawer({ candidate, onClose }: Props) {
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     if (!candidate) return;
     const onKey = (e: KeyboardEvent) => {
@@ -17,6 +20,18 @@ export default function CandidateDrawer({ candidate, onClose }: Props) {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [candidate, onClose]);
+
+  useEffect(() => {
+    if (candidate) {
+      // Capture the element that opened the drawer so we can return focus on close.
+      triggerRef.current = document.activeElement as HTMLElement | null;
+      // Defer focus to next tick so the drawer is mounted and focusable.
+      const id = window.setTimeout(() => closeBtnRef.current?.focus(), 0);
+      return () => window.clearTimeout(id);
+    }
+    // Drawer closed: return focus to the originating row.
+    triggerRef.current?.focus?.();
+  }, [candidate]);
 
   if (!candidate) return null;
   const r = candidate.latest_report;
@@ -41,11 +56,13 @@ export default function CandidateDrawer({ candidate, onClose }: Props) {
             </p>
           </div>
           <button
+            ref={closeBtnRef}
+            type="button"
             onClick={onClose}
-            aria-label="Close"
-            className="text-muted hover:text-ink text-lg leading-none px-2"
+            aria-label="Close candidate details"
+            className="text-muted hover:text-ink text-lg leading-none px-2 focus:outline-none focus:ring-2 focus:ring-teal-primary/40 rounded"
           >
-            ✕
+            <span aria-hidden="true">×</span>
           </button>
         </div>
         {r ? (
