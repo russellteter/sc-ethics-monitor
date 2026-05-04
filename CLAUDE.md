@@ -58,6 +58,13 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### Finance Dashboard subsystem (added May 2026)
+- `src/finance/` — scraper package
+- `dashboard/` — Next.js 14 app, deployed to Vercel
+- `data/house_finance.json` — committed scraper output
+- `.github/workflows/refresh-finance.yml` — Sun 11 PM EST + workflow_dispatch
+- Vercel Cron triggers workflow via /api/refresh; public, no auth
+
 ---
 
 ## Related Repos & Daily Pipeline
