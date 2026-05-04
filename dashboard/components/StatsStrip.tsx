@@ -28,6 +28,7 @@ export default function StatsStrip({ stats }: Props) {
         label="Median COH"
         value={formatCurrencyShort(stats.median_coh)}
         sub="cash on hand"
+        accent
       />
       <Card
         label="Top COH"
@@ -37,6 +38,7 @@ export default function StatsStrip({ stats }: Props) {
             ? `${stats.top_coh_candidate} · D-${stats.top_coh_district}`
             : ""
         }
+        accent
       />
     </div>
   );
@@ -46,24 +48,28 @@ function Card({
   label,
   value,
   sub,
-  valueColor = "text-teal-deep",
+  valueColor,
+  accent = false,
 }: {
   label: string;
   value: string;
   sub?: string;
   valueColor?: string;
+  accent?: boolean;
 }) {
+  // Teal is reserved as the COH visual anchor; everything else uses slate.
+  const valueClass = valueColor ?? (accent ? "text-teal-deep" : "text-slate-900");
   return (
-    <div className="bg-card border border-line rounded-lg p-4 shadow-card">
-      <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">
+    <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+      <div className="text-[11px] uppercase tracking-wider text-slate-500 mb-1.5">
         {label}
       </div>
       <div
-        className={`font-display text-[28px] leading-none font-bold tabular ${valueColor}`}
+        className={`font-display text-[28px] leading-none font-bold tabular ${valueClass}`}
       >
         {value}
       </div>
-      {sub && <div className="text-[11px] text-muted mt-1.5">{sub}</div>}
+      {sub && <div className="text-[11px] text-slate-500 mt-1.5">{sub}</div>}
     </div>
   );
 }
