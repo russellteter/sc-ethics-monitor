@@ -25,8 +25,8 @@ export default function FilterPills({ value, onChange }: Props) {
           className={
             "px-3 py-1 text-xs rounded-full border transition " +
             (value === p.value
-              ? "bg-teal-deep text-white border-teal-deep"
-              : "bg-bg border-line text-ink hover:border-teal-primary")
+              ? "bg-brand-600 text-white border-brand-600 shadow-sm"
+              : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300")
           }
         >
           {p.label}

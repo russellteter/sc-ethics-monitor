@@ -62,7 +62,7 @@ export default function CandidateDrawer({ candidate, onClose }: Props) {
             type="button"
             onClick={onClose}
             aria-label="Close candidate details"
-            className="text-slate-500 hover:text-slate-900 text-xl leading-none px-2 focus:outline-none focus:ring-2 focus:ring-teal-primary/40 rounded"
+            className="text-slate-500 hover:text-slate-900 text-xl leading-none px-2 focus:outline-none focus:ring-2 focus:ring-brand-500/20 rounded"
           >
             <span aria-hidden="true">×</span>
           </button>
@@ -92,7 +92,7 @@ export default function CandidateDrawer({ candidate, onClose }: Props) {
                   href={r.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block text-teal-deep underline underline-offset-2 mt-1 hover:text-teal-mid"
+                  className="inline-block text-brand-600 underline underline-offset-2 mt-1 hover:text-brand-700"
                 >
                   View on ethicsfiling.sc.gov →
                 </a>
@@ -125,14 +125,14 @@ function Stat({
 }) {
   // Teal accent reserved for COH (highlight); other stats use slate.
   const cls = highlight
-    ? "p-3 rounded-lg border border-teal-primary bg-teal-primary/5"
+    ? "p-3 rounded-lg border border-brand-300 bg-brand-50"
     : "p-3 rounded-lg border border-slate-200 bg-slate-50";
   return (
     <div className={cls}>
       <div className="text-[10px] uppercase tracking-wider text-slate-500">{label}</div>
       <div
         className={`font-display font-bold mt-1 text-base tabular ${
-          highlight ? "text-teal-deep" : "text-slate-900"
+          highlight ? "text-brand-700" : "text-slate-900"
         }`}
       >
         {value}

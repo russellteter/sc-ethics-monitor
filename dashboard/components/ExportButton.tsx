@@ -37,7 +37,7 @@ export default function ExportButton({ candidates }: Props) {
       type="button"
       onClick={onClick}
       aria-label="Export current view as CSV"
-      className="text-xs px-3 py-1.5 border border-line rounded-md hover:border-teal-primary hover:text-teal-deep focus:outline-none focus:ring-2 focus:ring-teal-primary/40 transition-colors"
+      className="text-xs px-3 py-1.5 border border-slate-200 rounded-md bg-white text-slate-700 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-colors"
     >
       Export CSV
     </button>
