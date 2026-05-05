@@ -100,6 +100,17 @@ def main(argv: list[str] | None = None) -> int:
 
     pw_fetch = make_playwright_fetcher()
 
+    # Performance: skip the Playwright "search by name" step. With 162
+    # candidates and the search taking ~10s each, that's 25+ minutes wasted
+    # on candidates who haven't filed any Ethics report (the majority). Only
+    # candidates already in our resolver cache or in the Ethics state's
+    # reports_with_metadata get resolved; the rest are marked `not_filed`,
+    # which is the correct status anyway. To recover individual missing-
+    # personId records, run the legacy monitor.py first to populate the
+    # Ethics state.json with newly filed Initial Reports.
+    def _no_search(_name: str, _district: int):
+        return None
+
     def resolve(cid: str, name: str, district: int):
         return resolve_with_fallback(
             candidate_id=cid,
@@ -107,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
             district=district,
             cache_path=config.PERSONID_CACHE_PATH,
             ethics_state_path=config.ETHICS_STATE_PATH,
-            playwright_search=search_personId,
+            playwright_search=_no_search,
         )
 
     def find_latest(params: UrlParams):
