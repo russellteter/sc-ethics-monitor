@@ -7,11 +7,11 @@ export function cohTier(coh: number | null): 0 | 1 | 2 | 3 | 4 {
 }
 
 const COLORS: Record<number, string> = {
-  0: "#E0F7F4",
-  1: "#9DE5DC",
-  2: "#5CD4C8",
-  3: "#1ED4C2",
-  4: "#1A4A45",
+  0: "var(--slate-100)",
+  1: "var(--brand-200)",
+  2: "var(--brand-400)",
+  3: "var(--brand-600)",
+  4: "var(--brand-800)",
 };
 
 const LABELS: Record<number, string> = {
