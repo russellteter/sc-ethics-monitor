@@ -50,6 +50,7 @@ jobs:
           REFRESH_REASON: ${{ inputs.reason || 'cron' }}
           VREMS_STATE_PATH: ${{ github.workspace }}/vrems-sibling/state.json
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         run: python -m src.finance
       - name: Show stats
         run: |
