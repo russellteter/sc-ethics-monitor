@@ -8,8 +8,8 @@ test.describe("Dashboard", () => {
     ).toBeVisible();
   });
 
-  test("renders header with last refreshed timestamp", async ({ page }) => {
-    await expect(page.getByText(/Last refreshed/i)).toBeVisible();
+  test("renders header with freshness banner", async ({ page }) => {
+    await expect(page.getByText(/Refreshes every Sunday at 11:00 PM ET/i)).toBeVisible();
   });
 
   test("stats strip shows 6 tracked / 5 filed / 1 not filed", async ({
