@@ -1,7 +1,7 @@
 """Tests for :mod:`src.finance.__main__` CLI entry point.
 
 These mock the heavy dependencies (Playwright, network) and exercise the
-control-flow branches: arg parsing, dry-run, missing VREMS state, success
+control-flow branches: arg parsing, dry-run, coverage fetch failure, success
 path, failure-rate exit code.
 """
 import json
@@ -20,54 +20,45 @@ def test_help_does_not_blow_up(capsys):
     assert "Scrape SC House Dem campaign-finance data" in out
 
 
-def test_dry_run_returns_zero_when_vrems_missing(monkeypatch, tmp_path, capsys):
-    """When VREMS state is missing, --dry-run still exits 0 with a clear message."""
-    from src.finance import config
+def test_dry_run_returns_zero_when_coverage_unreachable(monkeypatch, capsys):
+    """When coverage source is unreachable AND no cache, --dry-run still exits 0."""
     from src.finance.__main__ import main
 
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", tmp_path / "missing.json")
+    def boom(*a, **kw):
+        raise RuntimeError("simulated outage")
+
+    monkeypatch.setattr("src.finance.__main__.fetch_coverage_candidates", boom)
     rc = main(["--dry-run"])
     assert rc == 0
     out = capsys.readouterr().out
-    assert "VREMS state missing" in out
+    assert "coverage source unreachable" in out
 
 
-def test_non_dry_run_returns_2_when_vrems_missing(monkeypatch, tmp_path):
-    """A real run without VREMS state returns 2 (no work to do)."""
-    from src.finance import config
+def test_non_dry_run_returns_2_when_coverage_unreachable(monkeypatch):
+    """A real run without coverage source returns 2 (no work to do)."""
     from src.finance.__main__ import main
 
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", tmp_path / "missing.json")
+    def boom(*a, **kw):
+        raise RuntimeError("simulated outage")
+
+    monkeypatch.setattr("src.finance.__main__.fetch_coverage_candidates", boom)
     assert main([]) == 2
 
 
-def test_dry_run_loads_roster_and_returns_zero(monkeypatch, tmp_path, capsys):
-    """When VREMS state exists, --dry-run loads the roster and exits 0."""
-    from src.finance import config
+def test_dry_run_loads_roster_and_returns_zero(monkeypatch, capsys):
+    """--dry-run loads the roster from coverage source and exits 0."""
     from src.finance.__main__ import main
-    from src.finance.roster import Candidate
 
-    vrems = tmp_path / "vrems.json"
-    vrems.write_text(
-        json.dumps(
-            {"seen_candidate_keys": ["bauer|heather|SC House of Representatives|75"]}
-        )
-    )
-    cache = tmp_path / "party_cache.json"
-    cache.write_text("{}")
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
-    monkeypatch.setattr(config, "PARTY_CACHE_PATH", cache)
+    sample = {
+        "lastUpdated": "2026-05-04T12:00:00Z",
+        "house": {"75": {"candidates": [
+            {"name": "Heather Bauer", "party": "Democratic", "status": "filed"},
+        ]}},
+        "senate": {},
+    }
     monkeypatch.setattr(
-        "src.finance.__main__.load_dem_house_roster_with_detection",
-        lambda **kw: [
-            Candidate(
-                id="bauer-heather-75",
-                name="Heather Bauer",
-                district=75,
-                party="D",
-                office="SC House of Representatives",
-            )
-        ],
+        "src.finance.__main__.fetch_coverage_candidates",
+        lambda **kw: sample,
     )
     rc = main(["--dry-run"])
     assert rc == 0
@@ -75,63 +66,48 @@ def test_dry_run_loads_roster_and_returns_zero(monkeypatch, tmp_path, capsys):
     assert "roster size: 1 Dem House candidates" in out
 
 
-def test_full_run_writes_artifact(monkeypatch, tmp_path, capsys):
+def test_full_run_writes_artifact(monkeypatch, tmp_path):
     """Happy-path full run: produces a populated house_finance.json."""
     from src.finance import config
     from src.finance.__main__ import main
     from src.finance.parser import ReportNumbers
     from src.finance.resolver import UrlParams
-    from src.finance.roster import Candidate
 
-    vrems = tmp_path / "vrems.json"
-    vrems.write_text(
-        json.dumps(
-            {"seen_candidate_keys": ["bauer|heather|SC House of Representatives|75"]}
-        )
-    )
     out_path = tmp_path / "house_finance.json"
     cache_path = tmp_path / "cache.json"
     cache_path.write_text("{}")
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
-    party_cache = tmp_path / "party_cache.json"
-    party_cache.write_text("{}")
 
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
     monkeypatch.setattr(config, "HOUSE_FINANCE_PATH", out_path)
     monkeypatch.setattr(config, "PERSONID_CACHE_PATH", cache_path)
     monkeypatch.setattr(config, "ETHICS_STATE_PATH", ethics)
-    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
-    monkeypatch.setattr(
-        "src.finance.__main__.load_dem_house_roster_with_detection",
-        lambda **kw: [
-            Candidate(
-                id="bauer-heather-75",
-                name="Heather Bauer",
-                district=75,
-                party="D",
-                office="SC House of Representatives",
-            )
-        ],
-    )
 
-    # Stub out the network/browser layer.
+    sample = {
+        "lastUpdated": "2026-05-04T12:00:00Z",
+        "house": {"75": {"candidates": [
+            {"name": "Heather Bauer", "party": "Democratic", "status": "filed"},
+        ]}},
+        "senate": {},
+    }
+    monkeypatch.setattr(
+        "src.finance.__main__.fetch_coverage_candidates",
+        lambda **kw: sample,
+    )
     monkeypatch.setattr(
         "src.finance.__main__.search_personId",
         lambda name, district: UrlParams("1", "2", "3"),
     )
     monkeypatch.setattr(
         "src.finance.__main__.fetch_reports_list",
-        lambda params: [
-            {
-                "reportId": "418208",
-                "url": "https://example.com/r/418208",
-                "report_type": "Quarterly",
-                "filed_date": "2026-04-10",
-                "period_label": "Q1 2026",
-                "is_amended": False,
-            }
-        ],
+        lambda params: [{
+            "reportId": "418208",
+            "url": "https://example.com/r/418208",
+            "report_type": "Quarterly",
+            "filed_date": "2026-04-10",
+            "period_label": "Q1 2026",
+            "is_amended": False,
+        }],
     )
     monkeypatch.setattr(
         "src.finance.__main__.fetch_html",
@@ -141,7 +117,6 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path, capsys):
         "src.finance.__main__.parse_report_detail",
         lambda html: ReportNumbers(32806.90, 89372.11, 68448.57),
     )
-    # Avoid spinning up real Playwright.
     monkeypatch.setattr(
         "src.finance.__main__.make_playwright_fetcher",
         lambda: (lambda url: "<html>fake</html>"),
@@ -159,44 +134,27 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
     from src.finance import config
     from src.finance.__main__ import main
     from src.finance.resolver import UrlParams
-    from src.finance.roster import Candidate
 
-    vrems = tmp_path / "vrems.json"
-    vrems.write_text(
-        json.dumps(
-            {
-                "seen_candidate_keys": [
-                    f"x{i}|cand|SC House of Representatives|{i + 1}"
-                    for i in range(5)
-                ]
-            }
-        )
-    )
     out_path = tmp_path / "house_finance.json"
     cache_path = tmp_path / "cache.json"
     cache_path.write_text("{}")
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
-    party_cache = tmp_path / "party_cache.json"
-    party_cache.write_text("{}")
 
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
     monkeypatch.setattr(config, "HOUSE_FINANCE_PATH", out_path)
     monkeypatch.setattr(config, "PERSONID_CACHE_PATH", cache_path)
     monkeypatch.setattr(config, "ETHICS_STATE_PATH", ethics)
-    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
+
+    sample = {
+        "lastUpdated": "2026-05-04T12:00:00Z",
+        "house": {str(i): {"candidates": [
+            {"name": f"X{i} Cand", "party": "Democratic", "status": "filed"},
+        ]} for i in range(1, 6)},
+        "senate": {},
+    }
     monkeypatch.setattr(
-        "src.finance.__main__.load_dem_house_roster_with_detection",
-        lambda **kw: [
-            Candidate(
-                id=f"cand-x{i}-{i + 1}",
-                name=f"X{i} Cand",
-                district=i + 1,
-                party="D",
-                office="SC House of Representatives",
-            )
-            for i in range(5)
-        ],
+        "src.finance.__main__.fetch_coverage_candidates",
+        lambda **kw: sample,
     )
 
     def boom(*a, **kw):
@@ -208,39 +166,25 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
     )
     monkeypatch.setattr(
         "src.finance.__main__.fetch_reports_list",
-        lambda params: [
-            {
-                "reportId": "1",
-                "url": "u",
-                "report_type": "Quarterly",
-                "filed_date": "2026-04-10",
-                "period_label": "Q1 2026",
-                "is_amended": False,
-            }
-        ],
+        lambda params: [{
+            "reportId": "1", "url": "u", "report_type": "Quarterly",
+            "filed_date": "2026-04-10", "period_label": "Q1 2026", "is_amended": False,
+        }],
     )
     monkeypatch.setattr("src.finance.__main__.fetch_html", boom)
     monkeypatch.setattr("src.finance.__main__.make_playwright_fetcher", lambda: boom)
     rc = main(["--max-failure-rate", "0.2"])
     assert rc == 2
-    # Artifact still written before the abort.
     assert out_path.exists()
 
 
-def test_full_run_returns_2_when_roster_empty(monkeypatch, tmp_path):
+def test_full_run_returns_2_when_roster_empty(monkeypatch):
     """Empty roster (no Dem matches) returns exit code 2 — nothing to scrape."""
-    from src.finance import config
     from src.finance.__main__ import main
 
-    vrems = tmp_path / "vrems.json"
-    vrems.write_text(json.dumps({"seen_candidate_keys": []}))
-    party_cache = tmp_path / "party_cache.json"
-    party_cache.write_text("{}")
-    monkeypatch.setattr(config, "VREMS_STATE_PATH", vrems)
-    monkeypatch.setattr(config, "PARTY_CACHE_PATH", party_cache)
     monkeypatch.setattr(
-        "src.finance.__main__.load_dem_house_roster_with_detection",
-        lambda **kw: [],
+        "src.finance.__main__.fetch_coverage_candidates",
+        lambda **kw: {"lastUpdated": "x", "house": {}, "senate": {}},
     )
     monkeypatch.setattr(
         "src.finance.__main__.make_playwright_fetcher",
