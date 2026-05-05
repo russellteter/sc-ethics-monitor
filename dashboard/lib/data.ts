@@ -67,5 +67,14 @@ export async function fetchHouseFinance(): Promise<FinanceArtifact> {
   if (data.schema_version !== 1) {
     throw new Error(`Unsupported schema_version: ${data.schema_version}`);
   }
+  if (data.generated_at) {
+    const ageMs = Date.now() - new Date(data.generated_at).getTime();
+    const days = ageMs / (1000 * 60 * 60 * 24);
+    if (days > 8) {
+      console.warn(
+        `[house-finance] artifact is stale: ${days.toFixed(1)} days old (generated_at=${data.generated_at}); cron may be failing`,
+      );
+    }
+  }
   return data;
 }
