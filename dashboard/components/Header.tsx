@@ -18,7 +18,7 @@ export default function Header({ generatedAt, cycle }: Props) {
         />
         <div>
           <h1 className="font-display text-xl font-semibold tracking-tight text-slate-900">
-            SC House Dem Finance
+            SC House – Campaign Disclosure Report Tracker
           </h1>
           <p className="text-xs text-muted">Locality AI · Q1 {cycle}</p>
         </div>
