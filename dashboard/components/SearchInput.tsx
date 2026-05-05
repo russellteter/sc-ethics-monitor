@@ -18,7 +18,7 @@ export default function SearchInput({ value, onChange, placeholder }: Props) {
       value={local}
       onChange={(e) => setLocal(e.target.value)}
       placeholder={placeholder ?? "Search by name or district…"}
-      className="w-full px-3 py-2 text-sm border border-line rounded-md bg-card focus:outline-none focus:ring-2 focus:ring-teal-primary/40"
+      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-md bg-white focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
       aria-label="Search candidates"
     />
   );
