@@ -1,6 +1,6 @@
 import { formatDate } from "@/lib/format";
-import RefreshButton from "./RefreshButton";
 import ChamberToggle from "./ChamberToggle";
+import DataFreshnessBanner from "./DataFreshnessBanner";
 
 interface Props {
   generatedAt: string | null;
@@ -25,22 +25,7 @@ export default function Header({ generatedAt, cycle }: Props) {
       </div>
       <div className="flex items-center gap-4 text-xs text-muted">
         <ChamberToggle active="house" />
-        <span>
-          Last refreshed{" "}
-          <span className="text-ink font-medium">
-            {generatedAt ? formatDate(generatedAt.slice(0, 10)) : "—"}
-            {generatedAt && (
-              <>
-                {" · "}
-                {new Date(generatedAt).toLocaleTimeString("en-US", {
-                  hour: "numeric",
-                  minute: "2-digit",
-                })}
-              </>
-            )}
-          </span>
-        </span>
-        <RefreshButton />
+        <DataFreshnessBanner generatedAt={generatedAt} />
       </div>
     </header>
   );
