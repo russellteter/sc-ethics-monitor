@@ -49,6 +49,7 @@ export default function KPICard({
         {label}
       </div>
       <div
+        data-value={value}
         className={`text-[28px] leading-none font-bold tabular-nums ${valClass}`}
       >
         {displayed}
