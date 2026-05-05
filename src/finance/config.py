@@ -7,6 +7,7 @@ DATA_DIR = REPO_ROOT / "data"
 HOUSE_FINANCE_PATH = DATA_DIR / "house_finance.json"
 PERSONID_CACHE_PATH = DATA_DIR / "personId_cache.json"
 PARTY_CACHE_PATH = DATA_DIR / "party_cache.json"
+COVERAGE_CACHE_PATH = DATA_DIR / "coverage_candidates.json"
 
 VREMS_REPO_PATH = REPO_ROOT.parent / "sc-vrems-filing-monitor"
 # Allow override so CI can point at an in-workspace checkout instead of a sibling.

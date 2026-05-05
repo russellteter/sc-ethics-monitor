@@ -2,7 +2,8 @@
 
 Wires the modules in :mod:`src.finance` together for a production run:
 
-1. Load the Dem House roster from VREMS state + party overrides.
+1. Load the Dem House roster from the authoritative sc-filing-coverage-map
+   ``candidates.json`` (party-tagged, kept fresh by that project's pipeline).
 2. For each candidate: resolve URL params (cache → state → Playwright search),
    find the latest Quarterly report, fetch its detail page, parse the three
    numbers.
@@ -21,6 +22,10 @@ from datetime import datetime, timezone
 
 from src.finance import config
 from src.finance.builder import ScrapeFailureRateExceeded, build_artifact
+from src.finance.coverage_roster import (
+    fetch_coverage_candidates,
+    load_dem_house_roster_from_coverage,
+)
 from src.finance.fetcher import fetch_html, make_playwright_fetcher
 from src.finance.parser import parse_report_detail
 from src.finance.playwright_ops import fetch_reports_list, search_personId
@@ -29,7 +34,6 @@ from src.finance.resolver import (
     find_latest_quarterly_from_rows,
     resolve_with_fallback,
 )
-from src.finance.roster import load_dem_house_roster_with_detection
 
 
 def _now_iso() -> str:
@@ -69,29 +73,26 @@ def main(argv: list[str] | None = None) -> int:
     )
     log = logging.getLogger("finance.main")
 
-    log.info("loading roster …")
-    if not config.VREMS_STATE_PATH.exists():
-        log.warning(
-            "VREMS state file not found at %s — cannot build roster",
-            config.VREMS_STATE_PATH,
-        )
-        print(f"roster size: 0 Dem House candidates (VREMS state missing at {config.VREMS_STATE_PATH})")
+    log.info("loading roster from sc-filing-coverage-map …")
+    try:
+        coverage_data = fetch_coverage_candidates(cache_path=config.COVERAGE_CACHE_PATH)
+    except Exception as e:
+        log.error("failed to load coverage candidates: %s", e)
+        print("roster size: 0 Dem House candidates (coverage source unreachable)")
         return 0 if args.dry_run else 2
-    candidates = load_dem_house_roster_with_detection(
-        vrems_state_path=config.VREMS_STATE_PATH,
-        party_cache_path=config.PARTY_CACHE_PATH,
-    )
-    log.info("roster size: %d Dem House candidates", len(candidates))
+    candidates = load_dem_house_roster_from_coverage(coverage_data)
+    log.info("roster size: %d Dem House candidates (source: coverage-map %s)",
+             len(candidates), coverage_data.get("lastUpdated", "?"))
     print(f"roster size: {len(candidates)} Dem House candidates")
 
     if args.dry_run:
         return 0
 
-    if len(candidates) < 30:
+    if len(candidates) < 100:
         log.warning(
-            "roster suspiciously small (%d); check VREMS state freshness at %s",
+            "roster suspiciously small (%d); expected ~160 Dem House candidates. "
+            "Check coverage-map freshness.",
             len(candidates),
-            config.VREMS_STATE_PATH,
         )
     if not candidates:
         log.error("no candidates to scrape — aborting")
