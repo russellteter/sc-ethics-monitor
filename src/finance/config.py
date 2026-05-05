@@ -15,7 +15,7 @@ VREMS_STATE_PATH = Path(os.environ.get("VREMS_STATE_PATH") or (VREMS_REPO_PATH /
 ETHICS_STATE_PATH = REPO_ROOT / "state.json"
 
 ETHICS_BASE = "https://ethicsfiling.sc.gov"
-ETHICS_REPORTS_LIST = ETHICS_BASE + "/public/candidates-public-officials/person/campaign-disclosure-reports"
+ETHICS_REPORTS_LIST = ETHICS_BASE + "/public/candidates-public-officials/person/campaign-disclosure-reports/reports"
 ETHICS_REPORT_DETAIL = ETHICS_BASE + "/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail"
 
 USER_AGENT = "Mozilla/5.0 (compatible; LocalityAI-FinanceMonitor/1.0)"
