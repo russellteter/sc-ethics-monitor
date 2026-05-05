@@ -11,8 +11,17 @@ describe("cohTier", () => {
 });
 
 describe("cohTierColor", () => {
-  it("returns hex for each tier", () => {
-    [0, 1, 2, 3, 4].forEach((t) => expect(cohTierColor(t as 0 | 1 | 2 | 3 | 4)).toMatch(/^#/));
+  it("returns a CSS var token for each tier", () => {
+    [0, 1, 2, 3, 4].forEach((t) =>
+      expect(cohTierColor(t as 0 | 1 | 2 | 3 | 4)).toMatch(/^var\(--/),
+    );
+  });
+  it("uses the slate/indigo brand palette", () => {
+    expect(cohTierColor(0)).toBe("var(--slate-100)");
+    expect(cohTierColor(1)).toBe("var(--brand-200)");
+    expect(cohTierColor(2)).toBe("var(--brand-400)");
+    expect(cohTierColor(3)).toBe("var(--brand-600)");
+    expect(cohTierColor(4)).toBe("var(--brand-800)");
   });
 });
 
