@@ -16,12 +16,17 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import json
 import logging
+import os
 import sys
 from datetime import datetime, timezone
 
 from src.finance import config
 from src.finance.builder import ScrapeFailureRateExceeded, build_artifact
+
+# Master Tracker spreadsheet ID (see CLAUDE.md "Gotchas").
+MASTER_TRACKER_SHEET_ID = "1_SztBdJyl4FoPrtPiduKvrrnttisZDAJRLiHeoyFxLY"
 from src.finance.coverage_roster import (
     fetch_coverage_candidates,
     load_dem_house_roster_from_coverage,
@@ -149,6 +154,23 @@ def main(argv: list[str] | None = None) -> int:
     except ScrapeFailureRateExceeded as e:
         log.error("aborting: %s", e)
         return 2
+
+    # Best-effort Google Sheets sync. Never blocks the artifact write.
+    # Lazy import: avoids loading gspread/google-auth on systems without them
+    # and keeps the legacy `sheets_sync` import-hang gotcha (see CLAUDE.md)
+    # contained to this branch.
+    try:
+        with open(config.HOUSE_FINANCE_PATH, "r") as f:
+            artifact = json.load(f)
+        sheet_id = os.getenv("MASTER_TRACKER_SHEET_ID", MASTER_TRACKER_SHEET_ID)
+        from src.finance.sheets import sync_house_finance_to_sheet
+        ok = sync_house_finance_to_sheet(artifact, sheet_id)
+        if ok:
+            log.info("synced house_finance to Google Sheet '%s'", sheet_id)
+        else:
+            log.info("Google Sheets sync skipped or failed (non-fatal)")
+    except Exception as e:  # noqa: BLE001 — never block on sync errors
+        log.warning("Google Sheets sync raised unexpectedly (non-fatal): %s", e)
 
     log.info("done: %s", config.HOUSE_FINANCE_PATH)
     return 0
