@@ -11,9 +11,11 @@ This module looks them up in three places, in order of cost:
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Optional
+from urllib.parse import parse_qs, urlparse
 
 
 @dataclass(frozen=True)
@@ -62,9 +64,11 @@ def resolve_from_ethics_state(
 ) -> Optional[UrlParams]:
     """Search the local Ethics state for a matching candidate.
 
-    Names in Ethics state are formatted ``"Last, First M"``. We normalize before
-    comparing, then sanity-check that the configured ``office`` string contains
-    the expected ``district`` integer.
+    Names come in two formats: roster (``"First [Middle] Last"``) vs. Ethics state
+    (``"Last, First [Middle]"``). We narrow to the right district first, then try
+    a first+last match, falling back to last-name-only within the district. Both
+    sides are reduced to ``(first, last)`` token pairs so middle names/initials
+    don't break matching.
     """
     data = _read_json(ethics_state_path)
     raw = data.get("reports_with_metadata", [])
@@ -73,26 +77,84 @@ def resolve_from_ethics_state(
         reports = list(raw.values())
     else:
         reports = raw
-    target = candidate_name.lower().strip()
+
+    target_first, target_last = _first_last(candidate_name)
+    if not target_last:
+        return None
+
+    in_district = []
     for r in reports:
         if not isinstance(r, dict):
             continue
+        if not _district_matches(r.get("office", "") or "", district):
+            continue
+        in_district.append(r)
+
+    # First pass: exact (first, last) match.
+    for r in in_district:
         ethics_name = r.get("candidate") or r.get("candidate_name") or ""
-        normalized = _normalize_lastfirst(ethics_name)
-        if normalized != target:
-            continue
-        office = r.get("office", "") or ""
-        if str(district) not in office:
-            continue
-        try:
-            return UrlParams(
-                personId=str(r["personId"]),
-                seiId=str(r["seiId"]),
-                officeId=str(r["officeId"]),
-            )
-        except KeyError:
-            continue
+        e_first, e_last = _first_last_from_lastfirst(ethics_name)
+        if e_first == target_first and e_last == target_last:
+            params = _extract_url_params(r)
+            if params is not None:
+                return params
+
+    # Fallback: same district + same last name. Common when the candidate goes
+    # by a middle name on Ethics filings (``Linvill, Claiborne``) while the
+    # roster carries the full legal name (``Caroline Claiborne Linvill``).
+    last_matches = [
+        r for r in in_district
+        if _first_last_from_lastfirst(r.get("candidate") or r.get("candidate_name") or "")[1] == target_last
+    ]
+    if len(last_matches) == 1:
+        return _extract_url_params(last_matches[0])
     return None
+
+
+def _district_matches(office: str, district: int) -> bool:
+    """Match the exact district number, not a substring (e.g. ``3`` shouldn't hit ``District 30``)."""
+    m = re.search(r"District\s+(\d+)", office or "")
+    return bool(m) and int(m.group(1)) == district
+
+
+def _first_last(name: str) -> tuple[str, str]:
+    """``"Brittany June Lynch"`` → ``("brittany", "lynch")``. Strips middles."""
+    tokens = (name or "").lower().split()
+    if not tokens:
+        return ("", "")
+    if len(tokens) == 1:
+        return (tokens[0], tokens[0])
+    return (tokens[0], tokens[-1])
+
+
+def _first_last_from_lastfirst(ethics_name: str) -> tuple[str, str]:
+    """``"Bauer, Heather M"`` → ``("heather", "bauer")``."""
+    if "," in ethics_name:
+        last, first = [s.strip() for s in ethics_name.split(",", 1)]
+        first_word = first.split()[0] if first else ""
+        return (first_word.lower(), last.lower())
+    return _first_last(ethics_name)
+
+
+def _extract_url_params(report: dict) -> Optional[UrlParams]:
+    """Read personId/seiId/officeId from explicit fields, else parse from ``url``."""
+    pid = report.get("personId")
+    sid = report.get("seiId")
+    oid = report.get("officeId")
+    if pid and sid and oid:
+        return UrlParams(personId=str(pid), seiId=str(sid), officeId=str(oid))
+    url = report.get("url") or ""
+    if not url:
+        return None
+    qs = parse_qs(urlparse(url).query)
+    try:
+        return UrlParams(
+            personId=qs["personId"][0],
+            seiId=qs["seiId"][0],
+            officeId=qs["officeId"][0],
+        )
+    except (KeyError, IndexError):
+        return None
 
 
 def _normalize_lastfirst(ethics_name: str) -> str:
@@ -126,18 +188,52 @@ def resolve_with_fallback(
 def find_latest_quarterly_from_rows(rows: list[dict]) -> Optional[dict]:
     """Pick the most recent ``Quarterly`` report row.
 
-    Sort key is ``filed_date`` (lexicographic, since dates arrive as ``MM/DD/YYYY``
-    or ``YYYY-MM-DD`` strings — both orderings agree for our use case). When two
-    quarterlies share a filed_date, the amended one wins.
+    Primary sort key is the period the report covers (year + quarter, parsed
+    from ``period_label`` like ``"Quarter 1, 2026 Report"``). Filed date is the
+    tiebreaker. When two quarterlies share both, the amended one wins. Falling
+    back to ``filed_date`` alone is unreliable because the column on the live
+    Ethics page often shows an "updated" date that doesn't agree with the
+    period — and lexicographic sort on ``MM/DD/YYYY`` is wrong anyway.
     """
     quarterly = [r for r in rows if r.get("report_type") == "Quarterly"]
     if not quarterly:
         return None
     quarterly.sort(
-        key=lambda r: (r.get("filed_date", ""), bool(r.get("is_amended"))),
+        key=lambda r: (
+            _period_sort_key(r.get("period_label", "")),
+            _filed_date_sort_key(r.get("filed_date", "")),
+            bool(r.get("is_amended")),
+        ),
         reverse=True,
     )
     return quarterly[0]
+
+
+def _period_sort_key(label: str) -> tuple[int, int]:
+    """``"Quarter 2, 2026 Report"`` → ``(2026, 2)``. Unparseable → ``(0, 0)``."""
+    if not label:
+        return (0, 0)
+    quarter_match = re.search(r"quarter\s*(\d)", label, re.IGNORECASE)
+    year_match = re.search(r"(20\d{2})", label)
+    q = int(quarter_match.group(1)) if quarter_match else 0
+    y = int(year_match.group(1)) if year_match else 0
+    return (y, q)
+
+
+def _filed_date_sort_key(filed: str) -> tuple[int, int, int]:
+    """Parse ``MM/DD/YYYY`` or ``YYYY-MM-DD`` to a (Y, M, D) tuple. Unparseable → ``(0,0,0)``."""
+    if not filed:
+        return (0, 0, 0)
+    s = filed.strip()
+    # YYYY-MM-DD
+    m = re.match(r"^(\d{4})-(\d{1,2})-(\d{1,2})$", s)
+    if m:
+        return (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    # MM/DD/YYYY
+    m = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", s)
+    if m:
+        return (int(m.group(3)), int(m.group(1)), int(m.group(2)))
+    return (0, 0, 0)
 
 
 def update_cache(cache_path: Path, candidate_id: str, params: UrlParams) -> None:

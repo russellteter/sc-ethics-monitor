@@ -52,6 +52,41 @@ def test_ethics_state_missing_file_returns_none(tmp_path):
     assert resolve_from_ethics_state(tmp_path / "missing.json", "Anyone", district=1) is None
 
 
+def test_ethics_state_live_shape_dict_keyed_by_report_id_with_ids_in_url(tmp_path):
+    """Mirrors the real state.json: dict of {reportId -> entry}, ``candidate_name`` field,
+    and personId/seiId/officeId only in the ``url`` query string."""
+    state_path = tmp_path / "state.json"
+    state_path.write_text(json.dumps({
+        "reports_with_metadata": {
+            "417093": {
+                "candidate_name": "Morgan, Tyler A",
+                "office": "SC House of Representatives District 91",
+                "report_name": "Initial Report 2025",
+                "filed_date": "2026-01-06",
+                "url": "https://ethicsfiling.sc.gov/public/x?personId=55826&seiId=57496&officeId=78561&reportId=417093",
+            }
+        }
+    }))
+    params = resolve_from_ethics_state(state_path, "Tyler Morgan", district=91)
+    assert params == UrlParams(personId="55826", seiId="57496", officeId="78561")
+
+
+def test_ethics_state_district_match_is_exact_not_substring(tmp_path):
+    """``District 3`` must not match office text containing ``District 30``."""
+    state_path = tmp_path / "state.json"
+    state_path.write_text(json.dumps({
+        "reports_with_metadata": [
+            {
+                "candidate_name": "Doe, Jane",
+                "office": "SC House of Representatives District 30",
+                "url": "https://ethicsfiling.sc.gov/x?personId=1&seiId=2&officeId=3&reportId=9",
+            }
+        ]
+    }))
+    assert resolve_from_ethics_state(state_path, "Jane Doe", district=3) is None
+    assert resolve_from_ethics_state(state_path, "Jane Doe", district=30) == UrlParams("1", "2", "3")
+
+
 def test_fallback_uses_cache_first(tmp_path, ethics_state_path, mocker):
     cache_file = tmp_path / "cache.json"
     cache_file.write_text(
@@ -171,3 +206,32 @@ def test_amendment_supersedes_when_newer():
     result = find_latest_quarterly_from_rows(rows)
     assert result["reportId"] == "4"
     assert result["is_amended"] is True
+
+
+def test_period_label_beats_filed_date_for_recency():
+    """Live Ethics pages show an "updated" filed_date that doesn't agree with the
+    actual reporting period — period_label is authoritative for which quarter is
+    most recent."""
+    rows = [
+        # Older period, "updated" recently — must NOT win
+        {"report_type": "Quarterly", "filed_date": "11/8/2022", "reportId": "327668",
+         "url": "u-old", "period_label": "Quarter 2, 2022 Report", "is_amended": False},
+        # Newer period, older "updated" date — must win
+        {"report_type": "Quarterly", "filed_date": "11/5/2024", "reportId": "407145",
+         "url": "u-new", "period_label": "Quarter 4, 2023 Report", "is_amended": False},
+    ]
+    result = find_latest_quarterly_from_rows(rows)
+    assert result["reportId"] == "407145"
+
+
+def test_mm_dd_yyyy_dates_compared_chronologically_not_lexicographically():
+    """``"11/8/2022"`` vs ``"11/5/2024"`` — lex sort would pick 2022 (wrong)."""
+    rows = [
+        {"report_type": "Quarterly", "filed_date": "11/8/2022", "reportId": "A",
+         "url": "uA", "period_label": "Quarter 1, 2026 Report", "is_amended": False},
+        {"report_type": "Quarterly", "filed_date": "11/5/2024", "reportId": "B",
+         "url": "uB", "period_label": "Quarter 1, 2026 Report", "is_amended": False},
+    ]
+    # Same period label → tiebreak on filed_date. Must pick 2024 over 2022.
+    result = find_latest_quarterly_from_rows(rows)
+    assert result["reportId"] == "B"
