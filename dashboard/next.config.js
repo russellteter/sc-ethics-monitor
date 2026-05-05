@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: { typedRoutes: true },
+  transpilePackages: ["react-leaflet", "@react-leaflet/core"],
+  webpack: (config) => {
+    config.module.rules.push({ test: /\.geojson$/, type: "json" });
+    return config;
+  },
   async headers() {
     return [
       {

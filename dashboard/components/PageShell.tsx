@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Candidate, FinanceArtifact } from "@/lib/types";
 import StatsStrip from "./StatsStrip";
 import FinanceTable from "./FinanceTable";
-import DistrictGeoMap from "./DistrictGeoMap";
+import LeafletDistrictMap from "./Map/LeafletDistrictMap";
 import CandidateDrawer from "./CandidateDrawer";
 import KeyboardHelp from "./KeyboardHelp";
 
@@ -44,10 +44,14 @@ export default function PageShell({ artifact }: Props) {
   return (
     <main className="max-w-page mx-auto px-6 lg:px-8 py-6">
       <StatsStrip stats={artifact.stats} />
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
-        <FinanceTable candidates={artifact.candidates} onSelect={setSelected} />
-        <div className="hidden lg:block">
-          <DistrictGeoMap
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6 items-start mt-4">
+        <FinanceTable
+          candidates={artifact.candidates}
+          onSelect={setSelected}
+          selectedId={selected?.id ?? null}
+        />
+        <div className="lg:sticky lg:top-20">
+          <LeafletDistrictMap
             candidates={artifact.candidates}
             onSelect={setSelected}
             selectedId={selected?.id ?? null}

@@ -10,9 +10,10 @@ import EmptyState from "./EmptyState";
 interface Props {
   candidates: Candidate[];
   onSelect: (c: Candidate) => void;
+  selectedId?: string | null;
 }
 
-export default function FinanceTable({ candidates, onSelect }: Props) {
+export default function FinanceTable({ candidates, onSelect, selectedId }: Props) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<FilterMode>("all");
   const [sortKey, setSortKey] = useState<SortKey>("cash_on_hand");
