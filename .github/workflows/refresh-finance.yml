@@ -2,8 +2,13 @@ name: Refresh house finance data
 
 on:
   schedule:
-    # Sun 23:00 EST (UTC-5) = Mon 04:00 UTC
-    - cron: '0 4 * * 1'
+    # Sun 11:00 PM ET, year-round (covers EST UTC-5 and EDT UTC-4).
+    # GitHub Actions cron is UTC-only and has no DST awareness, so we register
+    # both shifts. EST: 11 PM Sun = 04:00 UTC Mon. EDT: 11 PM Sun = 03:00 UTC Mon.
+    # The dedup guard below logs a notice if a run lands within 12h of the prior
+    # generated_at so the duplicate firing is observable.
+    - cron: '0 3 * * 1'  # Sun 11 PM EDT (Mar–Nov)
+    - cron: '0 4 * * 1'  # Sun 11 PM EST (Nov–Mar)
   workflow_dispatch:
     inputs:
       reason:
@@ -44,6 +49,26 @@ jobs:
         run: pip install -r requirements-dev.txt
       - name: Install Playwright browsers
         run: python -m playwright install --with-deps chromium
+      - name: Dedup guard (observe duplicate runs within 12h)
+        id: dedup
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone, timedelta
+          try:
+              with open("data/house_finance.json") as f:
+                  generated_at = json.load(f).get("generated_at")
+              if generated_at:
+                  age = datetime.now(timezone.utc) - datetime.fromisoformat(
+                      generated_at.replace("Z", "+00:00")
+                  )
+                  if age < timedelta(hours=12):
+                      print(f"::notice::artifact is {age} old (generated_at={generated_at}); this run already refreshed within 12h")
+                  else:
+                      print(f"artifact age: {age} (generated_at={generated_at})")
+          except Exception as exc:
+              print(f"dedup guard skipped: {exc}")
+          PY
       - name: Run scraper
         env:
           PYTHONUNBUFFERED: '1'
