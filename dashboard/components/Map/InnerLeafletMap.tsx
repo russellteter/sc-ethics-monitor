@@ -5,7 +5,16 @@ import "leaflet/dist/leaflet.css";
 import { useMemo } from "react";
 import type { Feature, FeatureCollection } from "geojson";
 import type { Candidate } from "@/lib/types";
-import { cohTier, cohTierColor } from "@/lib/cohTier";
+import { cohTier } from "@/lib/cohTier";
+
+// Democrat blue COH tier palette (matches MapLegend)
+const DEM_BLUE: Record<0 | 1 | 2 | 3 | 4, string> = {
+  0: "#f1f5f9",
+  1: "#bfdbfe",
+  2: "#60a5fa",
+  3: "#2563eb",
+  4: "#1e3a8a",
+};
 // @ts-expect-error — no .d.ts for geojson import, handled by webpack json loader
 import districts from "@/public/data/sc-house-districts.geojson";
 import MapLegend from "./MapLegend";
@@ -40,7 +49,7 @@ export default function InnerLeafletMap({
     );
     const c = byDistrict.get(dnum);
     const coh = c?.latest_report?.cash_on_hand ?? null;
-    const fill = c ? cohTierColor(cohTier(coh)) : "var(--slate-100)";
+    const fill = c ? DEM_BLUE[cohTier(coh)] : "#f1f5f9";
     const isSel = c?.id === selectedId;
     return {
       fillColor: fill,
@@ -81,8 +90,8 @@ export default function InnerLeafletMap({
         center={SC_CENTER}
         zoom={7}
         maxBounds={SC_BOUNDS}
-        style={{ height: 480, width: "100%" }}
-        scrollWheelZoom={false}
+        style={{ height: 600, width: "100%" }}
+        scrollWheelZoom={true}
         attributionControl={false}
       >
         <TileLayer

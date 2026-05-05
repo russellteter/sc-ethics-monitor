@@ -1,9 +1,10 @@
+// Democrat blue COH tier palette
 const TIERS: [string, string][] = [
-  ["$0", "var(--slate-100)"],
-  ["<$10K", "var(--brand-200)"],
-  ["$10–50K", "var(--brand-400)"],
-  ["$50–100K", "var(--brand-600)"],
-  ["$100K+", "var(--brand-800)"],
+  ["$0", "#f1f5f9"],
+  ["<$10K", "#bfdbfe"],
+  ["$10–50K", "#60a5fa"],
+  ["$50–100K", "#2563eb"],
+  ["$100K+", "#1e3a8a"],
 ];
 
 export default function MapLegend() {
