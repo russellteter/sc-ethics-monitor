@@ -6,6 +6,7 @@ import SearchInput from "./SearchInput";
 import FilterPills from "./FilterPills";
 import ExportButton from "./ExportButton";
 import EmptyState from "./EmptyState";
+import StatusBadge from "./StatusBadge";
 
 interface Props {
   candidates: Candidate[];
@@ -62,7 +63,7 @@ export default function FinanceTable({ candidates, onSelect, selectedId }: Props
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+    <div className="glass-card rounded-xl overflow-hidden">
       <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between gap-4 flex-wrap">
         <h2 className="font-display font-semibold text-sm text-slate-900">
           All Dem House Candidates
@@ -83,7 +84,7 @@ export default function FinanceTable({ candidates, onSelect, selectedId }: Props
       <div className="overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
-            <tr className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500">
+            <tr className="sticky top-0 bg-slate-50/95 backdrop-blur z-10 text-[11px] uppercase tracking-wider text-slate-500">
               <Th onClick={() => toggleSort("name")} active={sortKey === "name"} dir={sortDir}>
                 Candidate
               </Th>
@@ -140,7 +141,12 @@ export default function FinanceTable({ candidates, onSelect, selectedId }: Props
                   onKeyDown={(e) => {
                     if (e.key === "Enter") onSelect(c);
                   }}
-                  className="border-b border-slate-100 last:border-0 hover:bg-slate-50 cursor-pointer focus:outline-none focus:bg-slate-100 transition-colors"
+                  data-selected={c.id === selectedId ? "true" : undefined}
+                  className={`border-b border-slate-100 last:border-0 cursor-pointer focus:outline-none transition-colors ${
+                    c.id === selectedId
+                      ? "bg-brand-50"
+                      : "hover:bg-brand-50/40 focus:bg-slate-100"
+                  }`}
                 >
                   <td className="px-4 py-3">
                     <strong>{c.name}</strong>
@@ -148,28 +154,28 @@ export default function FinanceTable({ candidates, onSelect, selectedId }: Props
                   <td className="px-4 py-3">{formatDistrict(c.district)}</td>
                   <td
                     className={`px-4 py-3 text-right tabular ${
-                      isMissing ? "text-muted" : "font-medium"
+                      isMissing ? "text-slate-400" : "font-medium"
                     }`}
                   >
                     {formatCurrency(r?.period_raised ?? null)}
                   </td>
                   <td
                     className={`px-4 py-3 text-right tabular ${
-                      isMissing ? "text-muted" : "font-medium"
+                      isMissing ? "text-slate-400" : "font-medium"
                     }`}
                   >
                     {formatCurrency(r?.total_raised ?? null)}
                   </td>
                   <td
                     className={`px-4 py-3 text-right tabular ${
-                      isMissing ? "text-muted" : "font-bold text-teal-deep"
+                      isMissing ? "text-slate-400" : "font-bold text-brand-700"
                     }`}
                   >
                     {formatCurrency(r?.cash_on_hand ?? null)}
                   </td>
                   <td
                     className={`px-4 py-3 text-[12px] tabular ${
-                      isMissing ? "text-muted" : "text-muted"
+                      isMissing ? "text-slate-400" : "text-slate-500"
                     }`}
                   >
                     {formatDate(r?.filed_date ?? null)}
@@ -177,6 +183,7 @@ export default function FinanceTable({ candidates, onSelect, selectedId }: Props
                   <td className="px-4 py-3">
                     <StatusBadge status={c.filing_status} />
                   </td>
+
                 </tr>
               );
             })}
@@ -220,26 +227,6 @@ function Th({
       {children}
       {active && (dir === "asc" ? " ↑" : " ↓")}
     </th>
-  );
-}
-
-function StatusBadge({ status }: { status: Candidate["filing_status"] }) {
-  if (status === "filed")
-    return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">
-        D
-      </span>
-    );
-  if (status === "not_filed")
-    return (
-      <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-red-50 text-red-700 ring-1 ring-red-200">
-        Not filed
-      </span>
-    );
-  return (
-    <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 ring-1 ring-amber-200">
-      Scrape failed
-    </span>
   );
 }
 
