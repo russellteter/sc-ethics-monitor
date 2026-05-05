@@ -19,9 +19,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "SC House Dem Finance — Locality AI",
+  title: "SC House – Campaign Disclosure Report Tracker",
   description:
-    "Q1 quarterly campaign-finance disclosures for Democrat SC State House candidates.",
+    "Campaign finance disclosure reports for Democrat SC State House candidates.",
   icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
   openGraph: { images: ["/og.png"] },
 };
