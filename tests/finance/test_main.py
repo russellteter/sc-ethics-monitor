@@ -75,7 +75,11 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path):
 
     out_path = tmp_path / "house_finance.json"
     cache_path = tmp_path / "cache.json"
-    cache_path.write_text("{}")
+    # Pre-populate the cache so resolve_with_fallback hits cache first
+    # (matches production behaviour: most candidates resolve from disk cache).
+    cache_path.write_text(json.dumps({
+        "bauer-heather-75": {"personId": "1", "seiId": "2", "officeId": "3"},
+    }))
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
 
@@ -93,10 +97,6 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path):
     monkeypatch.setattr(
         "src.finance.__main__.fetch_coverage_candidates",
         lambda **kw: sample,
-    )
-    monkeypatch.setattr(
-        "src.finance.__main__.search_personId",
-        lambda name, district: UrlParams("1", "2", "3"),
     )
     monkeypatch.setattr(
         "src.finance.__main__.fetch_reports_list",
@@ -130,14 +130,22 @@ def test_full_run_writes_artifact(monkeypatch, tmp_path):
 
 
 def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
-    """Failure-rate exceeded → exit code 2 (artifact still written)."""
+    """Failure-rate exceeded → exit code 2 (artifact still written).
+
+    Pre-populate cache so all 5 candidates resolve, then make fetch_html
+    boom so every scrape fails → triggers the failure-rate threshold.
+    """
     from src.finance import config
     from src.finance.__main__ import main
     from src.finance.resolver import UrlParams
 
     out_path = tmp_path / "house_finance.json"
     cache_path = tmp_path / "cache.json"
-    cache_path.write_text("{}")
+    # Pre-populate cache so all 5 candidates resolve (no Playwright needed).
+    cache_path.write_text(json.dumps({
+        f"cand-x{i}-{i + 1}": {"personId": "1", "seiId": "2", "officeId": "3"}
+        for i in range(5)
+    }))
     ethics = tmp_path / "ethics.json"
     ethics.write_text("{}")
 
@@ -147,9 +155,9 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
 
     sample = {
         "lastUpdated": "2026-05-04T12:00:00Z",
-        "house": {str(i): {"candidates": [
+        "house": {str(i + 1): {"candidates": [
             {"name": f"X{i} Cand", "party": "Democratic", "status": "filed"},
-        ]} for i in range(1, 6)},
+        ]} for i in range(5)},
         "senate": {},
     }
     monkeypatch.setattr(
@@ -160,10 +168,6 @@ def test_full_run_returns_2_on_failure_rate_breach(monkeypatch, tmp_path):
     def boom(*a, **kw):
         raise RuntimeError("simulated network failure")
 
-    monkeypatch.setattr(
-        "src.finance.__main__.search_personId",
-        lambda name, district: UrlParams("1", "2", "3"),
-    )
     monkeypatch.setattr(
         "src.finance.__main__.fetch_reports_list",
         lambda params: [{
