@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-11T07:46:02.874889+00:00",
+  "generated_at": "2026-05-18T06:48:58.557361+00:00",
   "cycle": "2026",
   "candidates": [
     {
@@ -1268,9 +1268,9 @@
       "name": "Michele J Demery",
       "district": 64,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
+      "personId": "57581",
+      "seiId": "58006",
+      "officeId": "79608",
       "filing_status": "not_filed",
       "latest_report": null,
       "history": [],
