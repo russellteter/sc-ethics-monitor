@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-25T08:23:44.228922+00:00",
+  "generated_at": "2026-06-01T08:28:31.577496+00:00",
   "cycle": "2026",
   "candidates": [
     {
@@ -441,15 +441,15 @@
       "officeId": "79066",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424872",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56743&seiId=0&officeId=79066&reportId=424872",
+        "reportId": "426811",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56743&seiId=0&officeId=79066&reportId=426811",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
         "period_label": "Quarter 1, 2026 Report",
         "is_amended": false,
-        "period_raised": 14693.0,
-        "total_raised": 16889.92,
-        "cash_on_hand": 12405.13
+        "period_raised": 14708.0,
+        "total_raised": 16904.92,
+        "cash_on_hand": 12420.13
       },
       "history": [],
       "last_error": null
@@ -988,9 +988,9 @@
       "name": "Patrick L Tate",
       "district": 52,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
+      "personId": "57773",
+      "seiId": "57991",
+      "officeId": "79760",
       "filing_status": "not_filed",
       "latest_report": null,
       "history": [],
@@ -1056,7 +1056,7 @@
       "personId": "57530",
       "seiId": "51705",
       "officeId": "79569",
-      "filing_status": "filed",
+      "filing_status": "scrape_failed",
       "latest_report": {
         "reportId": "424719",
         "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57530&seiId=51705&officeId=79569&reportId=424719",
@@ -1069,7 +1069,7 @@
         "cash_on_hand": 0.0
       },
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -25.0"
     },
     {
       "id": "hayes-jackie-55",
@@ -2050,15 +2050,15 @@
       "officeId": "77862",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417788",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54840&seiId=57570&officeId=77862&reportId=417788",
+        "reportId": "426813",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54840&seiId=57570&officeId=77862&reportId=426813",
         "report_type": "Quarterly",
-        "filed_date": "11/3/2026",
+        "filed_date": "6/9/2026",
         "period_label": "Quarter 1, 2026 Report",
         "is_amended": false,
-        "period_raised": 85.27,
-        "total_raised": 3828.84,
-        "cash_on_hand": 46.8
+        "period_raised": 293.27,
+        "total_raised": 4036.84,
+        "cash_on_hand": 41.8
       },
       "history": [],
       "last_error": null
@@ -2073,15 +2073,15 @@
       "officeId": "79182",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424957",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56952&seiId=58292&officeId=79182&reportId=424957",
+        "reportId": "426441",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56952&seiId=58292&officeId=79182&reportId=426441",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
         "period_label": "Quarter 1, 2026 Report",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 365.0,
-        "cash_on_hand": 92.0
+        "period_raised": 74.9,
+        "total_raised": 439.9,
+        "cash_on_hand": 166.9
       },
       "history": [],
       "last_error": null
@@ -2104,9 +2104,9 @@
       "name": "Wendell M Padgett",
       "district": 103,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
+      "personId": "57649",
+      "seiId": "58480",
+      "officeId": "79658",
       "filing_status": "not_filed",
       "latest_report": null,
       "history": [],
@@ -2567,7 +2567,7 @@
         "reportId": "421985",
         "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57109&seiId=58394&officeId=79263&reportId=421985",
         "report_type": "Quarterly",
-        "filed_date": "11/3/2026",
+        "filed_date": "6/9/2026",
         "period_label": "Quarter 1, 2026 Report",
         "is_amended": false,
         "period_raised": 100.0,
@@ -2642,14 +2642,14 @@
   ],
   "stats": {
     "total_dem_house": 162,
-    "filed": 53,
+    "filed": 52,
     "not_filed": 108,
-    "scrape_failed": 1,
-    "median_coh": 1628.35,
+    "scrape_failed": 2,
+    "median_coh": 1656.92,
     "top_coh": 41857.54,
     "top_coh_candidate": "Heather Bauer",
     "top_coh_district": 75,
-    "total_q_raised": 215816.98,
-    "total_coh_all": 220322.9
+    "total_q_raised": 213867.85,
+    "total_coh_all": 220407.8
   }
 }
