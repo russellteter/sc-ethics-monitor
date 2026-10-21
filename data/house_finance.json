@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T09:29:04.748209+00:00",
+  "generated_at": "2026-10-21T22:55:22.103846+00:00",
   "cycle": "2026",
   "candidates": [
     {
@@ -11,8 +11,18 @@
       "personId": "57119",
       "seiId": "57442",
       "officeId": "79267",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "424020",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57119&seiId=57442&officeId=79267&reportId=424020",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 2 & Final 2026 Report",
+        "is_amended": false,
+        "period_raised": 88.41,
+        "total_raised": 1139.19,
+        "cash_on_hand": 0.0
+      },
       "history": [],
       "last_error": null
     },
@@ -24,8 +34,18 @@
       "personId": "57582",
       "seiId": "58482",
       "officeId": "79609",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "426427",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57582&seiId=58482&officeId=79609&reportId=426427",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 2, 2026 Report",
+        "is_amended": false,
+        "period_raised": 2020.0,
+        "total_raised": 3945.32,
+        "cash_on_hand": 3108.66
+      },
       "history": [],
       "last_error": null
     },
@@ -39,15 +59,15 @@
       "officeId": "78922",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "420130",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56443&seiId=58095&officeId=78922&reportId=420130",
+        "reportId": "420128",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56443&seiId=58095&officeId=78922&reportId=420128",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 2935.0,
-        "total_raised": 3509.0,
-        "cash_on_hand": 1706.53
+        "period_raised": 6771.96,
+        "total_raised": 13433.15,
+        "cash_on_hand": 1873.96
       },
       "history": [],
       "last_error": null
@@ -62,15 +82,15 @@
       "officeId": "78727",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "416495",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56074&seiId=53477&officeId=78727&reportId=416495",
+        "reportId": "434918",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56074&seiId=53477&officeId=78727&reportId=434918",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 23166.0,
-        "total_raised": 24815.5,
-        "cash_on_hand": 22309.99
+        "period_raised": 8051.0,
+        "total_raised": 41053.69,
+        "cash_on_hand": 27727.18
       },
       "history": [],
       "last_error": null
@@ -83,8 +103,18 @@
       "personId": "57710",
       "seiId": "58478",
       "officeId": "79718",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425936",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57710&seiId=58478&officeId=79718&reportId=425936",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 945.31,
+        "total_raised": 2209.31,
+        "cash_on_hand": 876.97
+      },
       "history": [],
       "last_error": null
     },
@@ -119,11 +149,21 @@
       "name": "Jennifer A Bachner",
       "district": 6,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "57345",
+      "seiId": "58320",
+      "officeId": "79407",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "429568",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57345&seiId=58320&officeId=79407&reportId=429568",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 550.0,
+        "total_raised": 1158.0,
+        "cash_on_hand": 53.8
+      },
       "history": [],
       "last_error": null
     },
@@ -137,15 +177,15 @@
       "officeId": "79250",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "422067",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57087&seiId=58361&officeId=79250&reportId=422067",
+        "reportId": "422056",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57087&seiId=58361&officeId=79250&reportId=422056",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 100.0,
-        "total_raised": 372.0,
-        "cash_on_hand": 100.0
+        "period_raised": 1997.3,
+        "total_raised": 3790.25,
+        "cash_on_hand": 2075.83
       },
       "history": [],
       "last_error": null
@@ -171,7 +211,7 @@
       "personId": "57172",
       "seiId": "58433",
       "officeId": "79289",
-      "filing_status": "filed",
+      "filing_status": "scrape_failed",
       "latest_report": {
         "reportId": "422112",
         "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57172&seiId=58433&officeId=79289&reportId=422112",
@@ -184,18 +224,28 @@
         "cash_on_hand": 100.0
       },
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -414.05"
     },
     {
       "id": "stewart-camron-10",
       "name": "Camron T Stewart",
       "district": 10,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "56526",
+      "seiId": "58096",
+      "officeId": "79814",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428022",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56526&seiId=58096&officeId=79814&reportId=428022",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 150.31,
+        "total_raised": 1062.31,
+        "cash_on_hand": 447.89
+      },
       "history": [],
       "last_error": null
     },
@@ -220,7 +270,7 @@
       "personId": "57176",
       "seiId": "57412",
       "officeId": "79291",
-      "filing_status": "filed",
+      "filing_status": "scrape_failed",
       "latest_report": {
         "reportId": "422105",
         "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57176&seiId=57412&officeId=79291&reportId=422105",
@@ -233,7 +283,7 @@
         "cash_on_hand": 856.5
       },
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -903.08"
     },
     {
       "id": "brooks-jumelle-12",
@@ -256,8 +306,18 @@
       "personId": "57615",
       "seiId": "58532",
       "officeId": "79636",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428008",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57615&seiId=58532&officeId=79636&reportId=428008",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1400.0,
+        "total_raised": 3758.0,
+        "cash_on_hand": 2615.95
+      },
       "history": [],
       "last_error": null
     },
@@ -271,15 +331,15 @@
       "officeId": "79124",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421358",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56851&seiId=58295&officeId=79124&reportId=421358",
+        "reportId": "421354",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56851&seiId=58295&officeId=79124&reportId=421354",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 510.0,
-        "total_raised": 1335.0,
-        "cash_on_hand": 850.46
+        "period_raised": 3614.7,
+        "total_raised": 7909.34,
+        "cash_on_hand": 3655.74
       },
       "history": [],
       "last_error": null
@@ -307,15 +367,15 @@
       "officeId": "79246",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424503",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57078&seiId=58306&officeId=79246&reportId=424503",
+        "reportId": "427938",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57078&seiId=58306&officeId=79246&reportId=427938",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 3805.0,
-        "total_raised": 4305.0,
-        "cash_on_hand": 3963.8
+        "period_raised": 27322.15,
+        "total_raised": 37644.12,
+        "cash_on_hand": 21381.29
       },
       "history": [],
       "last_error": null
@@ -328,8 +388,18 @@
       "personId": "57590",
       "seiId": "58431",
       "officeId": "79617",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425079",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57590&seiId=58431&officeId=79617&reportId=425079",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 4438.05,
+        "total_raised": 9059.04,
+        "cash_on_hand": 3143.34
+      },
       "history": [],
       "last_error": null
     },
@@ -343,15 +413,15 @@
       "officeId": "79352",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "422396",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57272&seiId=58258&officeId=79352&reportId=422396",
+        "reportId": "428436",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57272&seiId=58258&officeId=79352&reportId=428436",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 1500.0,
-        "cash_on_hand": 1500.0
+        "period_raised": 1020.31,
+        "total_raised": 5400.31,
+        "cash_on_hand": 4343.85
       },
       "history": [],
       "last_error": null
@@ -364,8 +434,18 @@
       "personId": "57574",
       "seiId": "58284",
       "officeId": "79602",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425014",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57574&seiId=58284&officeId=79602&reportId=425014",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 2, 2026 Report",
+        "is_amended": false,
+        "period_raised": 405.0,
+        "total_raised": 811.0,
+        "cash_on_hand": 277.24
+      },
       "history": [],
       "last_error": null
     },
@@ -387,9 +467,9 @@
       "name": "Dexter L Reaves",
       "district": 21,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
+      "personId": "57591",
+      "seiId": "7295",
+      "officeId": "79618",
       "filing_status": "not_filed",
       "latest_report": null,
       "history": [],
@@ -405,15 +485,15 @@
       "officeId": "79529",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424368",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57478&seiId=58422&officeId=79529&reportId=424368",
+        "reportId": "424361",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57478&seiId=58422&officeId=79529&reportId=424361",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 500.0,
-        "total_raised": 1958.0,
-        "cash_on_hand": 1500.0
+        "period_raised": 27110.74,
+        "total_raised": 30068.74,
+        "cash_on_hand": 21949.84
       },
       "history": [],
       "last_error": null
@@ -441,15 +521,15 @@
       "officeId": "79066",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "426811",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56743&seiId=0&officeId=79066&reportId=426811",
+        "reportId": "426458",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56743&seiId=0&officeId=79066&reportId=426458",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 14708.0,
-        "total_raised": 16904.92,
-        "cash_on_hand": 12420.13
+        "period_raised": 11022.06,
+        "total_raised": 44276.98,
+        "cash_on_hand": 20088.39
       },
       "history": [],
       "last_error": null
@@ -464,15 +544,15 @@
       "officeId": "79287",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424567",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57170&seiId=58439&officeId=79287&reportId=424567",
+        "reportId": "430103",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57170&seiId=58439&officeId=79287&reportId=430103",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3, 2026 Report",
         "is_amended": false,
         "period_raised": 0.0,
-        "total_raised": 450.0,
-        "cash_on_hand": 242.0
+        "total_raised": 1439.22,
+        "cash_on_hand": 0.0
       },
       "history": [],
       "last_error": null
@@ -498,8 +578,18 @@
       "personId": "57584",
       "seiId": "52497",
       "officeId": "79611",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "434315",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57584&seiId=52497&officeId=79611&reportId=434315",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 4 & Final 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 504.0,
+        "cash_on_hand": 0.0
+      },
       "history": [],
       "last_error": null
     },
@@ -511,8 +601,18 @@
       "personId": "57331",
       "seiId": "58252",
       "officeId": "79398",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "423256",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57331&seiId=58252&officeId=79398&reportId=423256",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 4121.0,
+        "total_raised": 11297.62,
+        "cash_on_hand": 5257.5
+      },
       "history": [],
       "last_error": null
     },
@@ -539,15 +639,15 @@
       "officeId": "79594",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425117",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57561&seiId=58367&officeId=79594&reportId=425117",
+        "reportId": "425111",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57561&seiId=58367&officeId=79594&reportId=425111",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 208.0,
-        "cash_on_hand": 0.0
+        "period_raised": 1960.0,
+        "total_raised": 3713.0,
+        "cash_on_hand": 1499.75
       },
       "history": [],
       "last_error": null
@@ -570,11 +670,21 @@
       "name": "Stephanie A Holstein",
       "district": 30,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "57882",
+      "seiId": "58386",
+      "officeId": "79857",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "427688",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57882&seiId=58386&officeId=79857&reportId=427688",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 3088.42,
+        "total_raised": 3431.38,
+        "cash_on_hand": 2978.92
+      },
       "history": [],
       "last_error": null
     },
@@ -599,8 +709,18 @@
       "personId": "57200",
       "seiId": "37638",
       "officeId": "79304",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "427838",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57200&seiId=37638&officeId=79304&reportId=427838",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 1500.0,
+        "total_raised": 81945.27,
+        "cash_on_hand": 2777.48
+      },
       "history": [],
       "last_error": null
     },
@@ -609,11 +729,21 @@
       "name": "IRENE A BENSON",
       "district": 32,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "57724",
+      "seiId": "58502",
+      "officeId": "79728",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "429432",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57724&seiId=58502&officeId=79728&reportId=429432",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 12145.39,
+        "total_raised": 12573.39,
+        "cash_on_hand": 9879.39
+      },
       "history": [],
       "last_error": null
     },
@@ -627,15 +757,15 @@
       "officeId": "79195",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421717",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56976&seiId=55696&officeId=79195&reportId=421717",
+        "reportId": "434576",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56976&seiId=55696&officeId=79195&reportId=434576",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 2000.0,
-        "cash_on_hand": 1792.0
+        "period_raised": 4991.85,
+        "total_raised": 8001.83,
+        "cash_on_hand": 5213.72
       },
       "history": [],
       "last_error": null
@@ -648,8 +778,18 @@
       "personId": "57074",
       "seiId": "58374",
       "officeId": "79244",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "421928",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57074&seiId=58374&officeId=79244&reportId=421928",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1799.3,
+        "total_raised": 2526.71,
+        "cash_on_hand": 1724.66
+      },
       "history": [],
       "last_error": null
     },
@@ -674,8 +814,18 @@
       "personId": "57013",
       "seiId": "58358",
       "officeId": "79217",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "435097",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57013&seiId=58358&officeId=79217&reportId=435097",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 4190.0,
+        "total_raised": 9443.0,
+        "cash_on_hand": 2721.6
+      },
       "history": [],
       "last_error": null
     },
@@ -687,8 +837,18 @@
       "personId": "57537",
       "seiId": "58298",
       "officeId": "79579",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425578",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57537&seiId=58298&officeId=79579&reportId=425578",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 2, 2026 Report",
+        "is_amended": false,
+        "period_raised": 1185.0,
+        "total_raised": 1710.0,
+        "cash_on_hand": 941.14
+      },
       "history": [],
       "last_error": null
     },
@@ -702,15 +862,15 @@
       "officeId": "79065",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421083",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56738&seiId=58243&officeId=79065&reportId=421083",
+        "reportId": "429993",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56738&seiId=58243&officeId=79065&reportId=429993",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 308.0,
-        "total_raised": 1308.0,
-        "cash_on_hand": 1100.0
+        "period_raised": 660.0,
+        "total_raised": 3093.0,
+        "cash_on_hand": 1340.45
       },
       "history": [],
       "last_error": null
@@ -723,8 +883,18 @@
       "personId": "57598",
       "seiId": "58477",
       "officeId": "79625",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425158",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57598&seiId=58477&officeId=79625&reportId=425158",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1987.41,
+        "total_raised": 2695.41,
+        "cash_on_hand": 500.0
+      },
       "history": [],
       "last_error": null
     },
@@ -738,15 +908,15 @@
       "officeId": "79339",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "422306",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57250&seiId=58377&officeId=79339&reportId=422306",
+        "reportId": "435168",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57250&seiId=58377&officeId=79339&reportId=435168",
         "report_type": "Quarterly",
-        "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 1208.0,
-        "cash_on_hand": 1000.0
+        "period_raised": 9344.0,
+        "total_raised": 14297.0,
+        "cash_on_hand": 6245.23
       },
       "history": [],
       "last_error": null
@@ -772,8 +942,18 @@
       "personId": "57559",
       "seiId": "58417",
       "officeId": "79592",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "424951",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57559&seiId=58417&officeId=79592&reportId=424951",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1264.62,
+        "total_raised": 2272.62,
+        "cash_on_hand": 109.78
+      },
       "history": [],
       "last_error": null
     },
@@ -800,15 +980,15 @@
       "officeId": "78594",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417531",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55867&seiId=53465&officeId=78594&reportId=417531",
+        "reportId": "414616",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55867&seiId=53465&officeId=78594&reportId=414616",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 4979.0,
-        "total_raised": 7762.0,
-        "cash_on_hand": 1685.49
+        "period_raised": 7625.5,
+        "total_raised": 18661.12,
+        "cash_on_hand": 3847.32
       },
       "history": [],
       "last_error": null
@@ -834,8 +1014,18 @@
       "personId": "57449",
       "seiId": "58312",
       "officeId": "79504",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428531",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57449&seiId=58312&officeId=79504&reportId=428531",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 721.04,
+        "total_raised": 2040.04,
+        "cash_on_hand": 258.36
+      },
       "history": [],
       "last_error": null
     },
@@ -849,15 +1039,15 @@
       "officeId": "79188",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421714",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56965&seiId=58220&officeId=79188&reportId=421714",
+        "reportId": "429735",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56965&seiId=58220&officeId=79188&reportId=429735",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3, 2026 Report",
         "is_amended": false,
         "period_raised": 0.0,
-        "total_raised": 400.0,
-        "cash_on_hand": 200.92
+        "total_raised": 1531.0,
+        "cash_on_hand": 658.02
       },
       "history": [],
       "last_error": null
@@ -885,15 +1075,15 @@
       "officeId": "79517",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424277",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57461&seiId=58372&officeId=79517&reportId=424277",
+        "reportId": "424273",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57461&seiId=58372&officeId=79517&reportId=424273",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 50.0,
-        "total_raised": 555.0,
-        "cash_on_hand": 535.75
+        "period_raised": 526.97,
+        "total_raised": 3803.94,
+        "cash_on_hand": 3067.34
       },
       "history": [],
       "last_error": null
@@ -921,15 +1111,15 @@
       "officeId": "79274",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424874",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57137&seiId=53007&officeId=79274&reportId=424874",
+        "reportId": "429945",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57137&seiId=53007&officeId=79274&reportId=429945",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3, 2026 Report",
         "is_amended": false,
-        "period_raised": 406.32,
-        "total_raised": 1985.75,
-        "cash_on_hand": 208.0
+        "period_raised": 100.0,
+        "total_raised": 16720.42,
+        "cash_on_hand": 1583.85
       },
       "history": [],
       "last_error": null
@@ -944,15 +1134,15 @@
       "officeId": "78351",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417451",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55572&seiId=54847&officeId=78351&reportId=417451",
+        "reportId": "435473",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55572&seiId=54847&officeId=78351&reportId=435473",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
         "period_raised": 0.0,
-        "total_raised": 11315.3,
-        "cash_on_hand": 11315.3
+        "total_raised": 17340.06,
+        "cash_on_hand": 13215.04
       },
       "history": [],
       "last_error": null
@@ -978,10 +1168,10 @@
       "personId": "57587",
       "seiId": "56169",
       "officeId": "79614",
-      "filing_status": "not_filed",
+      "filing_status": "scrape_failed",
       "latest_report": null,
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -90.0"
     },
     {
       "id": "tate-patrick-52",
@@ -991,8 +1181,18 @@
       "personId": "57773",
       "seiId": "57991",
       "officeId": "79760",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428893",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57773&seiId=57991&officeId=79760&reportId=428893",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 1058.0,
+        "cash_on_hand": 658.0
+      },
       "history": [],
       "last_error": null
     },
@@ -1017,10 +1217,10 @@
       "personId": "57353",
       "seiId": "10690",
       "officeId": "79411",
-      "filing_status": "not_filed",
+      "filing_status": "scrape_failed",
       "latest_report": null,
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -240.01"
     },
     {
       "id": "wallace-bruce-53",
@@ -1056,20 +1256,20 @@
       "personId": "57530",
       "seiId": "51705",
       "officeId": "79569",
-      "filing_status": "scrape_failed",
+      "filing_status": "filed",
       "latest_report": {
-        "reportId": "424719",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57530&seiId=51705&officeId=79569&reportId=424719",
+        "reportId": "426397",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57530&seiId=51705&officeId=79569&reportId=426397",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2 & Final 2026 Report",
         "is_amended": false,
-        "period_raised": 2247.03,
-        "total_raised": 2747.03,
+        "period_raised": 0.0,
+        "total_raised": 3707.03,
         "cash_on_hand": 0.0
       },
       "history": [],
-      "last_error": "negative value for cash_on_hand: -25.0"
+      "last_error": null
     },
     {
       "id": "hayes-jackie-55",
@@ -1094,15 +1294,15 @@
       "officeId": "79626",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425134",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57599&seiId=58349&officeId=79626&reportId=425134",
+        "reportId": "425132",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57599&seiId=58349&officeId=79626&reportId=425132",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 400.0,
-        "cash_on_hand": 183.0
+        "period_raised": 5105.31,
+        "total_raised": 12476.31,
+        "cash_on_hand": 2515.34
       },
       "history": [],
       "last_error": null
@@ -1154,8 +1354,18 @@
       "personId": "57459",
       "seiId": "58384",
       "officeId": "79515",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "435135",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57459&seiId=58384&officeId=79515&reportId=435135",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 3355.52,
+        "total_raised": 3355.52,
+        "cash_on_hand": 2658.26
+      },
       "history": [],
       "last_error": null
     },
@@ -1167,8 +1377,18 @@
       "personId": "57471",
       "seiId": "58443",
       "officeId": "79524",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "429978",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57471&seiId=58443&officeId=79524&reportId=429978",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 100.0,
+        "total_raised": 951.18,
+        "cash_on_hand": 453.03
+      },
       "history": [],
       "last_error": null
     },
@@ -1232,8 +1452,18 @@
       "personId": "57083",
       "seiId": "58262",
       "officeId": "79248",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "429069",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57083&seiId=58262&officeId=79248&reportId=429069",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 1343.0,
+        "cash_on_hand": 482.23
+      },
       "history": [],
       "last_error": null
     },
@@ -1271,8 +1501,18 @@
       "personId": "57581",
       "seiId": "58006",
       "officeId": "79608",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "432969",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57581&seiId=58006&officeId=79608&reportId=432969",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 14297.04,
+        "total_raised": 14297.04,
+        "cash_on_hand": 7166.41
+      },
       "history": [],
       "last_error": null
     },
@@ -1284,8 +1524,18 @@
       "personId": "57578",
       "seiId": "12882",
       "officeId": "79605",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428934",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57578&seiId=12882&officeId=79605&reportId=428934",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3 & Final 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 1343.22,
+        "cash_on_hand": 0.0
+      },
       "history": [],
       "last_error": null
     },
@@ -1294,11 +1544,21 @@
       "name": "Tanisha Baskin",
       "district": 65,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "57067",
+      "seiId": "58279",
+      "officeId": "79242",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "434855",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57067&seiId=58279&officeId=79242&reportId=434855",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 300.0,
+        "total_raised": 1507.5,
+        "cash_on_hand": 757.5
+      },
       "history": [],
       "last_error": null
     },
@@ -1312,15 +1572,15 @@
       "officeId": "79134",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421416",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56873&seiId=58301&officeId=79134&reportId=421416",
+        "reportId": "427914",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56873&seiId=58301&officeId=79134&reportId=427914",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 3293.99,
-        "total_raised": 4672.05,
-        "cash_on_hand": 3917.7
+        "period_raised": 6272.06,
+        "total_raised": 14747.77,
+        "cash_on_hand": 4430.16
       },
       "history": [],
       "last_error": null
@@ -1335,15 +1595,15 @@
       "officeId": "78163",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424599",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55344&seiId=52337&officeId=78163&reportId=424599",
+        "reportId": "428411",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55344&seiId=52337&officeId=78163&reportId=428411",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 6508.62,
-        "total_raised": 19928.62,
-        "cash_on_hand": 10182.58
+        "period_raised": 12161.42,
+        "total_raised": 36747.09,
+        "cash_on_hand": 14480.13
       },
       "history": [],
       "last_error": null
@@ -1356,8 +1616,18 @@
       "personId": "57450",
       "seiId": "58441",
       "officeId": "79505",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425032",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57450&seiId=58441&officeId=79505&reportId=425032",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1233.71,
+        "total_raised": 5020.12,
+        "cash_on_hand": 571.82
+      },
       "history": [],
       "last_error": null
     },
@@ -1366,9 +1636,9 @@
       "name": "Emery K Chaplin",
       "district": 69,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
+      "personId": "57938",
+      "seiId": "58434",
+      "officeId": "79937",
       "filing_status": "not_filed",
       "latest_report": null,
       "history": [],
@@ -1384,15 +1654,15 @@
       "officeId": "77571",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "416373",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54338&seiId=57320&officeId=77571&reportId=416373",
+        "reportId": "428268",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54338&seiId=57320&officeId=77571&reportId=428268",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Final 2026 Report",
         "is_amended": false,
-        "period_raised": 5800.0,
-        "total_raised": 30000.02,
-        "cash_on_hand": 19946.23
+        "period_raised": 0.0,
+        "total_raised": 43450.02,
+        "cash_on_hand": 0.0
       },
       "history": [],
       "last_error": null
@@ -1420,15 +1690,15 @@
       "officeId": "78592",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "418172",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55865&seiId=51696&officeId=78592&reportId=418172",
+        "reportId": "430047",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55865&seiId=51696&officeId=78592&reportId=430047",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3, 2026 Report",
         "is_amended": false,
-        "period_raised": 2198.21,
-        "total_raised": 4200.21,
-        "cash_on_hand": 1157.08
+        "period_raised": 0.0,
+        "total_raised": 5788.52,
+        "cash_on_hand": 1598.49
       },
       "history": [],
       "last_error": null
@@ -1443,15 +1713,15 @@
       "officeId": "77626",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417261",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54424&seiId=57389&officeId=77626&reportId=417261",
+        "reportId": "408062",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54424&seiId=57389&officeId=77626&reportId=408062",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 7273.28,
-        "total_raised": 11595.95,
-        "cash_on_hand": 2718.37
+        "period_raised": 10960.36,
+        "total_raised": 27928.28,
+        "cash_on_hand": 4939.04
       },
       "history": [],
       "last_error": null
@@ -1591,8 +1861,18 @@
       "personId": "57207",
       "seiId": "58314",
       "officeId": "79310",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428115",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57207&seiId=58314&officeId=79310&reportId=428115",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 26466.12,
+        "cash_on_hand": 20244.86
+      },
       "history": [],
       "last_error": null
     },
@@ -1606,15 +1886,15 @@
       "officeId": "78820",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "420490",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56283&seiId=58033&officeId=78820&reportId=420490",
+        "reportId": "429922",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56283&seiId=58033&officeId=78820&reportId=429922",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 2100.0,
-        "total_raised": 2215.0,
-        "cash_on_hand": 1219.36
+        "period_raised": 4717.0,
+        "total_raised": 8552.36,
+        "cash_on_hand": 1261.23
       },
       "history": [],
       "last_error": null
@@ -1650,11 +1930,21 @@
       "name": "Jason M Payne",
       "district": 83,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "57601",
+      "seiId": "58401",
+      "officeId": "79627",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "428024",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57601&seiId=58401&officeId=79627&reportId=428024",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 3230.51,
+        "total_raised": 5796.15,
+        "cash_on_hand": 253.61
+      },
       "history": [],
       "last_error": null
     },
@@ -1668,15 +1958,15 @@
       "officeId": "78826",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424750",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56292&seiId=58036&officeId=78826&reportId=424750",
+        "reportId": "429951",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56292&seiId=58036&officeId=78826&reportId=429951",
         "report_type": "Quarterly",
-        "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 13687.4,
-        "total_raised": 15127.4,
-        "cash_on_hand": 5377.57
+        "period_raised": 13105.5,
+        "total_raised": 28232.9,
+        "cash_on_hand": 5675.68
       },
       "history": [],
       "last_error": null
@@ -1691,15 +1981,15 @@
       "officeId": "78595",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "416504",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55871&seiId=57842&officeId=78595&reportId=416504",
+        "reportId": "423477",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55871&seiId=57842&officeId=78595&reportId=423477",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 4465.0,
-        "total_raised": 7390.0,
-        "cash_on_hand": 2920.22
+        "period_raised": 3233.96,
+        "total_raised": 10623.96,
+        "cash_on_hand": 2507.74
       },
       "history": [],
       "last_error": null
@@ -1714,15 +2004,15 @@
       "officeId": "79661",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425428",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57653&seiId=58237&officeId=79661&reportId=425428",
+        "reportId": "429897",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57653&seiId=58237&officeId=79661&reportId=429897",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3, 2026 Report",
         "is_amended": false,
-        "period_raised": 25.0,
-        "total_raised": 333.0,
-        "cash_on_hand": 120.62
+        "period_raised": 0.0,
+        "total_raised": 1631.31,
+        "cash_on_hand": 557.92
       },
       "history": [],
       "last_error": null
@@ -1748,10 +2038,20 @@
       "personId": "53976",
       "seiId": "57016",
       "officeId": "77313",
-      "filing_status": "scrape_failed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "402514",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=53976&seiId=57016&officeId=77313&reportId=402514",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 8023.72,
+        "total_raised": 15750.04,
+        "cash_on_hand": 132.99
+      },
       "history": [],
-      "last_error": "negative value for cash_on_hand: -79.52"
+      "last_error": null
     },
     {
       "id": "jones-jeremy-88",
@@ -1763,15 +2063,15 @@
       "officeId": "79257",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425122",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57095&seiId=56036&officeId=79257&reportId=425122",
+        "reportId": "425119",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57095&seiId=56036&officeId=79257&reportId=425119",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election & Final 2026 Report",
         "is_amended": false,
         "period_raised": 0.0,
-        "total_raised": 338.0,
-        "cash_on_hand": 126.05
+        "total_raised": 1475.96,
+        "cash_on_hand": 0.0
       },
       "history": [],
       "last_error": null
@@ -1786,15 +2086,15 @@
       "officeId": "79125",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421368",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56855&seiId=58297&officeId=79125&reportId=421368",
+        "reportId": "421366",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56855&seiId=58297&officeId=79125&reportId=421366",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 3350.0,
-        "total_raised": 3800.0,
-        "cash_on_hand": 2423.02
+        "period_raised": 13133.67,
+        "total_raised": 25640.98,
+        "cash_on_hand": 8349.78
       },
       "history": [],
       "last_error": null
@@ -1835,15 +2135,15 @@
       "officeId": "79632",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425196",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57609&seiId=58486&officeId=79632&reportId=425196",
+        "reportId": "425197",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57609&seiId=58486&officeId=79632&reportId=425197",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 308.0,
-        "cash_on_hand": 100.0
+        "period_raised": 3021.31,
+        "total_raised": 3329.31,
+        "cash_on_hand": 2416.51
       },
       "history": [],
       "last_error": null
@@ -1884,15 +2184,15 @@
       "officeId": "79391",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "423136",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57320&seiId=58323&officeId=79391&reportId=423136",
+        "reportId": "426338",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57320&seiId=58323&officeId=79391&reportId=426338",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 1733.0,
-        "total_raised": 2733.0,
-        "cash_on_hand": 2635.0
+        "period_raised": 1247.58,
+        "total_raised": 13608.96,
+        "cash_on_hand": 8693.56
       },
       "history": [],
       "last_error": null
@@ -1931,8 +2231,18 @@
       "personId": "57464",
       "seiId": "58365",
       "officeId": "79520",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425725",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57464&seiId=58365&officeId=79520&reportId=425725",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 2, 2026 Report",
+        "is_amended": false,
+        "period_raised": 5.0,
+        "total_raised": 656.04,
+        "cash_on_hand": 5.0
+      },
       "history": [],
       "last_error": null
     },
@@ -1944,8 +2254,18 @@
       "personId": "57383",
       "seiId": "58356",
       "officeId": "79441",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425510",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57383&seiId=58356&officeId=79441&reportId=425510",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 6064.6,
+        "total_raised": 9452.01,
+        "cash_on_hand": 885.49
+      },
       "history": [],
       "last_error": null
     },
@@ -1983,8 +2303,18 @@
       "personId": "57698",
       "seiId": "58383",
       "officeId": "79710",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "435601",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57698&seiId=58383&officeId=79710&reportId=435601",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 2193.3,
+        "total_raised": 2193.3,
+        "cash_on_hand": 2082.76
+      },
       "history": [],
       "last_error": null
     },
@@ -1996,8 +2326,18 @@
       "personId": "57307",
       "seiId": "58464",
       "officeId": "79380",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "424688",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57307&seiId=58464&officeId=79380&reportId=424688",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 1319.3,
+        "total_raised": 3557.3,
+        "cash_on_hand": 2624.45
+      },
       "history": [],
       "last_error": null
     },
@@ -2022,8 +2362,18 @@
       "personId": "57696",
       "seiId": "58410",
       "officeId": "79709",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "426321",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57696&seiId=58410&officeId=79709&reportId=426321",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 2 & Final 2026 Report",
+        "is_amended": false,
+        "period_raised": 0.0,
+        "total_raised": 608.0,
+        "cash_on_hand": 0.0
+      },
       "history": [],
       "last_error": null
     },
@@ -2050,15 +2400,15 @@
       "officeId": "77862",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "426813",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54840&seiId=57570&officeId=77862&reportId=426813",
+        "reportId": "433808",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54840&seiId=57570&officeId=77862&reportId=433808",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 4 & Final 2026 Report",
         "is_amended": false,
-        "period_raised": 293.27,
-        "total_raised": 4036.84,
-        "cash_on_hand": 41.8
+        "period_raised": 0.0,
+        "total_raised": 7016.84,
+        "cash_on_hand": 0.0
       },
       "history": [],
       "last_error": null
@@ -2073,15 +2423,15 @@
       "officeId": "79182",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "426441",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56952&seiId=58292&officeId=79182&reportId=426441",
+        "reportId": "426232",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56952&seiId=58292&officeId=79182&reportId=426232",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 74.9,
-        "total_raised": 439.9,
-        "cash_on_hand": 166.9
+        "period_raised": 4421.19,
+        "total_raised": 11264.04,
+        "cash_on_hand": 2898.69
       },
       "history": [],
       "last_error": null
@@ -2107,10 +2457,10 @@
       "personId": "57649",
       "seiId": "58480",
       "officeId": "79658",
-      "filing_status": "not_filed",
+      "filing_status": "scrape_failed",
       "latest_report": null,
       "history": [],
-      "last_error": null
+      "last_error": "negative value for cash_on_hand: -51.23"
     },
     {
       "id": "blumenthal-george-104",
@@ -2122,15 +2472,15 @@
       "officeId": "77795",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "416262",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54722&seiId=57523&officeId=77795&reportId=416262",
+        "reportId": "429419",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54722&seiId=57523&officeId=77795&reportId=429419",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 555.0,
-        "total_raised": 8705.0,
-        "cash_on_hand": 2687.79
+        "period_raised": 8363.71,
+        "total_raised": 18580.2,
+        "cash_on_hand": 1142.89
       },
       "history": [],
       "last_error": null
@@ -2145,15 +2495,15 @@
       "officeId": "79400",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "425242",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57334&seiId=58338&officeId=79400&reportId=425242",
+        "reportId": "423200",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57334&seiId=58338&officeId=79400&reportId=423200",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 651.04,
-        "total_raised": 959.04,
-        "cash_on_hand": 167.54
+        "period_raised": 5165.76,
+        "total_raised": 9889.76,
+        "cash_on_hand": 7428.07
       },
       "history": [],
       "last_error": null
@@ -2166,8 +2516,18 @@
       "personId": "57680",
       "seiId": "58398",
       "officeId": "79688",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "425643",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57680&seiId=58398&officeId=79688&reportId=425643",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 259.3,
+        "total_raised": 2164.06,
+        "cash_on_hand": 1372.66
+      },
       "history": [],
       "last_error": null
     },
@@ -2194,15 +2554,15 @@
       "officeId": "78066",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417854",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55187&seiId=57695&officeId=78066&reportId=417854",
+        "reportId": "429696",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55187&seiId=57695&officeId=78066&reportId=429696",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 2925.0,
-        "total_raised": 4245.0,
-        "cash_on_hand": 3197.91
+        "period_raised": 2333.32,
+        "total_raised": 7852.2,
+        "cash_on_hand": 1344.58
       },
       "history": [],
       "last_error": null
@@ -2230,15 +2590,15 @@
       "officeId": "78969",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424463",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56545&seiId=58146&officeId=78969&reportId=424463",
+        "reportId": "430259",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56545&seiId=58146&officeId=78969&reportId=430259",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 4211.0,
-        "total_raised": 4711.0,
-        "cash_on_hand": 4211.39
+        "period_raised": 9525.19,
+        "total_raised": 14236.19,
+        "cash_on_hand": 10927.6
       },
       "history": [],
       "last_error": null
@@ -2266,15 +2626,15 @@
       "officeId": "78044",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "417533",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55159&seiId=57627&officeId=78044&reportId=417533",
+        "reportId": "429732",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=55159&seiId=57627&officeId=78044&reportId=429732",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 6020.0,
-        "total_raised": 11383.33,
-        "cash_on_hand": 5529.95
+        "period_raised": 21809.5,
+        "total_raised": 39286.11,
+        "cash_on_hand": 11116.25
       },
       "history": [],
       "last_error": null
@@ -2289,15 +2649,15 @@
       "officeId": "77345",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "416512",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54003&seiId=51685&officeId=77345&reportId=416512",
+        "reportId": "430025",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=54003&seiId=51685&officeId=77345&reportId=430025",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 3593.0,
-        "total_raised": 11932.91,
-        "cash_on_hand": 3795.76
+        "period_raised": 3918.0,
+        "total_raised": 16369.43,
+        "cash_on_hand": 5703.45
       },
       "history": [],
       "last_error": null
@@ -2312,15 +2672,15 @@
       "officeId": "78907",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "419941",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56420&seiId=58065&officeId=78907&reportId=419941",
+        "reportId": "429769",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56420&seiId=58065&officeId=78907&reportId=429769",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 2285.0,
-        "total_raised": 2785.0,
-        "cash_on_hand": 1628.35
+        "period_raised": 5211.61,
+        "total_raised": 14651.18,
+        "cash_on_hand": 6653.26
       },
       "history": [],
       "last_error": null
@@ -2361,15 +2721,15 @@
       "officeId": "79279",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "424709",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57151&seiId=58360&officeId=79279&reportId=424709",
+        "reportId": "426504",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57151&seiId=58360&officeId=79279&reportId=426504",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 3195.0,
-        "total_raised": 4795.0,
-        "cash_on_hand": 2459.5
+        "period_raised": 7120.0,
+        "total_raised": 29296.0,
+        "cash_on_hand": 1497.78
       },
       "history": [],
       "last_error": null
@@ -2384,15 +2744,15 @@
       "officeId": "78818",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "419330",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56279&seiId=49221&officeId=78818&reportId=419330",
+        "reportId": "433344",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56279&seiId=49221&officeId=78818&reportId=433344",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 4, 2026 Report",
         "is_amended": false,
-        "period_raised": 9805.58,
-        "total_raised": 10153.81,
-        "cash_on_hand": 5027.36
+        "period_raised": 1400.0,
+        "total_raised": 17523.94,
+        "cash_on_hand": 1400.0
       },
       "history": [],
       "last_error": null
@@ -2407,15 +2767,15 @@
       "officeId": "78919",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421704",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56440&seiId=1679&officeId=78919&reportId=421704",
+        "reportId": "433976",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56440&seiId=1679&officeId=78919&reportId=433976",
         "report_type": "Quarterly",
-        "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 15010.0,
-        "total_raised": 20376.0,
-        "cash_on_hand": 19651.1
+        "period_raised": 71843.96,
+        "total_raised": 71843.96,
+        "cash_on_hand": 43155.25
       },
       "history": [],
       "last_error": null
@@ -2430,15 +2790,15 @@
       "officeId": "78954",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "420263",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56512&seiId=58008&officeId=78954&reportId=420263",
+        "reportId": "420261",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56512&seiId=58008&officeId=78954&reportId=420261",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 7619.63,
-        "total_raised": 10033.11,
-        "cash_on_hand": 7532.75
+        "period_raised": 9412.03,
+        "total_raised": 29959.1,
+        "cash_on_hand": 6716.44
       },
       "history": [],
       "last_error": null
@@ -2448,11 +2808,21 @@
       "name": "Mary B Scolaro",
       "district": 118,
       "party": "D",
-      "personId": null,
-      "seiId": null,
-      "officeId": null,
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "personId": "56366",
+      "seiId": "57291",
+      "officeId": "78874",
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "419689",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56366&seiId=57291&officeId=78874&reportId=419689",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 10957.0,
+        "total_raised": 27454.49,
+        "cash_on_hand": 14440.59
+      },
       "history": [],
       "last_error": null
     },
@@ -2505,15 +2875,15 @@
       "officeId": "79462",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "423830",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57406&seiId=58408&officeId=79462&reportId=423830",
+        "reportId": "423859",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57406&seiId=58408&officeId=79462&reportId=423859",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 0.0,
-        "total_raised": 500.0,
-        "cash_on_hand": 287.0
+        "period_raised": 4972.0,
+        "total_raised": 5472.0,
+        "cash_on_hand": 4550.97
       },
       "history": [],
       "last_error": null
@@ -2541,15 +2911,15 @@
       "officeId": "78948",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "420641",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56499&seiId=58124&officeId=78948&reportId=420641",
+        "reportId": "426694",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56499&seiId=58124&officeId=78948&reportId=426694",
         "report_type": "Quarterly",
         "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 2, 2026 Report",
         "is_amended": false,
-        "period_raised": 3022.0,
-        "total_raised": 3632.0,
-        "cash_on_hand": 614.0
+        "period_raised": 600.0,
+        "total_raised": 6159.0,
+        "cash_on_hand": 328.0
       },
       "history": [],
       "last_error": null
@@ -2564,15 +2934,15 @@
       "officeId": "79263",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421985",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57109&seiId=58394&officeId=79263&reportId=421985",
+        "reportId": "432866",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57109&seiId=58394&officeId=79263&reportId=432866",
         "report_type": "Quarterly",
-        "filed_date": "6/9/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 100.0,
-        "total_raised": 600.0,
-        "cash_on_hand": 479.5
+        "period_raised": 18568.04,
+        "total_raised": 18568.04,
+        "cash_on_hand": 19477.04
       },
       "history": [],
       "last_error": null
@@ -2585,8 +2955,18 @@
       "personId": "57558",
       "seiId": "58466",
       "officeId": "79591",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "433793",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57558&seiId=58466&officeId=79591&reportId=433793",
+        "report_type": "Quarterly",
+        "filed_date": "6/9/2026",
+        "period_label": "Quarter 3, 2026 Report",
+        "is_amended": false,
+        "period_raised": 25.0,
+        "total_raised": 12923.0,
+        "cash_on_hand": 0.1
+      },
       "history": [],
       "last_error": null
     },
@@ -2598,8 +2978,18 @@
       "personId": "57458",
       "seiId": "58392",
       "officeId": "79513",
-      "filing_status": "not_filed",
-      "latest_report": null,
+      "filing_status": "filed",
+      "latest_report": {
+        "reportId": "434585",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=57458&seiId=58392&officeId=79513&reportId=434585",
+        "report_type": "Quarterly",
+        "filed_date": "11/3/2026",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
+        "is_amended": false,
+        "period_raised": 20001.33,
+        "total_raised": 20001.33,
+        "cash_on_hand": 4763.2
+      },
       "history": [],
       "last_error": null
     },
@@ -2626,15 +3016,15 @@
       "officeId": "79176",
       "filing_status": "filed",
       "latest_report": {
-        "reportId": "421624",
-        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56938&seiId=58328&officeId=79176&reportId=421624",
+        "reportId": "435431",
+        "url": "https://ethicsfiling.sc.gov/public/candidates-public-officials/person/campaign-disclosure-reports/report-detail?personId=56938&seiId=58328&officeId=79176&reportId=435431",
         "report_type": "Quarterly",
         "filed_date": "11/3/2026",
-        "period_label": "Quarter 1, 2026 Report",
+        "period_label": "Quarter 3 & Pre-Election (General) Report 2026",
         "is_amended": false,
-        "period_raised": 6125.0,
-        "total_raised": 6890.34,
-        "cash_on_hand": 4657.99
+        "period_raised": 17249.73,
+        "total_raised": 26881.34,
+        "cash_on_hand": 11161.73
       },
       "history": [],
       "last_error": null
@@ -2642,14 +3032,14 @@
   ],
   "stats": {
     "total_dem_house": 162,
-    "filed": 52,
-    "not_filed": 108,
-    "scrape_failed": 2,
-    "median_coh": 1656.92,
-    "top_coh": 41857.54,
-    "top_coh_candidate": "Heather Bauer",
-    "top_coh_district": 75,
-    "total_q_raised": 213867.85,
-    "total_coh_all": 220407.8
+    "filed": 90,
+    "not_filed": 67,
+    "scrape_failed": 5,
+    "median_coh": 2462.12,
+    "top_coh": 43155.25,
+    "top_coh_candidate": "Clay N Middleton",
+    "top_coh_district": 116,
+    "total_q_raised": 536005.95,
+    "total_coh_all": 471777.56
   }
 }
