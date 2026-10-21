@@ -33,13 +33,13 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout VREMS sibling repo (read-only)
+      - name: Checkout VREMS sibling repo (read-only deploy key)
         uses: actions/checkout@v4
         with:
           repository: russellteter/sc-vrems-filing-monitor
           path: vrems-sibling
           ref: main
-          token: ${{ secrets.VREMS_READ_PAT }}
+          ssh-key: ${{ secrets.VREMS_DEPLOY_KEY }}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -107,13 +107,18 @@ jobs:
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
         run: |
           python - <<'PY'
-          import os, json, urllib.request
+          import os, json, urllib.request, urllib.error
           api = os.environ.get("RESEND_API_KEY")
-          if not api: raise SystemExit(0)
+          if not api:
+              print("RESEND_API_KEY not set; skipping email")
+              raise SystemExit(0)
           run_url = f"https://github.com/{os.environ.get('GITHUB_REPOSITORY')}/actions/runs/{os.environ.get('GITHUB_RUN_ID')}"
+          # An empty-string secret is "set but blank": treat it as unset so the default applies.
+          sender = os.environ.get("FROM_EMAIL", "").strip() or "alerts@info.locality-ai.com"
+          to = os.environ.get("NOTIFICATION_EMAIL", "").strip() or "russell@locality-ai.com"
           body = {
-              "from": os.environ.get("FROM_EMAIL", "alerts@info.locality-ai.com"),
-              "to": [os.environ.get("NOTIFICATION_EMAIL", "russell@locality-ai.com")],
+              "from": sender,
+              "to": [to],
               "subject": "[FAIL] SC House finance refresh",
               "text": f"Scraper failed. Run: {run_url}"
           }
@@ -123,5 +128,24 @@ jobs:
               headers={"Authorization": f"Bearer {api}", "Content-Type": "application/json", "User-Agent": "sc-house-finance-monitor/1.0"},
               method="POST",
           )
-          urllib.request.urlopen(req, timeout=20)
+          try:
+              with urllib.request.urlopen(req, timeout=20) as r:
+                  print("Resend status", r.status)
+          except urllib.error.HTTPError as e:
+              print("::warning::Resend returned", e.code, e.read().decode()[:500])
+          except Exception as e:
+              print("::warning::alert email could not be sent:", e)
           PY
+      - name: Open an issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Automated] House finance refresh failed on ${new Date().toISOString().split('T')[0]}`,
+              body: `See the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              labels: ['bug', 'automated']
+            });
+            console.log(`Created issue #${issue.data.number}`);
