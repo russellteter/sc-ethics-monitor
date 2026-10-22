@@ -1,5 +1,7 @@
 # SC Ethics Initial Report Monitor
 
+> **RETIRED 2026-10-22: the "Refresh house finance data" feed.** The owner retired this data feed. The scheduled workflow (`.github/workflows/refresh-finance.yml`) is disabled, the read-only deploy key it used to read the private VREMS repository was removed, and the VREMS_DEPLOY_KEY secret was deleted. The data already in this repository (the House campaign-finance file (data/house_finance.json)) is kept as it was on 2026-10-22 and will no longer refresh. To bring the feed back: create a new read-only deploy key on `sc-vrems-filing-monitor`, store the private half as a repository secret named VREMS_DEPLOY_KEY, and re-enable the workflow.
+
 Automated monitoring system for South Carolina Ethics Commission Initial Report filings. Detects new SC House of Representatives candidates and sends branded email notifications via Resend.
 
 ## What It Does
